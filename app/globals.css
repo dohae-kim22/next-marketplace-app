@@ -11,4 +11,8 @@
   .primary-btn {
     @apply text-white bg-orange-500 w-full text-center font-medium rounded-md hover:bg-orange-400 transition-colors;
   }
+
+  button:disabled.primary-btn {
+    @apply bg-neutral-400 cursor-not-allowed text-neutral-300;
+  }
 }
