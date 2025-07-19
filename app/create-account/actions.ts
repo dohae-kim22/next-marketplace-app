@@ -1,10 +1,11 @@
 "use server";
 
+import {
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_REGEX,
+  PASSWORD_REGEX_ERROR,
+} from "@/lib/constants";
 import z from "zod";
-
-const passwordRegex = new RegExp(
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*?[#?!@$%^&*-]).+$/
-);
 
 const formSchema = z
   .object({
@@ -19,14 +20,11 @@ const formSchema = z
     email: z.email("Please enter a valid email address.").toLowerCase(),
     password: z
       .string()
-      .min(4, "Password must be at least 4 characters long.")
-      .regex(
-        passwordRegex,
-        "Password must include uppercase, lowercase, digit, and special character."
-      ),
+      .min(PASSWORD_MIN_LENGTH, "Password must be at least 4 characters long.")
+      .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
     confirmPassword: z
       .string()
-      .min(4, "Password must be at least 4 characters long."),
+      .min(PASSWORD_MIN_LENGTH, "Password must be at least 4 characters long."),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
