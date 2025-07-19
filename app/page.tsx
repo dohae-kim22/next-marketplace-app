@@ -9,10 +9,7 @@ export default function Home() {
         <h2 className="text-lg">Join your local community marketplace</h2>
       </div>
       <div className="flex flex-col gap-3 items-center w-full">
-        <Link
-          href="/create-account"
-          className="text-white bg-orange-500 w-full text-center text-lg font-medium py-2 rounded-md hover:bg-orange-400 transition-colors"
-        >
+        <Link href="/create-account" className="primary-btn py-2 text-lg">
           Create an account
         </Link>
         <div className="flex gap-2">
