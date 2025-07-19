@@ -12,8 +12,9 @@ export default function Login() {
         </h2>
       </div>
       <form className="flex flex-col gap-4 w-full">
-        <FormInput type="email" placeholder="Email" required errors={[]} />
+        <FormInput name='email' type="email" placeholder="Email" required errors={[]} />
         <FormInput
+        name='password'
           type="password"
           placeholder="Password"
           required
