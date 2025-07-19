@@ -1,8 +1,18 @@
+"use client";
+
 import FormButton from "@/components/FormButton";
 import FormInput from "@/components/FormInput";
-import SocialLogin from "@/components/SocialLogin";
+import { useActionState } from "react";
+import { SMSLogIn } from "./actions";
+
+const initialState = {
+  verificationCode: false,
+  error: undefined,
+};
 
 export default function SMSLogin() {
+  const [state, dispatch] = useActionState(SMSLogIn, initialState);
+
   return (
     <div className="flex flex-col justify-center px-6 py-8 gap-8">
       <div className="flex flex-col gap-2">
@@ -11,22 +21,32 @@ export default function SMSLogin() {
           Enter your phone number to receive a verification code.
         </h2>
       </div>
-      <form className="flex flex-col gap-4 w-full">
-        <FormInput
-          name="phone"
-          type="number"
-          placeholder="Phone Number"
-          required
-          errors={[]}
+      <form action={dispatch} className="flex flex-col gap-4 w-full">
+        {state.verificationCode ? (
+          <FormInput
+            name="verificationCode"
+            type="number"
+            placeholder="Verification Code"
+            required
+            errors={[]}
+            min={100000}
+            max={999999}
+          />
+        ) : (
+          <FormInput
+            name="phone"
+            type="number"
+            placeholder="Phone Number"
+            required
+            errors={[]}
+          />
+        )}
+        <FormButton
+          text={
+            state.verificationCode ? "Verify Code" : "Send Verification Code"
+          }
+          loading={false}
         />
-        <FormInput
-          name="verificationCode"
-          type="number"
-          placeholder="Verification Code"
-          required
-          errors={[]}
-        />
-        <FormButton text="Verify" loading={false} />
       </form>
     </div>
   );
