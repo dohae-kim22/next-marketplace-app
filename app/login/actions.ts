@@ -15,6 +15,7 @@ const loginSchema = z.object({
     .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function login(prevState: any, formData: FormData) {
   const data = {
     email: formData.get("email"),
