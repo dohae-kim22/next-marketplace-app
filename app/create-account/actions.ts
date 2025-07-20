@@ -11,40 +11,6 @@ import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
 import z from "zod";
 
-const checkPasswords = ({
-  password,
-  confirmPassword,
-}: {
-  password: string;
-  confirmPassword: string;
-}) => password === confirmPassword;
-
-const checkUniqueUserName = async (userName: string) => {
-  const user = await db.user.findUnique({
-    where: {
-      userName,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  return !user;
-};
-
-const checkUniqueEmail = async (email: string) => {
-  const user = await db.user.findUnique({
-    where: {
-      email,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  return !user;
-};
-
 const formSchema = z
   .object({
     userName: z
@@ -54,12 +20,8 @@ const formSchema = z
       .min(3, "Username must be at least 3 characters.")
       .max(10, "Username must be at most 10 characters.")
       .trim()
-      .toLowerCase()
-      .refine(checkUniqueUserName, "Oops! This username is already in use."),
-    email: z
-      .email("Please enter a valid email address.")
-      .toLowerCase()
-      .refine(checkUniqueEmail, "This email is already registered."),
+      .toLowerCase(),
+    email: z.email("Please enter a valid email address.").toLowerCase(),
     password: z
       .string()
       .min(PASSWORD_MIN_LENGTH, "Password must be at least 4 characters long.")
@@ -68,9 +30,53 @@ const formSchema = z
       .string()
       .min(PASSWORD_MIN_LENGTH, "Password must be at least 4 characters long."),
   })
-  .refine(checkPasswords, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
+  .check(async (ctx) => {
+    const userNameTaken = await db.user.findUnique({
+      where: {
+        userName: ctx.value.userName,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (userNameTaken) {
+      ctx.issues.push({
+        code: "custom",
+        message: "Oops! This username is already in use.",
+        input: ctx.value,
+        path: ["userName"],
+      });
+      return;
+    }
+
+    const emailTaken = await db.user.findUnique({
+      where: {
+        email: ctx.value.email,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (emailTaken) {
+      ctx.issues.push({
+        code: "custom",
+        message: "This email is already registered.",
+        input: ctx.value,
+        path: ["email"],
+      });
+      return;
+    }
+
+    if (ctx.value.password !== ctx.value.confirmPassword) {
+      ctx.issues.push({
+        code: "custom",
+        message: "Passwords do not match",
+        input: ctx.value,
+        path: ["confirmPassword"],
+      });
+    }
   });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
