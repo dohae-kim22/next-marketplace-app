@@ -56,7 +56,12 @@ export default async function ProductDetail({
   return (
     <div className="flex flex-col gap-3 p-5">
       <div className="relative aspect-square rounded-md overflow-hidden">
-        <Image fill src={product.photo} alt={product.title} />
+        <Image
+          fill
+          src={`${product.photo}/public`}
+          alt={product.title}
+          className="object-cover"
+        />
       </div>
       <div className="flex gap-2 items-center border-neutral-700 border-b pb-3">
         <div className="flex justify-center items-center size-12 rounded-full bg-neutral-700 overflow-hidden">
@@ -77,7 +82,7 @@ export default async function ProductDetail({
       </div>
       <div className="flex flex-col gap-2">
         <h1 className="text-xl font-semibold">{product.title}</h1>
-        <p className="text-sm">{product.description}</p>
+        <p className="text-sm whitespace-pre-line">{product.description}</p>
       </div>
       <div className="fixed w-full bottom-0 p-5 left-0 bg-neutral-800 flex justify-between items-center">
         <span className="font-semibold text-xl">
