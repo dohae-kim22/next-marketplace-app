@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { formatToEuro } from "@/lib/utils";
+import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 async function getProduct(id: number) {
   const product = await db.product.findUnique({
@@ -58,12 +59,12 @@ export default async function ProductDetail({
         <Image fill src={product.photo} alt={product.title} />
       </div>
       <div className="flex gap-2 items-center border-neutral-700 border-b pb-3">
-        <div className="flex justify-center items-center size-12 rounded-full bg-neutral-700">
+        <div className="flex justify-center items-center size-12 rounded-full bg-neutral-700 overflow-hidden">
           {product.user.avatar !== null ? (
             <Image
               src={product.user.avatar}
-              width={40}
-              height={40}
+              width={48}
+              height={48}
               alt={product.user.userName}
             />
           ) : (
@@ -83,15 +84,17 @@ export default async function ProductDetail({
           €{formatToEuro(product.price)}
         </span>
         {isOwner ? (
-          <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-red-400">
-            Delete product
+          <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-red-400 flex gap-1 justify-center items-center">
+            <TrashIcon className="h-5" />
+            <span>Delete</span>
           </button>
         ) : (
           <Link
-            className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400"
+            className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400 flex gap-1 justify-center items-center"
             href={``}
           >
-            Ask seller
+            <PaperAirplaneIcon className="h-5" />
+            <span>Ask seller</span>
           </Link>
         )}
       </div>
