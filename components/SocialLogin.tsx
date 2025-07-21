@@ -10,15 +10,6 @@ export default function SocialLogin() {
           href="/sms"
           className="primary-btn h-10 flex items-center justify-center gap-2"
         >
-          <span>
-            <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
-          </span>
-          <span>Continue with SMS</span>
-        </Link>
-        <Link
-          href="/sms"
-          className="primary-btn h-10 flex items-center justify-center gap-2"
-        >
           <svg
             className="size-5"
             viewBox="-0.5 0 48 48"
@@ -26,11 +17,11 @@ export default function SocialLogin() {
             xmlns="http://www.w3.org/2000/svg"
             fill="#000000"
           >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
             <g
               id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></g>
             <g id="SVGRepo_iconCarrier">
               {" "}
@@ -39,9 +30,9 @@ export default function SocialLogin() {
               <g
                 id="Icons"
                 stroke="none"
-                stroke-width="1"
+                strokeWidth="1"
                 fill="none"
-                fill-rule="evenodd"
+                fillRule="evenodd"
               >
                 {" "}
                 <g id="Color-" transform="translate(-401.000000, -860.000000)">
@@ -84,7 +75,7 @@ export default function SocialLogin() {
           <span>Continue with Google</span>
         </Link>
         <Link
-          href="/sms"
+          href="/api/github/start"
           className="primary-btn h-10 flex items-center justify-center gap-2"
         >
           <svg
