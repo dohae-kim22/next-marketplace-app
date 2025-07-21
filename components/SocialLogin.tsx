@@ -1,4 +1,3 @@
-import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 
 export default function SocialLogin() {
@@ -7,7 +6,7 @@ export default function SocialLogin() {
       <div className="w-full h-px bg-neutral-500" />
       <div className="flex flex-col gap-3">
         <Link
-          href="/sms"
+          href="/api/google/start"
           className="primary-btn h-10 flex items-center justify-center gap-2"
         >
           <svg
