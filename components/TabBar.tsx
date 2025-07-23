@@ -30,8 +30,8 @@ export default function TabBar() {
         )}
         <span>Home</span>
       </Link>
-      <Link href="/town" className="flex flex-col gap-px items-center">
-        {pathname === "/town" ? (
+      <Link href="/posts" className="flex flex-col gap-px items-center">
+        {pathname === "/posts" ? (
           <NewspaperIconSolid className="size-7" />
         ) : (
           <NewspaperIconOutline className="size-7" />

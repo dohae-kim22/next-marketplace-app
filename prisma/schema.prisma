@@ -81,15 +81,19 @@ model Post {
   id          Int     @id @default(autoincrement())
   title       String
   description String?
+  photo       String?
+  location    String
+  latitude    Float
+  longitude   Float
   views       Int     @default(0)
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   Int
-  comments Comment[]
-  likes    PostLike[]
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  comments  Comment[]
+  postLikes PostLike[]
 }
 
 model Comment {
@@ -106,6 +110,8 @@ model Comment {
 }
 
 model PostLike {
+  id Int @id @default(autoincrement())
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -114,5 +120,5 @@ model PostLike {
   post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId Int
 
-  @@id(name: "id", [userId, postId])
+  @@unique([postId, userId])
 }

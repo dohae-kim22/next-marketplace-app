@@ -18,7 +18,7 @@ async function getPosts() {
       _count: {
         select: {
           comments: true,
-          likes: true,
+          postLikes: true,
         },
       },
     },
@@ -54,7 +54,7 @@ export default async function Town() {
             <div className="flex gap-4 items-center *:flex *:gap-1 *:items-center">
               <span>
                 <HandThumbUpIcon className="size-4" />
-                {post._count.likes}
+                {post._count.postLikes}
               </span>
               <span>
                 <ChatBubbleBottomCenterIcon className="size-4" />

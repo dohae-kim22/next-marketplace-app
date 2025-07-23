@@ -33,7 +33,7 @@ export default function ListProduct({
   status,
   type,
 }: ListProductProps) {
-  console.log(type);
+
   return (
     <Link
       href={`/products/${id}`}
