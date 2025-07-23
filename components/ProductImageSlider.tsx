@@ -23,7 +23,7 @@ export default function ProductImageSlider({
     <div className="relative">
       <div
         ref={sliderRef}
-        className="keen-slider aspect-square rounded-md overflow-hidden"
+        className="keen-slider aspect-square overflow-hidden"
       >
         {photos.map((photo, i) => (
           <div key={i} className="keen-slider__slide relative">

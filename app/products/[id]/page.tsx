@@ -66,8 +66,15 @@ export default async function ProductDetail({
 
   return (
     <div className="flex flex-col gap-3 p-5">
-      <div className="relative aspect-square overflow-hidden">
-        <ProductImageSlider photos={product.photos} />
+      <div>
+        <div className="relative aspect-square overflow-hidden">
+          <ProductImageSlider photos={product.photos} />
+        </div>
+        {product.status === "SOLD" && (
+          <div className="bg-green-500 flex justify-end py-1 px-2 rounded-b-md">
+            <span className="font-semibold">{product.status}</span>
+          </div>
+        )}
       </div>
       <div className="flex gap-2 items-center border-neutral-700 border-b pb-3">
         <div className="flex justify-center items-center size-12 rounded-full bg-neutral-700 overflow-hidden">
@@ -91,7 +98,7 @@ export default async function ProductDetail({
         <p className="text-sm whitespace-pre-line">{product.description}</p>
         {product.location && (
           <div className="mt-4 flex flex-col gap-2">
-            <h2 className="text-sm text-neutral-400 font-medium font-semibold">
+            <h2 className="text-sm text-neutral-400 font-semibold">
               Meet-up Location
             </h2>
             <div className="flex items-center justify-between">
@@ -111,17 +118,13 @@ export default async function ProductDetail({
         {isOwner ? (
           <>
             <form action={deleteProduct.bind(null, product.id)}>
-              <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-red-400 flex justify-center items-center cursor-pointer">
+              <button className="bg-transparent px-2.5 py-2.5 rounded-full text-red-500 font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700">
                 <TrashIcon className="h-6" />
               </button>
             </form>
             <form action={toggleSoldStatus.bind(null, product.id)}>
               <button
-                className={`${
-                  product.status === "SOLD"
-                    ? "bg-blue-600 hover:bg-blue-500"
-                    : "bg-green-600 hover:bg-green-500"
-                } px-5 py-2.5 rounded-md text-white font-semibold flex gap-1 justify-center items-center cursor-pointer`}
+                className={`bg-transparent px-5 py-2.5 rounded-md text-white font-semibold flex gap-1 justify-center items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700`}
               >
                 <CheckCircleIcon className="h-6" />
                 <span>
