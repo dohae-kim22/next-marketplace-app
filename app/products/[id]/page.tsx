@@ -8,6 +8,7 @@ import { formatToEuro } from "@/lib/utils";
 import {
   CheckCircleIcon,
   PaperAirplaneIcon,
+  PencilIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import ProductImageSlider from "@/components/ProductImageSlider";
@@ -110,7 +111,7 @@ export default async function ProductDetail({
         )}
       </div>
 
-      <div className="fixed w-full bottom-0 p-5 left-0 bg-neutral-800 flex gap-3 items-center">
+      <div className="fixed w-full bottom-0 p-5 left-0 bg-neutral-800 flex gap-2 items-center">
         <span className="font-semibold text-xl flex-1">
           €{formatToEuro(product.price)}
         </span>
@@ -118,13 +119,19 @@ export default async function ProductDetail({
         {isOwner ? (
           <>
             <form action={deleteProduct.bind(null, product.id)}>
-              <button className="bg-transparent px-2.5 py-2.5 rounded-full text-red-500 font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700">
+              <button className="bg-transparent p-2.5 rounded-full text-red-500 font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700">
                 <TrashIcon className="h-6" />
               </button>
             </form>
+            <Link
+              href={`/products/${product.id}/edit`}
+              className="bg-transparent p-2.5 rounded-full text-white font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700"
+            >
+              <PencilIcon className="h-6" />
+            </Link>
             <form action={toggleSoldStatus.bind(null, product.id)}>
               <button
-                className={`bg-transparent px-5 py-2.5 rounded-md text-white font-semibold flex gap-1 justify-center items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700`}
+                className={`bg-transparent p-2.5 rounded-md text-white font-semibold flex gap-1 justify-center items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700`}
               >
                 <CheckCircleIcon className="h-6" />
                 <span>

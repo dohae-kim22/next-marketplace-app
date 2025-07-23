@@ -6,6 +6,12 @@ import {
 } from "@react-google-maps/api";
 import { useRef, useState, useEffect } from "react";
 
+interface LocationPickerProps {
+  errors?: string[];
+  onChange: (value: { lat: number; lng: number; address?: string }) => void;
+  defaultValue?: string;
+}
+
 const containerStyle = {
   width: "100%",
   height: "300px",
@@ -20,10 +26,8 @@ const defaultCenter = {
 export default function LocationPicker({
   errors = [],
   onChange,
-}: {
-  errors?: string[];
-  onChange: (value: { lat: number; lng: number; address?: string }) => void;
-}) {
+  defaultValue,
+}: LocationPickerProps) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: ["places"],
@@ -53,6 +57,26 @@ export default function LocationPicker({
       setLocalErrors(errors);
     }
   }, [errors]);
+
+  useEffect(() => {
+    if (!isLoaded || !defaultValue || position) return;
+
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: defaultValue }, (results, status) => {
+      if (status === "OK" && results && results[0]) {
+        const { lat, lng } = results[0].geometry.location;
+        const latNum = typeof lat === "function" ? lat() : lat;
+        const lngNum = typeof lng === "function" ? lng() : lng;
+        const address = results[0].formatted_address;
+
+        const newPosition = { lat: latNum, lng: lngNum, address };
+        setCenter({ lat: latNum, lng: lngNum });
+        setPosition(newPosition);
+        if (inputRef.current) inputRef.current.value = address;
+        onChange(newPosition);
+      }
+    });
+  }, [defaultValue, isLoaded, position, onChange]);
 
   const onPlaceChanged = () => {
     if (!autocompleteRef.current) return;
