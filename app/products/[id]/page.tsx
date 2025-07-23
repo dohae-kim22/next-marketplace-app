@@ -5,10 +5,15 @@ import { notFound } from "next/navigation";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { formatToEuro } from "@/lib/utils";
-import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  CheckCircleIcon,
+  PaperAirplaneIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import ProductImageSlider from "@/components/ProductImageSlider";
 import LocationMap from "@/components/LocationMap";
 import CopyButton from "@/components/CopyButton";
+import { deleteProduct } from "./actions";
 
 async function getProduct(id: number) {
   const product = await db.product.findUnique({
@@ -98,15 +103,22 @@ export default async function ProductDetail({
         )}
       </div>
 
-      <div className="fixed w-full bottom-0 p-5 left-0 bg-neutral-800 flex justify-between items-center">
-        <span className="font-semibold text-xl">
+      <div className="fixed w-full bottom-0 p-5 left-0 bg-neutral-800 flex gap-3 items-center">
+        <span className="font-semibold text-xl flex-1">
           €{formatToEuro(product.price)}
         </span>
         {isOwner ? (
-          <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-red-400 flex gap-1 justify-center items-center">
-            <TrashIcon className="h-5" />
-            <span>Delete</span>
-          </button>
+          <>
+            <form action={deleteProduct.bind(null, product.id)}>
+              <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-red-400 flex justify-center items-center cursor-pointer">
+                <TrashIcon className="h-6" />
+              </button>
+            </form>
+            <button className="bg-green-600 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-green-500 flex gap-1 justify-center items-center cursor-pointer">
+              <CheckCircleIcon className="h-6" />
+              <span>Mark as Sold</span>
+            </button>
+          </>
         ) : (
           <Link
             className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400 flex gap-1 justify-center items-center"
