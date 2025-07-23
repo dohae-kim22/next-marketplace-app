@@ -6,6 +6,7 @@ import { UserIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { formatToEuro } from "@/lib/utils";
 import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/24/outline";
+import ProductImageSlider from "@/components/ProductImageSlider";
 
 async function getProduct(id: number) {
   const product = await db.product.findUnique({
@@ -18,6 +19,9 @@ async function getProduct(id: number) {
           userName: true,
           avatar: true,
         },
+      },
+      photos: {
+        select: { url: true },
       },
     },
   });
@@ -56,12 +60,7 @@ export default async function ProductDetail({
   return (
     <div className="flex flex-col gap-3 p-5">
       <div className="relative aspect-square rounded-md overflow-hidden">
-        <Image
-          fill
-          src={`${product.photo}/public`}
-          alt={product.title}
-          className="object-cover"
-        />
+        <ProductImageSlider photos={product.photos} />
       </div>
       <div className="flex gap-2 items-center border-neutral-700 border-b pb-3">
         <div className="flex justify-center items-center size-12 rounded-full bg-neutral-700 overflow-hidden">
