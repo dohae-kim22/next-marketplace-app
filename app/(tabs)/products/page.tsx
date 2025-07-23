@@ -12,6 +12,8 @@ async function getProducts() {
       views: true,
       productLikes: true,
       location: true,
+      status: true,
+      type: true,
     },
   });
 
@@ -21,7 +23,7 @@ async function getProducts() {
 export default async function Products() {
   const products = await getProducts();
   return (
-    <div className="p-5 flex flex-col gap-3">
+    <div className="p-5 flex flex-col gap-3 mb-20">
       {products.map((product) => (
         <ListProduct key={product.id} {...product} />
       ))}

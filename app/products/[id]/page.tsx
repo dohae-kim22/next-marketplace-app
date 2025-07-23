@@ -50,7 +50,7 @@ async function getProduct(id: number) {
   const isLiked = product.productLikes.some(
     (like) => like.userId === session?.id
   );
-  
+
   return {
     ...product,
     isLiked,
@@ -92,11 +92,6 @@ export default async function ProductDetail({
         <div className="relative aspect-square overflow-hidden">
           <ProductImageSlider photos={product.photos} />
         </div>
-        {product.status === "SOLD" && (
-          <div className="bg-green-500 flex justify-end py-1 px-2 rounded-b-md">
-            <span className="font-semibold">{product.status}</span>
-          </div>
-        )}
       </div>
       <div className="flex gap-2 items-center border-neutral-700 border-b pb-3">
         <div className="flex justify-center items-center size-12 rounded-full bg-neutral-700 overflow-hidden">
@@ -114,6 +109,16 @@ export default async function ProductDetail({
         <div className="flex-1">
           <h3>{product.user.userName}</h3>
         </div>
+        {product.type === "FREE" && product.status === "ON_SALE" && (
+          <div className="bg-teal-500 opacity-90 px-2 rounded-md font-medium text-sm">
+            Free Giveaway
+          </div>
+        )}
+        {product.status === "SOLD" && (
+          <div className="bg-red-500 opacity-90 px-2 rounded-md font-medium text-sm">
+            Sold Out
+          </div>
+        )}
       </div>
 
       <div className="flex gap-1 *:text-xs *:text-neutral-400">

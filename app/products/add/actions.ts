@@ -22,6 +22,7 @@ const productSchema = z.object({
   location: z.string("Location is required."),
   latitude: z.coerce.number("Latitude is required."),
   longitude: z.coerce.number("Longitude is required."),
+  type: z.enum(["SALE", "FREE"]),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,6 +35,7 @@ export async function uploadProduct(_: any, formData: FormData) {
     location: formData.get("location"),
     latitude: formData.get("latitude"),
     longitude: formData.get("longitude"),
+    type: formData.get("type"),
   };
 
   const result = productSchema.safeParse(data);
@@ -63,6 +65,7 @@ export async function uploadProduct(_: any, formData: FormData) {
           location: result.data.location,
           latitude: result.data.latitude,
           longitude: result.data.longitude,
+          type: result.data.type,
           user: {
             connect: {
               id: session.id,
