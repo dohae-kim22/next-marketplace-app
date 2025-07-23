@@ -7,6 +7,8 @@ import Link from "next/link";
 import { formatToEuro } from "@/lib/utils";
 import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/24/outline";
 import ProductImageSlider from "@/components/ProductImageSlider";
+import LocationMap from "@/components/LocationMap";
+import CopyButton from "@/components/CopyButton";
 
 async function getProduct(id: number) {
   const product = await db.product.findUnique({
@@ -79,10 +81,23 @@ export default async function ProductDetail({
           <h3>{product.user.userName}</h3>
         </div>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mb-25">
         <h1 className="text-xl font-semibold">{product.title}</h1>
         <p className="text-sm whitespace-pre-line">{product.description}</p>
+        {product.location && (
+          <div className="mt-4 flex flex-col gap-2">
+            <h2 className="text-sm text-neutral-400 font-medium font-semibold">
+              Meet-up Location
+            </h2>
+            <div className="flex items-center justify-between">
+              <p className="text-sm">{product.location}</p>
+              <CopyButton value={product.location} />
+            </div>
+            <LocationMap lat={product.latitude} lng={product.longitude} />
+          </div>
+        )}
       </div>
+
       <div className="fixed w-full bottom-0 p-5 left-0 bg-neutral-800 flex justify-between items-center">
         <span className="font-semibold text-xl">
           €{formatToEuro(product.price)}
