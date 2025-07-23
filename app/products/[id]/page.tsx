@@ -13,7 +13,7 @@ import {
 import ProductImageSlider from "@/components/ProductImageSlider";
 import LocationMap from "@/components/LocationMap";
 import CopyButton from "@/components/CopyButton";
-import { deleteProduct } from "./actions";
+import { deleteProduct, toggleSoldStatus } from "./actions";
 
 async function getProduct(id: number) {
   const product = await db.product.findUnique({
@@ -66,7 +66,7 @@ export default async function ProductDetail({
 
   return (
     <div className="flex flex-col gap-3 p-5">
-      <div className="relative aspect-square rounded-md overflow-hidden">
+      <div className="relative aspect-square overflow-hidden">
         <ProductImageSlider photos={product.photos} />
       </div>
       <div className="flex gap-2 items-center border-neutral-700 border-b pb-3">
@@ -107,6 +107,7 @@ export default async function ProductDetail({
         <span className="font-semibold text-xl flex-1">
           €{formatToEuro(product.price)}
         </span>
+
         {isOwner ? (
           <>
             <form action={deleteProduct.bind(null, product.id)}>
@@ -114,10 +115,22 @@ export default async function ProductDetail({
                 <TrashIcon className="h-6" />
               </button>
             </form>
-            <button className="bg-green-600 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-green-500 flex gap-1 justify-center items-center cursor-pointer">
-              <CheckCircleIcon className="h-6" />
-              <span>Mark as Sold</span>
-            </button>
+            <form action={toggleSoldStatus.bind(null, product.id)}>
+              <button
+                className={`${
+                  product.status === "SOLD"
+                    ? "bg-blue-600 hover:bg-blue-500"
+                    : "bg-green-600 hover:bg-green-500"
+                } px-5 py-2.5 rounded-md text-white font-semibold flex gap-1 justify-center items-center cursor-pointer`}
+              >
+                <CheckCircleIcon className="h-6" />
+                <span>
+                  {product.status === "SOLD"
+                    ? "Mark as Available"
+                    : "Mark as Sold"}
+                </span>
+              </button>
+            </form>
           </>
         ) : (
           <Link
