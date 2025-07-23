@@ -50,3 +50,20 @@ export async function toggleSoldStatus(productId: number) {
 
   redirect(`/products/${productId}`);
 }
+
+export async function toggleLike(productId: number) {
+  const session = await getSession();
+  if (!session?.id) return;
+
+  const existing = await db.productLike.findFirst({
+    where: { productId, userId: session.id },
+  });
+
+  if (existing) {
+    await db.productLike.delete({ where: { id: existing.id } });
+  } else {
+    await db.productLike.create({
+      data: { productId, userId: session.id },
+    });
+  }
+}

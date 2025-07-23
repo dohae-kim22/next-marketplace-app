@@ -9,15 +9,16 @@ datasource db {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  userName String    @unique
-  email    String?   @unique
-  password String?
-  phone    String?   @unique
-  githubId String?   @unique
-  googleId String?   @unique
-  avatar   String?
-  products Product[]
+  id           Int           @id @default(autoincrement())
+  userName     String        @unique
+  email        String?       @unique
+  password     String?
+  phone        String?       @unique
+  githubId     String?       @unique
+  googleId     String?       @unique
+  avatar       String?
+  products     Product[]
+  productLikes ProductLike[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -34,17 +35,19 @@ enum ProductType {
 }
 
 model Product {
-  id          Int           @id @default(autoincrement())
-  title       String
-  price       Float
-  photo       String
-  photos      Photo[]
-  description String
-  location    String
-  latitude    Float
-  longitude   Float
-  status      ProductStatus @default(ON_SALE)
-  type        ProductType   @default(SALE)
+  id           Int           @id @default(autoincrement())
+  title        String
+  price        Float
+  photo        String
+  photos       Photo[]
+  productLikes ProductLike[]
+  description  String
+  location     String
+  latitude     Float
+  longitude    Float
+  views        Int           @default(0)
+  status       ProductStatus @default(ON_SALE)
+  type         ProductType   @default(SALE)
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -58,4 +61,14 @@ model Photo {
   url       String
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+}
+
+model ProductLike {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+
+  @@unique([userId, productId])
 }

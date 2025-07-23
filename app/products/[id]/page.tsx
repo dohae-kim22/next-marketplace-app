@@ -4,9 +4,10 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { formatToEuro } from "@/lib/utils";
+import { formatDateString, formatToEuro } from "@/lib/utils";
 import {
   CheckCircleIcon,
+  EyeIcon,
   PaperAirplaneIcon,
   PencilIcon,
   TrashIcon,
@@ -15,8 +16,10 @@ import ProductImageSlider from "@/components/ProductImageSlider";
 import LocationMap from "@/components/LocationMap";
 import CopyButton from "@/components/CopyButton";
 import { deleteProduct, toggleSoldStatus } from "./actions";
+import LikeButton from "@/components/LikeButton";
 
 async function getProduct(id: number) {
+  const session = await getSession();
   const product = await db.product.findUnique({
     where: {
       id,
@@ -31,10 +34,28 @@ async function getProduct(id: number) {
       photos: {
         select: { url: true },
       },
+      productLikes: true,
     },
   });
 
-  return product;
+  if (!product) return null;
+
+  await db.product.update({
+    where: { id },
+    data: {
+      views: { increment: 1 },
+    },
+  });
+
+  const isLiked = product.productLikes.some(
+    (like) => like.userId === session?.id
+  );
+  
+  return {
+    ...product,
+    isLiked,
+    likeCount: product.productLikes.length,
+  };
 }
 
 async function getIsOwner(userId: number) {
@@ -90,10 +111,26 @@ export default async function ProductDetail({
             <UserIcon className="size-8" />
           )}
         </div>
-        <div>
+        <div className="flex-1">
           <h3>{product.user.userName}</h3>
         </div>
       </div>
+
+      <div className="flex gap-1 *:text-xs *:text-neutral-400">
+        <span className="flex-1">{formatDateString(product.created_at)}</span>
+        <div className="flex gap-1">
+          <EyeIcon className="size-4" />
+          <span>{product.views}</span>
+        </div>
+        <div className="flex gap-1">
+          <LikeButton
+            productId={product.id}
+            isLiked={product.isLiked}
+            likeCount={product.likeCount}
+          />
+        </div>
+      </div>
+
       <div className="flex flex-col gap-2 mb-25">
         <h1 className="text-xl font-semibold">{product.title}</h1>
         <p className="text-sm whitespace-pre-line">{product.description}</p>

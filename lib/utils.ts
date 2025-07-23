@@ -30,3 +30,17 @@ export function formatToTimeAgo(date: string) {
     return formatter.format(years, "year");
   }
 }
+
+export function formatDateString(date: Date) {
+  const formatted = date
+    .toLocaleString("en-GB", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+    .replace(",", "");
+
+  return formatted;
+}
