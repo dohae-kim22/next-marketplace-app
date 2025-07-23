@@ -44,3 +44,11 @@ export function formatDateString(date: Date) {
 
   return formatted;
 }
+
+export function formatShortAddress(fullAddress: string): string {
+  const parts = fullAddress.split(",");
+  if (parts.length < 2) return fullAddress.trim();
+
+  const lastTwo = parts.slice(-2).map((part) => part.trim());
+  return lastTwo.join(", ");
+}

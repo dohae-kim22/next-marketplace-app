@@ -9,6 +9,9 @@ async function getProducts() {
       id: true,
       photo: true,
       created_at: true,
+      views: true,
+      productLikes: true,
+      location: true,
     },
   });
 
@@ -18,7 +21,7 @@ async function getProducts() {
 export default async function Products() {
   const products = await getProducts();
   return (
-    <div className="p-5 flex flex-col gap-5">
+    <div className="p-5 flex flex-col gap-3">
       {products.map((product) => (
         <ListProduct key={product.id} {...product} />
       ))}
