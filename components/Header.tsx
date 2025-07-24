@@ -11,6 +11,8 @@ export default function Header() {
     ? "/products/add"
     : pathname.startsWith("/posts")
     ? "/posts/add"
+    : pathname.startsWith("/live")
+    ? "/live/add"
     : "#";
 
   return (

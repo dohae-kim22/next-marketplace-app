@@ -17,6 +17,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "imagedelivery.net",
       },
+      {
+        hostname: "customer-afly4gowro09dhrh.cloudflarestream.com",
+      },
     ],
   },
 };
