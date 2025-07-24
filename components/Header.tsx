@@ -16,7 +16,15 @@ export default function Header() {
     ? "/live/add"
     : "#";
 
-  const isProfilePage = pathname === "/profile";
+  const searchHref = pathname.startsWith("/products")
+    ? "/products/search"
+    : pathname.startsWith("/posts")
+    ? "/posts/search"
+    : pathname.startsWith("/live")
+    ? "/live/search"
+    : "#";
+
+  const hideSearchAddButton = pathname === "/profile" || pathname === "/chats";
 
   return (
     <div className="flex justify-end p-4 gap-2">
@@ -28,9 +36,9 @@ export default function Header() {
           Next
         </span>
       </Link>
-      {!isProfilePage && (
+      {!hideSearchAddButton && (
         <>
-          <Link href={linkHref} className="cursor-pointer">
+          <Link href={searchHref} className="cursor-pointer">
             <MagnifyingGlassIcon className="size-7 text-white" />
           </Link>
           <Link href={linkHref} className="cursor-pointer">
