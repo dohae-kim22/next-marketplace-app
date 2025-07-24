@@ -118,10 +118,14 @@ export default async function PostDetail({
       <div className="flex flex-col gap-5 items-start">
         <div className="flex items-center gap-2 text-neutral-400 text-sm">
           <EyeIcon className="size-5" />
-          <span>조회 {post.views}</span>
+          <span>{post.views} Views</span>
         </div>
 
-        <PostLikeButton isLiked={isLiked} likeCount={likeCount} postId={numericId} />
+        <PostLikeButton
+          isLiked={isLiked}
+          likeCount={likeCount}
+          postId={numericId}
+        />
       </div>
       <CommentSection
         postId={numericId}
