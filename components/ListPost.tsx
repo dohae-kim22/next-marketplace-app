@@ -29,7 +29,7 @@ export default function ListPost(props: ListPostProps) {
       <h2 className="text-white text-lg font-semibold overflow-hidden text-ellipsis whitespace-nowrap">
         {props.title}
       </h2>
-      <div className="flex ">
+      <div className="flex gap-2">
         {props.description && (
           <p className="line-clamp-3 text-sm leading-[1.6]">
             {props.description}
@@ -41,6 +41,7 @@ export default function ListPost(props: ListPostProps) {
             width={90}
             height={90}
             alt={props.title}
+            className="object-contain shrink-0"
           />
         )}
       </div>
