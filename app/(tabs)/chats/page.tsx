@@ -27,14 +27,14 @@ export default async function ChatList() {
                     width={48}
                     height={48}
                     alt={room.product.title}
-                    className="size-12 rounded-md object-cover"
+                    className="size-12 rounded-md object-cover shrink-0"
                   />
                 ) : (
                   <div className="size-12 rounded-md bg-neutral-700" />
                 )}
 
                 <div className="flex-1 flex flex-col gap-2">
-                  <p className="text-white font-semibold">
+                  <p className="text-white font-semibold line-clamp-1">
                     {room.product.title}
                   </p>
                   <p className="text-neutral-400 text-xs truncate w-full max-w-[150px]">

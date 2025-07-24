@@ -17,30 +17,32 @@ export default async function Live() {
   });
 
   return (
-    <div className="p-5 space-y-5">
-      <h1 className="text-xl font-semibold text-white">Live Streams</h1>
-      <div className="flex flex-col">
+    <div className="p-5 space-y-6">
+      <h1 className="text-2xl font-bold text-white">Live Streams</h1>
+
+      <div className="flex flex-col gap-4">
         {streams.map((stream) => (
           <Link
             key={stream.id}
             href={`/live/${stream.id}`}
-            className="border-b border-neutral-700 rounded-lg overflow-hidden hover:bg-neutral-800 transition flex"
+            className="flex items-start gap-4 bg-neutral-800 hover:bg-neutral-700 transition rounded-xl overflow-hidden p-3"
           >
-            <div className="relative w-32">
+            <div className="relative w-32 shrink-0">
               <Image
                 src={`https://${process.env.NEXT_PUBLIC_CLOUDFLARE_DOMAIN}/${stream.streamId}/thumbnails/thumbnail.jpg?height=200`}
                 alt={`${stream.title} thumbnail`}
                 width={640}
                 height={360}
-                className="w-full aspect-video object-cover"
+                className="w-full aspect-video object-cover rounded-md"
               />
-              <PlayCircleIcon className="absolute z-2 size-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-orange-500 opacity-70" />
+              <PlayCircleIcon className="absolute size-8 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-orange-500 opacity-80" />
             </div>
-            <div className="p-3">
-              <h2 className="text-lg font-medium text-white truncate">
+
+            <div className="flex flex-col justify-between flex-1 min-w-0">
+              <h2 className="text-white text-base font-semibold truncate">
                 {stream.title}
               </h2>
-              <p className="text-sm text-neutral-400">
+              <p className="text-sm text-neutral-400 mt-1 truncate">
                 Host: {stream.user.userName}
               </p>
             </div>

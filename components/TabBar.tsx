@@ -47,7 +47,7 @@ export default function TabBar() {
         <span>Chats</span>
       </Link>
       <Link href="/live" className="flex flex-col gap-px items-center">
-        {pathname.startsWith("live") ? (
+        {pathname.startsWith("/live") ? (
           <VideoCameraIconSolid className="size-7" />
         ) : (
           <VideoCameraIconOutline className="size-7" />
