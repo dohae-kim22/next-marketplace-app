@@ -6,6 +6,7 @@ import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import PostLikeButton from "@/components/PostLikeButton";
+import CommentSection from "@/components/CommentSection";
 
 async function getPost(id: number) {
   try {
@@ -24,12 +25,26 @@ async function getPost(id: number) {
             comments: true,
           },
         },
+        comments: {
+          include: {
+            user: { select: { userName: true } },
+          },
+          orderBy: { created_at: "desc" },
+        },
       },
     });
     return post;
   } catch (e) {
     return null;
   }
+}
+
+async function getUser() {
+  const session = await getSession();
+  const currentUser = await db.user.findUnique({
+    where: { id: session.id },
+  });
+  return currentUser;
 }
 
 const getCachedPost = nextCache(getPost, ["post-detail"], {
@@ -71,8 +86,12 @@ export default async function PostDetail({
   const post = await getCachedPost(id);
   if (!post) return notFound();
 
-  const session = await getSession();
-  const { likeCount, isLiked } = await getLikeStatus(id, session.id ?? null);
+  const currentUser = await getUser();
+
+  const { likeCount, isLiked } = await getLikeStatus(
+    id,
+    currentUser?.id ?? null
+  );
 
   return (
     <div className="p-5 text-white">
@@ -103,6 +122,11 @@ export default async function PostDetail({
 
         <PostLikeButton isLiked={isLiked} likeCount={likeCount} postId={id} />
       </div>
+      <CommentSection
+        postId={id}
+        comments={post.comments}
+        currentUserName={currentUser?.userName ?? "Anonymous"}
+      />
     </div>
   );
 }
