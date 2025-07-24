@@ -1,7 +1,7 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import { formatToTimeAgo } from "@/lib/utils";
-import { EyeIcon } from "@heroicons/react/24/solid";
+import { formatShortAddress, formatToTimeAgo } from "@/lib/utils";
+import { EyeIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -96,15 +96,15 @@ export default async function PostDetail({
 
   return (
     <div className="p-5 text-white">
-      <div className="flex items-center gap-2 mb-2">
+      <div className="flex items-center gap-2 mb-3">
         <Image
-          width={28}
-          height={28}
-          className="size-7 rounded-full"
+          width={30}
+          height={30}
+          className="size-9 rounded-full"
           src={post.user.avatar!}
           alt={post.user.userName}
         />
-        <div>
+        <div className="flex flex-col justify-center">
           <span className="text-sm font-semibold">{post.user.userName}</span>
           <div className="text-xs">
             <span>{formatToTimeAgo(post.created_at.toString())}</span>
@@ -112,11 +112,26 @@ export default async function PostDetail({
         </div>
       </div>
 
-      <h2 className="text-lg font-semibold">{post.title}</h2>
-      <p className="mb-5">{post.description}</p>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-lg font-semibold">{post.title}</h2>
+        <p className="text-sm text-justify mb-2">{post.description}</p>
+        <div className="relative w-full h-60">
+          <Image
+            src={`${post.photo}/public`}
+            fill
+            className="absolute object-cover"
+            alt={post.title}
+          />
+        </div>
+      </div>
 
-      <div className="flex flex-col gap-5 items-start">
-        <div className="flex items-center gap-2 text-neutral-400 text-sm">
+      <div className="flex gap-2 text-neutral-400 text-sm font-semibold mt-3 items-center">
+        <MapPinIcon className="size-5" />
+        <span>{formatShortAddress(post.location)}</span>
+      </div>
+
+      <div className="flex gap-4 items-center justify-between mt-1">
+        <div className="flex items-center gap-2 text-neutral-400 text-xs">
           <EyeIcon className="size-5" />
           <span>{post.views} Views</span>
         </div>

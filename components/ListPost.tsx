@@ -41,7 +41,7 @@ export default function ListPost(props: ListPostProps) {
             width={90}
             height={90}
             alt={props.title}
-            className="object-contain shrink-0"
+            className="object-cover shrink-0"
           />
         )}
       </div>

@@ -41,21 +41,21 @@ export default function PostLikeButton({
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 text-neutral-400 text-sm border border-neutral-400 rounded-full p-2 transition-colors ${
+      className={`flex cursor-pointer items-center gap-2 text-neutral-400 text-sm border border-neutral-400 rounded-full px-2 py-1 transition-colors ${
         state.isLiked
           ? "bg-orange-500 text-white border-orange-500"
           : "hover:bg-neutral-800"
       }`}
     >
       {state.isLiked ? (
-        <HandThumbUpIcon className="size-5" />
+        <HandThumbUpIcon className="size-4" />
       ) : (
-        <OutlineHandThumbUpIcon className="size-5" />
+        <OutlineHandThumbUpIcon className="size-4" />
       )}
       {state.isLiked ? (
-        <span>{state.likeCount}</span>
+        <span className="text-xs">{state.likeCount}</span>
       ) : (
-        <span>공감하기 ({state.likeCount})</span>
+        <span className="text-xs">Like ({state.likeCount})</span>
       )}
     </button>
   );
