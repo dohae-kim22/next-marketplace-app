@@ -19,7 +19,7 @@ export default async function ChatList() {
             <li key={room.id}>
               <Link
                 href={`/chats/${room.id}`}
-                className="flex items-center gap-4 bg-neutral-800 p-4 rounded-lg hover:bg-neutral-700 transition"
+                className="flex gap-4 bg-neutral-800 p-4 rounded-lg hover:bg-neutral-700 transition"
               >
                 {room.product.photos.length > 0 ? (
                   <Image
@@ -33,19 +33,27 @@ export default async function ChatList() {
                   <div className="size-12 rounded-md bg-neutral-700" />
                 )}
 
-                <div className="flex-1">
+                <div className="flex-1 flex flex-col gap-2">
                   <p className="text-white font-semibold">
                     {room.product.title}
                   </p>
-                  <p className="text-neutral-400 text-sm truncate">
+                  <p className="text-neutral-400 text-xs truncate w-full max-w-[150px]">
                     {room.messages[0]?.content ?? "No messages yet"}
                   </p>
                 </div>
 
-                <div className="text-xs text-neutral-500 whitespace-nowrap">
-                  {room.messages[0]
-                    ? formatToTimeAgo(room.messages[0].created_at.toString())
-                    : ""}
+                <div className="flex flex-col gap-3 items-end">
+                  <div className="text-xs text-neutral-500 whitespace-nowrap mt-1">
+                    {room.messages[0]
+                      ? formatToTimeAgo(room.messages[0].created_at.toString())
+                      : ""}
+                  </div>
+
+                  {room._count.messages > 0 && (
+                    <span className="bg-red-500 text-xs font-semibold text-white rounded-full size-4 flex justify-center items-center">
+                      {room._count.messages}
+                    </span>
+                  )}
                 </div>
               </Link>
             </li>

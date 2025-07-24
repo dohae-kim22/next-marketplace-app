@@ -39,6 +39,7 @@ export async function getMessages(chatRoomId: string) {
       id: true,
       content: true,
       created_at: true,
+      read: true,
       sender: {
         select: {
           id: true,
@@ -68,7 +69,6 @@ export async function saveMessage(content: string, chatRoomId: string) {
 
 export async function getMyChatRooms() {
   const session = await getSession();
-
   if (!session.id) return [];
 
   const rooms = await db.chatRoom.findMany({
@@ -79,10 +79,7 @@ export async function getMyChatRooms() {
       product: {
         select: {
           title: true,
-          photos: {
-            select: { url: true },
-            take: 1,
-          },
+          photos: { select: { url: true }, take: 1 },
         },
       },
       messages: {
@@ -91,6 +88,18 @@ export async function getMyChatRooms() {
         select: {
           content: true,
           created_at: true,
+          read: true,
+          senderId: true,
+        },
+      },
+      _count: {
+        select: {
+          messages: {
+            where: {
+              read: false,
+              senderId: { not: session.id },
+            },
+          },
         },
       },
     },
@@ -100,4 +109,19 @@ export async function getMyChatRooms() {
   });
 
   return rooms;
+}
+
+export async function markMessagesAsRead(chatRoomId: string) {
+  const session = await getSession();
+
+  await db.message.updateMany({
+    where: {
+      chatRoomId,
+      senderId: { not: session.id }, // 내가 보낸 게 아닌 메시지들만
+      read: false,
+    },
+    data: {
+      read: true,
+    },
+  });
 }

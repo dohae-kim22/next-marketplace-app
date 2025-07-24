@@ -1,6 +1,10 @@
 "use client";
 
-import { InitialChatMessages, saveMessage } from "@/app/chats/actions";
+import {
+  InitialChatMessages,
+  markMessagesAsRead,
+  saveMessage,
+} from "@/app/chats/actions";
 import { formatToTimeAgo } from "@/lib/utils";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
@@ -24,12 +28,14 @@ export default function ChatMessagesList({
   const [messages, setMessages] = useState(initialMessages);
   const [message, setMessage] = useState("");
   const channel = useRef<RealtimeChannel>(null);
+
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
     } = event;
     setMessage(value);
   };
+
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setMessages((prevMsgs) => [
@@ -38,6 +44,7 @@ export default function ChatMessagesList({
         id: Date.now(),
         content: message,
         created_at: new Date(),
+        read: false,
         sender: {
           userName,
           id: userId,
@@ -53,6 +60,7 @@ export default function ChatMessagesList({
         id: Date.now(),
         content: message,
         created_at: new Date(),
+        read: false,
         sender: {
           userName,
           avatar,
@@ -81,6 +89,10 @@ export default function ChatMessagesList({
     };
   }, [chatRoomId]);
 
+  useEffect(() => {
+    markMessagesAsRead(chatRoomId);
+  }, [chatRoomId]);
+
   return (
     <div className="p-5 flex flex-col gap-5 min-h-screen justify-end">
       {messages.map((message) => (
@@ -100,20 +112,29 @@ export default function ChatMessagesList({
             />
           )}
           <div
-            className={`flex flex-col gap-1 ${
+            className={`flex flex-col gap-1${
               message.sender.id === userId ? "items-end" : ""
             }`}
           >
             <span
-              className={`${
+              className={`relative ${
                 message.sender.id === userId
                   ? "bg-neutral-500"
                   : "bg-orange-500"
               } p-2.5 rounded-md`}
             >
               {message.content}
+              {message.sender.id === userId && !message.read && (
+                <span className="absolute bottom-0 -left-3 text-xs text-neutral-300">
+                  1
+                </span>
+              )}
             </span>
-            <span className="text-xs">
+            <span
+              className={`text-xs ${
+                message.sender.id === userId ? "text-end" : ""
+              }`}
+            >
               {formatToTimeAgo(message.created_at.toString())}
             </span>
           </div>
