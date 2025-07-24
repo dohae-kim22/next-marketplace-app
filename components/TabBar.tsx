@@ -23,7 +23,7 @@ export default function TabBar() {
   return (
     <div className="fixed z-10 bottom-0 flex justify-between w-full mx-auto max-w-sm px-5 py-3 border-neutral-600 border-t bg-neutral-900 *:text-white">
       <Link href="/products" className="flex flex-col gap-px items-center">
-        {pathname === "/products" ? (
+        {pathname.startsWith("/products") ? (
           <HomeIconSolid className="size-7" />
         ) : (
           <HomeIconOutline className="size-7" />
@@ -31,7 +31,7 @@ export default function TabBar() {
         <span>Home</span>
       </Link>
       <Link href="/posts" className="flex flex-col gap-px items-center">
-        {pathname === "/posts" ? (
+        {pathname.startsWith("/posts") ? (
           <NewspaperIconSolid className="size-7" />
         ) : (
           <NewspaperIconOutline className="size-7" />
@@ -39,7 +39,7 @@ export default function TabBar() {
         <span>Town</span>
       </Link>
       <Link href="/chats" className="flex flex-col gap-px items-center">
-        {pathname === "/chats" ? (
+        {pathname.startsWith("/chats") ? (
           <ChatBubbleOvalLeftEllipsisIconSolid className="size-7" />
         ) : (
           <ChatBubbleOvalLeftEllipsisIconOutline className="size-7" />
@@ -47,7 +47,7 @@ export default function TabBar() {
         <span>Chats</span>
       </Link>
       <Link href="/live" className="flex flex-col gap-px items-center">
-        {pathname === "/live" ? (
+        {pathname.startsWith("live") ? (
           <VideoCameraIconSolid className="size-7" />
         ) : (
           <VideoCameraIconOutline className="size-7" />
@@ -55,7 +55,7 @@ export default function TabBar() {
         <span>Live</span>
       </Link>
       <Link href="/profile" className="flex flex-col gap-px items-center">
-        {pathname === "/profile" ? (
+        {pathname.startsWith("/profile") ? (
           <UserIconSolid className="size-7" />
         ) : (
           <UserIconOutline className="size-7" />
