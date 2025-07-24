@@ -16,3 +16,9 @@
     @apply bg-neutral-400 cursor-not-allowed text-neutral-300;
   }
 }
+
+@layer utilities {
+  .font-audio-wide {
+    font-family: var(--font-audio-wide);
+  }
+}
