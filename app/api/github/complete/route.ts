@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
     data: {
       userName: login,
       githubId: id + "",
-      avatar: avatar_url,
+      avatar: avatar_url ?? "/default-user.png",
     },
     select: {
       id: true,

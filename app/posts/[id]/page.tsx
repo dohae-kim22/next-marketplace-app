@@ -78,18 +78,19 @@ async function getLikeStatus(postId: number, userId: number | null) {
 export default async function PostDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const id = Number(params.id);
-  if (isNaN(id)) return notFound();
+  const { id } = await params;
+  const numericId = Number(id);
+  if (isNaN(numericId)) return notFound();
 
-  const post = await getCachedPost(id);
+  const post = await getCachedPost(numericId);
   if (!post) return notFound();
 
   const currentUser = await getUser();
 
   const { likeCount, isLiked } = await getLikeStatus(
-    id,
+    numericId,
     currentUser?.id ?? null
   );
 
@@ -120,10 +121,10 @@ export default async function PostDetail({
           <span>조회 {post.views}</span>
         </div>
 
-        <PostLikeButton isLiked={isLiked} likeCount={likeCount} postId={id} />
+        <PostLikeButton isLiked={isLiked} likeCount={likeCount} postId={numericId} />
       </div>
       <CommentSection
-        postId={id}
+        postId={numericId}
         comments={post.comments}
         currentUserName={currentUser?.userName ?? "Anonymous"}
       />

@@ -104,6 +104,7 @@ export async function createAccount(prevState: any, formData: FormData) {
         userName: result.data.userName,
         email: result.data.email,
         password: hashedPassword,
+        avatar: "/default-user.png",
       },
       select: {
         id: true,

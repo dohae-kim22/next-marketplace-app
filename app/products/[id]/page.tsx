@@ -17,6 +17,7 @@ import LocationMap from "@/components/LocationMap";
 import CopyButton from "@/components/CopyButton";
 import { deleteProduct, toggleSoldStatus } from "./actions";
 import LikeButton from "@/components/LikeButton";
+import { createOrGetChatRoom } from "@/app/chats/actions";
 
 async function getProduct(id: number) {
   const session = await getSession();
@@ -185,13 +186,13 @@ export default async function ProductDetail({
             </form>
           </>
         ) : (
-          <Link
-            className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400 flex gap-1 justify-center items-center"
-            href={``}
-          >
-            <PaperAirplaneIcon className="h-5" />
-            <span>Ask seller</span>
-          </Link>
+          <form action={createOrGetChatRoom}>
+            <input type="hidden" name="productId" value={product.id} />
+            <button className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400 flex gap-1 justify-center items-center">
+              <PaperAirplaneIcon className="h-5" />
+              <span>Ask seller</span>
+            </button>
+          </form>
         )}
       </div>
     </div>

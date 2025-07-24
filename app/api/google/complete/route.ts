@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
     data: {
       userName: name,
       googleId: id + "",
-      avatar: picture,
+      avatar: picture ?? "/default-user.png",
     },
     select: {
       id: true,

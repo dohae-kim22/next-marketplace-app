@@ -38,8 +38,8 @@ export default function TabBar() {
         )}
         <span>Town</span>
       </Link>
-      <Link href="/chat" className="flex flex-col gap-px items-center">
-        {pathname === "/chat" ? (
+      <Link href="/chats" className="flex flex-col gap-px items-center">
+        {pathname === "/chats" ? (
           <ChatBubbleOvalLeftEllipsisIconSolid className="size-7" />
         ) : (
           <ChatBubbleOvalLeftEllipsisIconOutline className="size-7" />

@@ -23,8 +23,12 @@ model User {
   Comment      Comment[]
   postLikes    PostLike[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  buyerRooms  ChatRoom[] @relation("BuyerRooms")
+  sellerRooms ChatRoom[] @relation("SellerRooms")
+  messages    Message[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 enum ProductStatus {
@@ -52,6 +56,7 @@ model Product {
 
   photos       Photo[]
   productLikes ProductLike[]
+  ChatRoom     ChatRoom[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -121,4 +126,29 @@ model PostLike {
   postId Int
 
   @@unique([postId, userId])
+}
+
+model ChatRoom {
+  id        String    @id @default(cuid())
+  product   Product   @relation(fields: [productId], references: [id])
+  productId Int
+  buyer     User      @relation("BuyerRooms", fields: [buyerId], references: [id], onDelete: Cascade)
+  buyerId   Int
+  seller    User      @relation("SellerRooms", fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId  Int
+  messages  Message[]
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  chatRoomId String
+  sender     User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  senderId   Int
+  read       Boolean  @default(false)
+  created_at  DateTime @default(now())
 }
