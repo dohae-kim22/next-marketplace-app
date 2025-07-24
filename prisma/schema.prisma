@@ -86,7 +86,7 @@ model ProductLike {
 model Post {
   id          Int     @id @default(autoincrement())
   title       String
-  description String?
+  description String
   photo       String?
   location    String
   latitude    Float

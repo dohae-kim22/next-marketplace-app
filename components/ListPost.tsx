@@ -10,7 +10,7 @@ import Link from "next/link";
 interface ListPostProps {
   id: number;
   title: string;
-  description?: string | null;
+  description: string;
   views: number;
   photo?: string | null;
   created_at: Date;
@@ -31,7 +31,9 @@ export default function ListPost(props: ListPostProps) {
       </h2>
       <div className="flex ">
         {props.description && (
-          <p className="line-clamp-3 text-sm">{props.description}</p>
+          <p className="line-clamp-3 text-sm leading-[1.6]">
+            {props.description}
+          </p>
         )}
         {props.photo && (
           <Image

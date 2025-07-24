@@ -13,8 +13,8 @@ const productSchema = z.object({
     .max(50, "Title must be less than 50 characters."),
   description: z
     .string()
-    .max(2000, "Description must be less than 2000 characters.")
-    .optional(),
+    .min(2, "Description must be at least 2 characters.")
+    .max(2000, "Description must be less than 2000 characters."),
   location: z.string("Location is required."),
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),

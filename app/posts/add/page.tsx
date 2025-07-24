@@ -105,7 +105,7 @@ export default function AddProduct() {
                 ) : (
                   <PhotoIcon className="w-17" />
                 )}
-                <div className="text-sm">(0 / 1)</div>
+                <div className="text-sm">(Optional)</div>
                 <p className="text-red-500 text-sm">
                   {state?.fieldErrors.photo}
                 </p>
@@ -136,7 +136,7 @@ export default function AddProduct() {
 
       <FormInput
         name="title"
-        placeholder="Title"
+        placeholder="Title*"
         type="text"
         required
         errors={state?.fieldErrors.title}
@@ -145,13 +145,13 @@ export default function AddProduct() {
 
       <FormTextarea
         name="description"
-        placeholder="Description (optional)"
+        placeholder="Write something to share with your neighbors..."
         errors={state?.fieldErrors.description}
       />
 
       <div className="flex flex-col gap-2">
         <span className="text-neutral-500 text-sm">
-          Select your neighborhood
+          Select your neighborhood*
         </span>
         <LocationAutocomplete
           onSelect={({ address, lat, lng }) => {
