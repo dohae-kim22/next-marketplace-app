@@ -113,6 +113,10 @@ model Comment {
   userId Int
   post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId Int
+
+  parent     Comment? @relation("CommentToReplies", fields: [parentId], references: [id])
+  parentId   Int?
+  replies    Comment[] @relation("CommentToReplies")
 }
 
 model PostLike {

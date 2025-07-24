@@ -36,7 +36,11 @@ export async function dislikePost(postId: number) {
   }
 }
 
-export async function createComment(postId: number, content: string) {
+export async function createComment(
+  postId: number,
+  content: string,
+  parentId?: number
+) {
   const session = await getSession();
   if (!session.id || !content.trim()) return;
 
@@ -45,6 +49,7 @@ export async function createComment(postId: number, content: string) {
       content,
       postId,
       userId: session.id,
+      parentId: parentId ?? null,
     },
   });
 

@@ -26,8 +26,15 @@ async function getPost(id: number) {
           },
         },
         comments: {
+          where: { parentId: null },
           include: {
-            user: { select: { userName: true } },
+            user: { select: { userName: true, avatar: true } },
+            replies: {
+              include: {
+                user: { select: { userName: true, avatar: true } },
+              },
+              orderBy: { created_at: "asc" },
+            },
           },
           orderBy: { created_at: "desc" },
         },
@@ -146,6 +153,7 @@ export default async function PostDetail({
         postId={numericId}
         comments={post.comments}
         currentUserName={currentUser?.userName ?? "Anonymous"}
+        currentUserAvatar={currentUser?.avatar ?? "/default-user.png"}
       />
     </div>
   );
