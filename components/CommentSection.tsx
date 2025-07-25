@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { createComment } from "@/app/posts/[id]/actions";
 import { formatToTimeAgo } from "@/lib/utils";
+import Link from "next/link";
 
 interface Comment {
   id: number;
@@ -12,6 +13,7 @@ interface Comment {
   user: {
     userName: string;
     avatar: string | null;
+    id: number;
   };
   replies?: Comment[];
 }
@@ -21,11 +23,13 @@ export default function CommentSection({
   comments: initialComments,
   currentUserName,
   currentUserAvatar,
+  currentUserId,
 }: {
   postId: number;
   comments: Comment[];
   currentUserName: string;
   currentUserAvatar: string;
+  currentUserId: number;
 }) {
   const [text, setText] = useState("");
   const [comments, setComments] = useState<Comment[]>(initialComments);
@@ -42,6 +46,7 @@ export default function CommentSection({
       user: {
         userName: currentUserName,
         avatar: currentUserAvatar,
+        id: currentUserId,
       },
       replies: [],
     };
@@ -61,6 +66,7 @@ export default function CommentSection({
       user: {
         userName: currentUserName,
         avatar: currentUserAvatar,
+        id: currentUserId,
       },
     };
 
@@ -106,13 +112,15 @@ export default function CommentSection({
           comments.map((comment) => (
             <li key={comment.id}>
               <div className="flex gap-3 items-start">
-                <Image
-                  src={comment.user.avatar || "/default-avatar.png"}
-                  width={32}
-                  height={32}
-                  className="rounded-full object-cover"
-                  alt={comment.user.userName}
-                />
+                <Link href={`/users/${comment.user.id}`}>
+                  <Image
+                    src={comment.user.avatar || "/default-avatar.png"}
+                    width={32}
+                    height={32}
+                    className="rounded-full object-cover"
+                    alt={comment.user.userName}
+                  />
+                </Link>
                 <div className="flex-1">
                   <div className="flex justify-between items-center">
                     <span className="font-semibold">
@@ -155,13 +163,15 @@ export default function CommentSection({
                     <ul className="mt-3 pl-4 border-l border-neutral-700 flex flex-col gap-3">
                       {comment.replies.map((reply) => (
                         <li key={reply.id} className="flex gap-2 items-start">
-                          <Image
-                            src={reply.user.avatar || "/default-avatar.png"}
-                            width={28}
-                            height={28}
-                            className="rounded-full object-cover"
-                            alt={reply.user.userName}
-                          />
+                          <Link href={`/users/${reply.user.id}`}>
+                            <Image
+                              src={reply.user.avatar || "/default-avatar.png"}
+                              width={28}
+                              height={28}
+                              className="rounded-full object-cover"
+                              alt={reply.user.userName}
+                            />
+                          </Link>
                           <div>
                             <span className="font-semibold">
                               {reply.user.userName}

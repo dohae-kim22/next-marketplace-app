@@ -1,16 +1,23 @@
 import db from "@/lib/db";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
 import ListProduct from "@/components/ListProduct";
+import { getSession } from "@/lib/session";
 
-interface Props {
+interface UserProfileProps {
   params: { id: string };
 }
 
-export default async function UserProfilePage({ params }: Props) {
+export default async function UserProfile({ params }: UserProfileProps) {
   const id = Number(params.id);
   if (isNaN(id)) return notFound();
+
+  const session = await getSession();
+
+  if (session?.id === id) {
+    return redirect("/profile");
+  }
 
   const user = await db.user.findUnique({
     where: { id },

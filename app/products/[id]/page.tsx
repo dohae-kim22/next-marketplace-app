@@ -88,7 +88,7 @@ export default async function ProductDetail({
       </div>
       <div className="flex gap-2 items-center border-neutral-700 border-b pb-3">
         <Link
-          href={isOwner ? "/profile" : `/users/${product.userId}`}
+          href={`/users/${product.userId}`}
           className="flex gap-2 items-center flex-1"
         >
           <div className="flex justify-center items-center size-12 rounded-full bg-neutral-700 overflow-hidden">

@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import { formatShortAddress, formatToTimeAgo } from "@/lib/utils";
 import { EyeIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache } from "next/cache";
@@ -7,6 +7,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import PostLikeButton from "@/components/PostLikeButton";
 import CommentSection from "@/components/CommentSection";
+import Link from "next/link";
 
 async function getPost(id: number) {
   try {
@@ -28,10 +29,10 @@ async function getPost(id: number) {
         comments: {
           where: { parentId: null },
           include: {
-            user: { select: { userName: true, avatar: true } },
+            user: { select: { userName: true, avatar: true, id: true } },
             replies: {
               include: {
-                user: { select: { userName: true, avatar: true } },
+                user: { select: { userName: true, avatar: true, id: true } },
               },
               orderBy: { created_at: "asc" },
             },
@@ -104,7 +105,7 @@ export default async function PostDetail({
   return (
     <div className="p-5 text-white">
       <Link
-        href={isOwner ? "/profile" : `/users/${post.userId}`}
+        href={`/users/${post.userId}`}
         className="flex items-center gap-2 mb-3"
       >
         <Image
@@ -114,7 +115,7 @@ export default async function PostDetail({
           src={post.user.avatar!}
           alt={post.user.userName}
         />
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center text-neutral-300">
           <span className="text-sm font-semibold">{post.user.userName}</span>
           <div className="text-xs">
             <span>{formatToTimeAgo(post.created_at.toString())}</span>
@@ -157,6 +158,7 @@ export default async function PostDetail({
         comments={post.comments}
         currentUserName={currentUser?.userName ?? "Anonymous"}
         currentUserAvatar={currentUser?.avatar ?? "/default-user.png"}
+        currentUserId={currentUser?.id ?? 9999999}
       />
     </div>
   );

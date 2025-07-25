@@ -31,7 +31,7 @@ export const metadata = {
 export default async function Town() {
   const posts = await getPosts();
   return (
-    <div className="p-5 flex flex-col">
+    <div className="p-5 flex flex-col mb-30">
       {posts.map((post) => (
         <ListPost key={post.id} {...post} />
       ))}
