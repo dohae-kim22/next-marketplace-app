@@ -1,4 +1,5 @@
 import ListPost from "@/components/ListPost";
+import LocationBanner from "@/components/LocationBanner";
 import db from "@/lib/db";
 import { getUserWithLocation } from "@/lib/session";
 import { getDistanceFromLatLonInKm } from "@/lib/utils";
@@ -34,12 +35,12 @@ async function getFilteredPostsByLocation() {
   const user = await getUserWithLocation();
 
   if (!user?.latitude || !user.longitude || !user.radius) {
-    return getAllPosts();
+    return { posts: await getAllPosts(), user: null };
   }
 
   const allPosts = await getAllPosts();
 
-  return allPosts
+  const filtered = allPosts
     .map((post) => {
       if (post.latitude === null || post.longitude === null) return null;
       const distance = getDistanceFromLatLonInKm(
@@ -53,6 +54,8 @@ async function getFilteredPostsByLocation() {
     .filter(
       (post) => post && post.distance! <= user.radius!
     ) as ((typeof allPosts)[0] & { distance: number })[];
+
+  return { posts: filtered, user };
 }
 
 export const metadata = {
@@ -60,10 +63,15 @@ export const metadata = {
 };
 
 export default async function Town() {
-  const posts = await getFilteredPostsByLocation();
+  const { posts, user } = await getFilteredPostsByLocation();
 
   return (
-    <div className="p-5 flex flex-col mb-30">
+    <div className="p-5 flex flex-col gap-3 mb-30">
+      <LocationBanner
+        location={user?.location ?? undefined}
+        radius={user?.radius ?? undefined}
+      />
+
       {posts.map((post) => (
         <ListPost key={post.id} {...post} />
       ))}

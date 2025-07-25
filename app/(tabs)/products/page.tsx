@@ -1,4 +1,5 @@
 import ListProduct from "@/components/ListProduct";
+import LocationBanner from "@/components/LocationBanner";
 import db from "@/lib/db";
 import { getUserWithLocation } from "@/lib/session";
 import { getDistanceFromLatLonInKm } from "@/lib/utils";
@@ -46,9 +47,15 @@ async function getFilteredProductsByLocation() {
 }
 
 export default async function Products() {
+  const user = await getUserWithLocation();
   const products = await getFilteredProductsByLocation();
+
   return (
     <div className="p-5 flex flex-col gap-3 mb-20">
+      <LocationBanner
+        location={user?.location ?? undefined}
+        radius={user?.radius ?? undefined}
+      />
       {products.map((product) => (
         <ListProduct key={product.id} {...product} />
       ))}

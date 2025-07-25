@@ -27,6 +27,8 @@ export async function getUserWithLocation() {
   return db.user.findUnique({
     where: { id: session.id },
     select: {
+      id: true,
+      location: true,
       latitude: true,
       longitude: true,
       radius: true,
