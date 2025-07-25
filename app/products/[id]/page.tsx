@@ -95,21 +95,28 @@ export default async function ProductDetail({
         </div>
       </div>
       <div className="flex gap-2 items-center border-neutral-700 border-b pb-3">
-        <div className="flex justify-center items-center size-12 rounded-full bg-neutral-700 overflow-hidden">
-          {product.user.avatar !== null ? (
-            <Image
-              src={product.user.avatar}
-              width={48}
-              height={48}
-              alt={product.user.userName}
-            />
-          ) : (
-            <UserIcon className="size-8" />
-          )}
-        </div>
-        <div className="flex-1">
-          <h3>{product.user.userName}</h3>
-        </div>
+        <Link
+          href={isOwner ? "/profile" : `/users/${product.userId}`}
+          className="flex gap-2 items-center flex-1"
+        >
+          <div className="flex justify-center items-center size-12 rounded-full bg-neutral-700 overflow-hidden">
+            {product.user.avatar !== null ? (
+              <Image
+                src={product.user.avatar}
+                width={48}
+                height={48}
+                alt={product.user.userName}
+              />
+            ) : (
+              <UserIcon className="size-8" />
+            )}
+          </div>
+          <div>
+            <h3 className="text-white font-semibold">
+              {product.user.userName}
+            </h3>
+          </div>
+        </Link>
         {product.type === "FREE" && product.status === "ON_SALE" && (
           <div className="bg-teal-500 opacity-90 px-2 rounded-md font-medium text-sm">
             Free Giveaway

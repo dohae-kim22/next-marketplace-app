@@ -33,7 +33,6 @@ export default function ListProduct({
   status,
   type,
 }: ListProductProps) {
-
   return (
     <Link
       href={`/products/${id}`}
@@ -54,7 +53,7 @@ export default function ListProduct({
       </div>
       <div className="flex flex-col gap-1 *:text-white flex-1">
         <div className="flex flex-col flex-1 gap-1">
-          <span className="text-lg">{title}</span>
+          <span className="text-lg line-clamp-1">{title}</span>
           <span className="text-xs">{formatShortAddress(location)}</span>
           <span className="text-xs text-neutral-500">
             {formatToTimeAgo(created_at.toString())}
