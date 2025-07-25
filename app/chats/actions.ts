@@ -2,7 +2,7 @@
 
 import db from "@/lib/db";
 import { Prisma } from "@/lib/generated/prisma";
-import getSession from "@/lib/session";
+import {getSession} from "@/lib/session";
 import { redirect } from "next/navigation";
 
 export async function createOrGetChatRoom(formData: FormData) {

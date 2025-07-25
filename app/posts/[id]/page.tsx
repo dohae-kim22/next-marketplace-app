@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import getSession from "@/lib/session";
+import {getSession} from "@/lib/session";
 import { formatShortAddress, formatToTimeAgo } from "@/lib/utils";
 import { EyeIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache } from "next/cache";
@@ -103,7 +103,10 @@ export default async function PostDetail({
 
   return (
     <div className="p-5 text-white">
-      <div className="flex items-center gap-2 mb-3">
+      <Link
+        href={isOwner ? "/profile" : `/users/${post.userId}`}
+        className="flex items-center gap-2 mb-3"
+      >
         <Image
           width={30}
           height={30}
@@ -117,7 +120,7 @@ export default async function PostDetail({
             <span>{formatToTimeAgo(post.created_at.toString())}</span>
           </div>
         </div>
-      </div>
+      </Link>
 
       <div className="flex flex-col gap-2">
         <h2 className="text-lg font-semibold">{post.title}</h2>

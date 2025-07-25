@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import db from "@/lib/db";
-import getSession from "@/lib/session";
+import {getSession} from "@/lib/session";
 import EditProductForm from "@/components/EditProductForm";
 
 export default async function EditPage({ params }: { params: { id: string } }) {

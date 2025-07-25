@@ -5,9 +5,17 @@ interface SessionContent {
   id?: number;
 }
 
-export default async function getSession() {
+export async function getSession() {
   return getIronSession<SessionContent>(await cookies(), {
     cookieName: "session",
     password: process.env.COOKIE_PASSWORD!,
   });
+}
+
+export async function getIsOwner(userId: number) {
+  const session = await getSession();
+  if (session.id) {
+    return session.id === userId;
+  }
+  return false;
 }

@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import getSession from "@/lib/session";
+import { getIsOwner, getSession } from "@/lib/session";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { UserIcon } from "@heroicons/react/24/solid";
@@ -57,14 +57,6 @@ async function getProduct(id: number) {
     isLiked,
     likeCount: product.productLikes.length,
   };
-}
-
-async function getIsOwner(userId: number) {
-  const session = await getSession();
-  if (session.id) {
-    return session.id === userId;
-  }
-  return false;
 }
 
 export default async function ProductDetail({

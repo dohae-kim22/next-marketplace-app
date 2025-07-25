@@ -1,6 +1,6 @@
 import CopyButton from "@/components/CopyButton";
 import db from "@/lib/db";
-import getSession from "@/lib/session";
+import {getSession} from "@/lib/session";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";

@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import db from "@/lib/db";
-import getSession from "@/lib/session";
+import {getSession} from "@/lib/session";
 import { redirect } from "next/navigation";
 
 const profileSchema = z.object({

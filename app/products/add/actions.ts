@@ -1,7 +1,7 @@
 "use server";
 
 import z from "zod";
-import getSession from "@/lib/session";
+import {getSession} from "@/lib/session";
 import db from "@/lib/db";
 import { redirect } from "next/navigation";
 

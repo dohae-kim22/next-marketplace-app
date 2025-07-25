@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import getSession from "@/lib/session";
+import {getSession} from "@/lib/session";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
