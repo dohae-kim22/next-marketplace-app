@@ -4,6 +4,7 @@ import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
 import ListProduct from "@/components/ListProduct";
 import { getSession } from "@/lib/session";
+import { ChatButton } from "@/components/ChatButton";
 
 interface UserProfileProps {
   params: { id: string };
@@ -59,6 +60,7 @@ export default async function UserProfile({ params }: UserProfileProps) {
           <p className="text-sm text-neutral-400">
             Joined {formatToTimeAgo(user.created_at.toISOString())}
           </p>
+          <ChatButton userId={user.id} />
         </div>
       </div>
 

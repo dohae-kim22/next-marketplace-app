@@ -1,4 +1,3 @@
-// app/chats/page.tsx
 import Link from "next/link";
 import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
@@ -9,51 +8,66 @@ export default async function ChatList() {
 
   return (
     <div className="p-5 flex flex-col gap-4">
-      <h1 className="text-xl font-semibold text-white mb-4">My Chats</h1>
+      <h1 className="text-xl font-semibold text-white mb-px">My Chats</h1>
 
       {rooms.length === 0 ? (
         <p className="text-neutral-400">No chat rooms yet.</p>
       ) : (
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-3">
           {rooms.map((room) => (
             <li key={room.id}>
               <Link
                 href={`/chats/${room.id}`}
-                className="flex gap-4 bg-neutral-800 p-4 rounded-lg hover:bg-neutral-700 transition"
+                className="flex items-center gap-4 bg-neutral-900 hover:bg-neutral-800 transition rounded-xl px-2 py-3 shadow-sm"
               >
-                {room.product.photos.length > 0 ? (
+                <div className="relative size-12 shrink-0">
                   <Image
-                    src={`${room.product.photos[0].url}/avatar`}
-                    width={48}
-                    height={48}
-                    alt={room.product.title}
-                    className="size-12 rounded-md object-cover shrink-0"
+                    src={room.otherUser.avatar || "/default-avatar.png"}
+                    alt={room.otherUser.userName}
+                    fill
+                    className="rounded-full object-cover"
                   />
-                ) : (
-                  <div className="size-12 rounded-md bg-neutral-700" />
-                )}
-
-                <div className="flex-1 flex flex-col gap-2">
-                  <p className="text-white font-semibold line-clamp-1">
-                    {room.product.title}
-                  </p>
-                  <p className="text-neutral-400 text-xs truncate w-full max-w-[150px]">
-                    {room.messages[0]?.content ?? "No messages yet"}
-                  </p>
+                  {room.product?.photos?.[0]?.url && (
+                    <div className="absolute bottom-[-4px] right-[-4px] size-5 rounded-md border-1 border-neutral-800 overflow-hidden">
+                      <Image
+                        src={`${room.product.photos[0].url}/avatar`}
+                        alt={room.product.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
                 </div>
 
-                <div className="flex flex-col gap-3 items-end">
-                  <div className="text-xs text-neutral-500 whitespace-nowrap mt-1">
-                    {room.messages[0]
-                      ? formatToTimeAgo(room.messages[0].created_at.toString())
-                      : ""}
+                <div className="flex-1 overflow-hidden">
+                  <div className="flex justify-between items-start">
+                    <h2 className="text-white font-semibold truncate">
+                      {room.otherUser.userName}
+                    </h2>
+                    <span className="text-xs text-neutral-400 shrink-0 ml-2">
+                      {room.messages[0]
+                        ? formatToTimeAgo(
+                            room.messages[0].created_at.toString()
+                          )
+                        : ""}
+                    </span>
                   </div>
 
-                  {room._count.messages > 0 && (
-                    <span className="bg-red-500 text-xs font-semibold text-white rounded-full size-4 flex justify-center items-center">
-                      {room._count.messages}
-                    </span>
-                  )}
+                  <div className="flex justify-between">
+                    <p className="text-xs text-neutral-400 truncate mt-0.5 font-medium">
+                      {room.product ? room.product.title : "DM"}
+                    </p>
+
+                    {room._count.messages > 0 && (
+                      <span className="ml-2 bg-red-500 text-white text-xs font-medium rounded-full size-4 flex items-center justify-center">
+                        {room._count.messages}
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="text-xs text-neutral-300 truncate mt-1">
+                    {room.messages[0]?.content ?? "No messages yet"}
+                  </p>
                 </div>
               </Link>
             </li>

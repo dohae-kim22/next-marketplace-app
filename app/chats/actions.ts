@@ -2,7 +2,7 @@
 
 import db from "@/lib/db";
 import { Prisma } from "@/lib/generated/prisma";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 export async function createOrGetChatRoom(formData: FormData) {
@@ -76,6 +76,8 @@ export async function getMyChatRooms() {
       OR: [{ buyerId: session.id }, { sellerId: session.id }],
     },
     include: {
+      buyer: { select: { id: true, userName: true, avatar: true } },
+      seller: { select: { id: true, userName: true, avatar: true } },
       product: {
         select: {
           title: true,
@@ -108,7 +110,14 @@ export async function getMyChatRooms() {
     },
   });
 
-  return rooms;
+  return rooms.map((room) => {
+    const otherUser = room.buyer.id === session.id ? room.seller : room.buyer;
+
+    return {
+      ...room,
+      otherUser,
+    };
+  });
 }
 
 export async function markMessagesAsRead(chatRoomId: string) {
