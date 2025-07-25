@@ -1,17 +1,14 @@
 "use client";
 
-import {
-  useActionState,
-  useEffect,
-  useState,
-  ChangeEvent,
-  FormEvent,
-} from "react";
+import { useActionState, useEffect, useState, ChangeEvent } from "react";
 import { updateProfile, getUploadURL } from "@/app/profile/edit/actions";
 import FormInput from "@/components/FormInput";
 import FormButton from "@/components/FormButton";
 import { UserIcon, XMarkIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import LocationAutocomplete from "./LocationAutocomplete";
+
+const RADIUS_OPTIONS = [5, 10, 30, 50];
 
 export default function EditProfileForm({ user }: { user: any }) {
   const [preview, setPreview] = useState<string | null>(user.avatar ?? null);
@@ -20,10 +17,21 @@ export default function EditProfileForm({ user }: { user: any }) {
   );
   const [imageError, setImageError] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+  const [location, setLocation] = useState(user.location ?? "");
+  const [radius, setRadius] = useState<number>(user.radius ?? 5);
+  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
+    user.latitude && user.longitude
+      ? { lat: user.latitude, lng: user.longitude }
+      : null
+  );
 
   const [state, formAction] = useActionState(
     async (_: any, formData: FormData) => {
       formData.set("avatar", uploadUrl ?? "");
+      formData.set("location", location);
+      formData.set("latitude", String(latLng?.lat ?? ""));
+      formData.set("longitude", String(latLng?.lng ?? ""));
+      formData.set("radius", String(radius));
       return updateProfile(formData);
     },
     null
@@ -150,6 +158,39 @@ export default function EditProfileForm({ user }: { user: any }) {
           required
           errors={state?.fieldErrors?.userName}
         />
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label className="text-sm text-white font-medium">Neighborhood</label>
+        <LocationAutocomplete
+          onSelect={({ address, lat, lng }) => {
+            setLocation(address);
+            setLatLng({ lat, lng });
+          }}
+        />
+        {state?.fieldErrors?.location && (
+          <p className="text-red-500 text-sm">{state.fieldErrors.location}</p>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <label className="text-sm text-white font-medium">Search Radius</label>
+        <div className="grid grid-cols-4 gap-2">
+          {RADIUS_OPTIONS.map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => setRadius(option)}
+              className={`py-2 rounded-md text-sm font-semibold border transition ${
+                radius === option
+                  ? "bg-orange-500 text-white border-orange-500"
+                  : "bg-neutral-800 text-neutral-300 border-neutral-600 hover:border-neutral-400"
+              }`}
+            >
+              {option}km
+            </button>
+          ))}
+        </div>
       </div>
 
       <FormButton text="Save Changes" />

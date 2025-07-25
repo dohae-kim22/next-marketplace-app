@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import db from "@/lib/db";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 const profileSchema = z.object({
@@ -11,6 +11,16 @@ const profileSchema = z.object({
     .min(2, "Username must be at least 2 characters.")
     .max(10, "Username must be at most 10 characters."),
   avatar: z.url("Invalid avatar URL.").optional().or(z.literal("")),
+  location: z.string().min(1, "Location is required."),
+  latitude: z
+    .string()
+    .refine((val) => !isNaN(parseFloat(val)), { message: "Invalid latitude." }),
+  longitude: z.string().refine((val) => !isNaN(parseFloat(val)), {
+    message: "Invalid longitude.",
+  }),
+  radius: z.string().refine((val) => [5, 10, 30, 50].includes(Number(val)), {
+    message: "Invalid radius.",
+  }),
 });
 
 export async function updateProfile(formData: FormData) {
@@ -20,6 +30,10 @@ export async function updateProfile(formData: FormData) {
   const rawData = {
     userName: formData.get("userName"),
     avatar: formData.get("avatar"),
+    location: formData.get("location"),
+    latitude: formData.get("latitude"),
+    longitude: formData.get("longitude"),
+    radius: formData.get("radius"),
   };
 
   const result = profileSchema.safeParse(rawData);
@@ -31,13 +45,18 @@ export async function updateProfile(formData: FormData) {
     };
   }
 
-  const { userName, avatar } = result.data;
+  const { userName, avatar, location, latitude, longitude, radius } =
+    result.data;
 
   await db.user.update({
     where: { id: session.id },
     data: {
       userName,
       avatar: avatar || null,
+      location,
+      latitude: parseFloat(latitude),
+      longitude: parseFloat(longitude),
+      radius: Number(radius),
     },
   });
 

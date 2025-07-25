@@ -17,6 +17,10 @@ model User {
   githubId     String?       @unique
   googleId     String?       @unique
   avatar       String?
+  location     String?
+  latitude     Float?
+  longitude    Float?
+  radius       Int?
   products     Product[]
   productLikes ProductLike[]
   posts        Post[]
@@ -114,9 +118,9 @@ model Comment {
   post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId Int
 
-  parent     Comment? @relation("CommentToReplies", fields: [parentId], references: [id])
-  parentId   Int?
-  replies    Comment[] @relation("CommentToReplies")
+  parent   Comment?  @relation("CommentToReplies", fields: [parentId], references: [id])
+  parentId Int?
+  replies  Comment[] @relation("CommentToReplies")
 }
 
 model PostLike {
@@ -135,7 +139,7 @@ model PostLike {
 
 model ChatRoom {
   id        String    @id @default(cuid())
-  product   Product?   @relation(fields: [productId], references: [id])
+  product   Product?  @relation(fields: [productId], references: [id])
   productId Int?
   buyer     User      @relation("BuyerRooms", fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId   Int
