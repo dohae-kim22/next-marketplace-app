@@ -1,5 +1,6 @@
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
+import db from "./db";
 
 interface SessionContent {
   id?: number;
@@ -18,4 +19,17 @@ export async function getIsOwner(userId: number) {
     return session.id === userId;
   }
   return false;
+}
+
+export async function getUserWithLocation() {
+  const session = await getSession();
+
+  return db.user.findUnique({
+    where: { id: session.id },
+    select: {
+      latitude: true,
+      longitude: true,
+      radius: true,
+    },
+  });
 }
