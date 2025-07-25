@@ -59,8 +59,10 @@ export default async function ChatList() {
                     </p>
 
                     {room._count.messages > 0 && (
-                      <span className="ml-2 bg-red-500 text-white text-xs font-medium rounded-full size-4 flex items-center justify-center">
-                        {room._count.messages}
+                      <span className="ml-2 bg-red-500 text-white text-[9px] font-medium rounded-full size-4 flex items-center justify-center">
+                        {room._count.messages > 99
+                          ? "99"
+                          : room._count.messages}
                       </span>
                     )}
                   </div>

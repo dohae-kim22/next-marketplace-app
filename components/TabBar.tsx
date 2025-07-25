@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function TabBar() {
+export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
   const pathname = usePathname();
 
   return (
@@ -38,13 +38,21 @@ export default function TabBar() {
         )}
         <span>Town</span>
       </Link>
-      <Link href="/chats" className="flex flex-col gap-px items-center">
+      <Link
+        href="/chats"
+        className="flex flex-col gap-px items-center relative"
+      >
         {pathname.startsWith("/chats") ? (
           <ChatBubbleOvalLeftEllipsisIconSolid className="size-7" />
         ) : (
           <ChatBubbleOvalLeftEllipsisIconOutline className="size-7" />
         )}
         <span>Chats</span>
+        {unreadCount > 0 && (
+          <span className="flex justify-center items-center absolute -top-1 -right-2 bg-red-500 text-white text-[9px] font-bold rounded-full size-4">
+            {unreadCount > 99 ? "99" : unreadCount}
+          </span>
+        )}
       </Link>
       <Link href="/live" className="flex flex-col gap-px items-center">
         {pathname.startsWith("/live") ? (
