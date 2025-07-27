@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import ListProduct from "@/components/ListProduct";
 import ListPost from "@/components/ListPost";
 import { formatToTimeAgo } from "@/lib/utils";
 import { logOut } from "./actions";
+import { getReceivedReviews } from "@/lib/reviews";
 
 async function getUserWithContent() {
   const session = await getSession();
@@ -57,6 +58,8 @@ export default async function ProfilePage() {
   const user = await getUserWithContent();
   if (!user) return notFound();
 
+  const reviews = await getReceivedReviews(user.id);
+
   return (
     <div className="p-5 space-y-10">
       <div className="flex items-center gap-4">
@@ -82,6 +85,51 @@ export default async function ProfilePage() {
         <form action={logOut}>
           <button className="text-sm text-red-500 underline">Log out</button>
         </form>
+      </div>
+
+      <div>
+        <h2 className="text-lg font-semibold text-white mb-2">
+          Received Reviews
+        </h2>
+        {reviews.length === 0 ? (
+          <p className="text-neutral-500">
+            You haven&apos;t received any reviews.
+          </p>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {reviews.map((review) => (
+              <div
+                key={review.id}
+                className="bg-neutral-800 p-4 rounded-lg flex gap-4 items-start"
+              >
+                <Image
+                  src={review.reviewer.avatar ?? "/default-user.png"}
+                  alt={review.reviewer.userName}
+                  width={40}
+                  height={40}
+                  className="rounded-full size-10"
+                />
+                <div className="flex-1">
+                  <div className="flex justify-between items-center">
+                    <span className="text-white font-medium">
+                      {review.reviewer.userName}
+                    </span>
+                    <span className="text-yellow-400 text-sm">
+                      {"★".repeat(review.rating)}{" "}
+                      {"☆".repeat(5 - review.rating)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-neutral-300 mt-1">
+                    {review.comment}
+                  </p>
+                  <p className="text-xs text-neutral-500 mt-1">
+                    Product: <strong>{review.product.title}</strong>
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div>
