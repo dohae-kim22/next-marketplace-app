@@ -133,16 +133,33 @@ export default async function ProfilePage() {
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-white mb-2">My Products</h2>
-        {user.products.length === 0 ? (
+        <h2 className="text-lg font-semibold text-white mb-2">On Sale</h2>
+        {user.products.filter((p) => p.status === "ON_SALE").length === 0 ? (
+          <p className="text-neutral-500">You have no items on sale.</p>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {user.products
+              .filter((product) => product.status === "ON_SALE")
+              .map((product) => (
+                <ListProduct key={product.id} {...product} />
+              ))}
+          </div>
+        )}
+      </div>
+
+      <div className="mt-10">
+        <h2 className="text-lg font-semibold text-white mb-2">Sold Items</h2>
+        {user.products.filter((p) => p.status === "SOLD").length === 0 ? (
           <p className="text-neutral-500">
-            You haven&apos;t posted any products.
+            You haven&apos;t sold anything yet.
           </p>
         ) : (
           <div className="flex flex-col gap-3">
-            {user.products.map((product) => (
-              <ListProduct key={product.id} {...product} />
-            ))}
+            {user.products
+              .filter((product) => product.status === "SOLD")
+              .map((product) => (
+                <ListProduct key={product.id} {...product} />
+              ))}
           </div>
         )}
       </div>
