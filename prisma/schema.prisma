@@ -17,6 +17,7 @@ model User {
   githubId     String?       @unique
   googleId     String?       @unique
   avatar       String?
+  avatarId     String?
   location     String?
   latitude     Float?
   longitude    Float?
@@ -28,9 +29,11 @@ model User {
   postLikes    PostLike[]
   LiveStream   LiveStream[]
 
-  buyerRooms  ChatRoom[] @relation("BuyerRooms")
-  sellerRooms ChatRoom[] @relation("SellerRooms")
-  messages    Message[]
+  buyerRooms      ChatRoom[] @relation("BuyerRooms")
+  sellerRooms     ChatRoom[] @relation("SellerRooms")
+  reviewsGiven    Review[]   @relation("Reviewer")
+  reviewsReceived Review[]   @relation("Reviewee")
+  messages        Message[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -51,6 +54,7 @@ model Product {
   title       String
   price       Float
   photo       String
+  photoId     String?
   description String
   location    String
   latitude    Float
@@ -62,6 +66,7 @@ model Product {
   photos       Photo[]
   productLikes ProductLike[]
   ChatRoom     ChatRoom[]
+  reviews      Review[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -92,6 +97,7 @@ model Post {
   title       String
   description String
   photo       String?
+  photoId     String?
   location    String
   latitude    Float
   longitude   Float
@@ -138,14 +144,17 @@ model PostLike {
 }
 
 model ChatRoom {
-  id        String    @id @default(cuid())
-  product   Product?  @relation(fields: [productId], references: [id])
-  productId Int?
-  buyer     User      @relation("BuyerRooms", fields: [buyerId], references: [id], onDelete: Cascade)
-  buyerId   Int
-  seller    User      @relation("SellerRooms", fields: [sellerId], references: [id], onDelete: Cascade)
-  sellerId  Int
-  messages  Message[]
+  id              String    @id @default(cuid())
+  product         Product?  @relation(fields: [productId], references: [id])
+  productId       Int?
+  buyer           User      @relation("BuyerRooms", fields: [buyerId], references: [id], onDelete: Cascade)
+  buyerId         Int
+  seller          User      @relation("SellerRooms", fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId        Int
+  messages        Message[]
+  Review     Review[]
+  buyerCompleted  Boolean   @default(false)
+  sellerCompleted Boolean   @default(false)
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -160,6 +169,23 @@ model Message {
   senderId   Int
   read       Boolean  @default(false)
   created_at DateTime @default(now())
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  rating     Int
+  comment    String
+  reviewer   User     @relation("Reviewer", fields: [reviewerId], references: [id])
+  reviewerId Int
+  reviewee   User     @relation("Reviewee", fields: [revieweeId], references: [id])
+  revieweeId Int
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  Int
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  chatRoomId String
+  created_at DateTime @default(now())
+
+  @@unique([chatRoomId, reviewerId])
 }
 
 model LiveStream {

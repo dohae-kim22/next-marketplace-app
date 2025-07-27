@@ -3,6 +3,7 @@
 import db from "@/lib/db";
 import { Prisma } from "@/lib/generated/prisma";
 import { getSession } from "@/lib/session";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function createOrGetChatRoom(formData: FormData) {
@@ -133,4 +134,51 @@ export async function markMessagesAsRead(chatRoomId: string) {
       read: true,
     },
   });
+}
+
+export async function completeTradeAction(chatRoomId: string) {
+  const session = await getSession();
+  const room = await db.chatRoom.findUnique({
+    where: { id: chatRoomId },
+    select: {
+      buyerId: true,
+      sellerId: true,
+      buyerCompleted: true,
+      sellerCompleted: true,
+      productId: true,
+    },
+  });
+
+  if (!room || !session?.id) return;
+
+  if (room.buyerId === session.id && !room.buyerCompleted) {
+    await db.chatRoom.update({
+      where: { id: chatRoomId },
+      data: { buyerCompleted: true },
+    });
+  }
+
+  if (room.sellerId === session.id && !room.sellerCompleted) {
+    await db.chatRoom.update({
+      where: { id: chatRoomId },
+      data: { sellerCompleted: true },
+    });
+  }
+
+  const updated = await db.chatRoom.findUnique({
+    where: { id: chatRoomId },
+  });
+
+  if (
+    updated?.buyerCompleted &&
+    updated?.sellerCompleted &&
+    updated?.productId
+  ) {
+    await db.product.update({
+      where: { id: updated.productId },
+      data: { status: "SOLD" },
+    });
+  }
+
+  revalidatePath(`/chats/${chatRoomId}`);
 }

@@ -28,6 +28,7 @@ export default function ChatMessagesList({
   const [messages, setMessages] = useState(initialMessages);
   const [message, setMessage] = useState("");
   const channel = useRef<RealtimeChannel>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -93,53 +94,60 @@ export default function ChatMessagesList({
     markMessagesAsRead(chatRoomId);
   }, [chatRoomId]);
 
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
-    <div className="p-5 flex flex-col gap-5 min-h-screen justify-end">
-      {messages.map((message) => (
-        <div
-          key={message.id}
-          className={`flex gap-2 items-start ${
-            message.sender.id === userId ? "justify-end" : ""
-          }`}
-        >
-          {message.sender.id === userId ? null : (
-            <Image
-              src={message.sender.avatar ?? "/default-user.png"}
-              alt={message.sender.userName}
-              width={50}
-              height={50}
-              className="size-8 rounded-full"
-            />
-          )}
+    <div className="p-5 flex flex-col gap-5 h-[calc(100vh-174px)] justify-end">
+      <div className="overflow-y-auto hide-scrollbar flex flex-col gap-4">
+        {messages.map((message) => (
           <div
-            className={`flex flex-col gap-1${
-              message.sender.id === userId ? "items-end" : ""
+            key={message.id}
+            className={`flex gap-2 items-start ${
+              message.sender.id === userId ? "justify-end" : ""
             }`}
           >
-            <span
-              className={`relative ${
-                message.sender.id === userId
-                  ? "bg-neutral-500"
-                  : "bg-orange-500"
-              } p-2.5 rounded-md`}
-            >
-              {message.content}
-              {message.sender.id === userId && !message.read && (
-                <span className="absolute bottom-0 -left-3 text-xs text-neutral-300">
-                  1
-                </span>
-              )}
-            </span>
-            <span
-              className={`text-xs ${
-                message.sender.id === userId ? "text-end" : ""
+            {message.sender.id === userId ? null : (
+              <Image
+                src={message.sender.avatar ?? "/default-user.png"}
+                alt={message.sender.userName}
+                width={50}
+                height={50}
+                className="size-8 rounded-full"
+              />
+            )}
+            <div
+              className={`flex flex-col gap-1${
+                message.sender.id === userId ? "items-end" : ""
               }`}
             >
-              {formatToTimeAgo(message.created_at.toString())}
-            </span>
+              <span
+                className={`relative ${
+                  message.sender.id === userId
+                    ? "bg-neutral-500"
+                    : "bg-orange-500"
+                } p-2.5 rounded-md`}
+              >
+                {message.content}
+                {message.sender.id === userId && !message.read && (
+                  <span className="absolute bottom-0 -left-3 text-xs text-neutral-300">
+                    1
+                  </span>
+                )}
+              </span>
+              <span
+                className={`text-xs ${
+                  message.sender.id === userId ? "text-end" : ""
+                }`}
+              >
+                {formatToTimeAgo(message.created_at.toString())}
+              </span>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+        <div ref={scrollRef} />
+      </div>
       <form className="flex relative" onSubmit={onSubmit}>
         <input
           required

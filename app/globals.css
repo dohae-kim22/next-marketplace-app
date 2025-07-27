@@ -21,4 +21,13 @@
   .font-audio-wide {
     font-family: var(--font-audio-wide);
   }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
