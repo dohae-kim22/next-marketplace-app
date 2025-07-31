@@ -7,8 +7,8 @@ import FormInput from "@/components/FormInput";
 import FormTextarea from "@/components/FormTextArea";
 import FormButton from "@/components/FormButton";
 import LocationPicker from "@/components/LocationPicker";
-import { updateProduct } from "@/app/products/[id]/edit/actions";
-import { getUploadURL } from "@/app/products/add/actions";
+import { updateProduct } from "@/app/(headers)/products/[id]/edit/actions";
+import { getUploadURL } from "@/app/(headers)/products/add/actions";
 
 export default function EditProductForm({ product }: { product: any }) {
   const [isFree, setIsFree] = useState(product.price === 0);

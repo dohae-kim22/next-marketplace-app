@@ -8,6 +8,10 @@
 }
 
 @layer components {
+  .container-lg {
+    @apply max-w-7xl mx-auto px-5;
+  }
+
   .primary-btn {
     @apply text-white bg-orange-500 w-full text-center font-medium rounded-md hover:bg-orange-400 transition-colors;
   }

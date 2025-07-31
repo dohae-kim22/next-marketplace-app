@@ -113,7 +113,7 @@ export default function LocationPicker({
 
   return (
     <div className="flex flex-col gap-3">
-      <label className="text-sm font-medium text-neutral-700">
+      <label className="text-sm font-medium text-neutral-300 lg:text-base">
         Choose a meeting spot on the map
       </label>
       <Autocomplete

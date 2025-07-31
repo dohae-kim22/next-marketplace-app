@@ -2,7 +2,7 @@
 
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { useTransition, useState } from "react";
-import { toggleLike } from "@/app/products/[id]/actions";
+import { toggleLike } from "@/app/(headers)/products/[id]/actions";
 
 export default function LikeButton({
   productId,

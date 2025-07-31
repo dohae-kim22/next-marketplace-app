@@ -78,7 +78,6 @@ export default function AddProduct() {
   };
 
   const [state, dispatch] = useActionState(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (_: any, formData: FormData) => {
       uploadUrls.forEach((url) => formData.append("photos", url));
 
@@ -98,30 +97,33 @@ export default function AddProduct() {
   }, [state?.fieldErrors?.photos]);
 
   return (
-    <form action={dispatch} className="p-5 flex flex-col gap-5">
+    <form
+      action={dispatch}
+      className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto"
+    >
+      <h1 className="text-neutral-300 font-medium text-xl">Sell an item</h1>
       <div className="flex gap-3 flex-wrap">
         {previews.map((preview, i) => (
           <div key={i} className="relative">
             <label
               htmlFor={`photo-${i}`}
-              className="size-14 rounded-md border-2 border-dashed border-neutral-300 bg-center bg-cover flex items-center justify-center cursor-pointer"
+              className="size-14 rounded-md border-2 border-dashed border-neutral-300 bg-center bg-cover flex items-center justify-center cursor-pointer md:size-28"
               style={{ backgroundImage: `url(${preview})` }}
             />
             <button
               type="button"
               onClick={() => handleRemoveImage(i)}
-              className="absolute top-[-6px] right-[-6px] bg-neutral-500 text-white rounded-full size-5 text-xs flex items-center justify-center shadow cursor-pointer"
+              className="absolute top-[-6px] right-[-6px] bg-neutral-500 text-white rounded-full size-5 text-xs flex items-center justify-center shadow cursor-pointer md:size-6"
               aria-label="Remove image"
             >
               <XMarkIcon className="size-3" />
             </button>
           </div>
         ))}
-
         {previews.length < 5 && (
           <label
             htmlFor={`photo-${previews.length}`}
-            className="size-14 rounded-md border-2 border-dashed border-neutral-300 flex flex-col items-center justify-center cursor-pointer *:text-neutral-400"
+            className="size-14 rounded-md border-2 border-dashed border-neutral-300 flex flex-col items-center justify-center cursor-pointer *:text-neutral-400 md:size-28"
           >
             {isUploading ? (
               <div className="w-5 h-5 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
@@ -131,7 +133,6 @@ export default function AddProduct() {
             <span className="text-xs">({previews.length}/5)</span>
           </label>
         )}
-
         {Array.from({
           length: previews.length < 5 ? previews.length + 1 : previews.length,
         }).map((_, i) =>
