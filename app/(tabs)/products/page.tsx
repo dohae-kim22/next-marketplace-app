@@ -1,4 +1,5 @@
 import ListProduct from "@/components/ListProduct";
+import ListProductDesktop from "@/components/ListProductDesktop";
 import LocationBanner from "@/components/LocationBanner";
 import db from "@/lib/db";
 import { getUserWithLocation } from "@/lib/session";
@@ -57,9 +58,18 @@ export default async function Products() {
         location={user?.location ?? undefined}
         radius={user?.radius ?? undefined}
       />
-      {products.map((product) => (
-        <ListProduct key={product.id} {...product} />
-      ))}
+
+      <div className="flex flex-col gap-3 lg:hidden">
+        {products.map((product) => (
+          <ListProduct key={product.id} {...product} />
+        ))}
+      </div>
+
+      <div className="hidden lg:grid lg:grid-cols-5 gap-6">
+        {products.map((product) => (
+          <ListProductDesktop key={product.id} {...product} />
+        ))}
+      </div>
     </div>
   );
 }
