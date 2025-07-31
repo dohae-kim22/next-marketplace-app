@@ -14,7 +14,7 @@ export default function LocationBanner({
   const hasLocation = location && radius;
 
   return (
-    <div className="flex justify-between items-center bg-neutral-800 text-sm text-white px-4 py-2 rounded-md">
+    <div className="flex justify-between items-center bg-neutral-800 text-sm text-white px-4 py-2 rounded-md mb-3">
       <span>
         {hasLocation
           ? `📍 ${location} • ${radius}km`
@@ -24,7 +24,7 @@ export default function LocationBanner({
       {!hasLocation && (
         <Link
           href="/profile/edit"
-          className="text-xs text-orange-400 hover:underline"
+          className="text-xs text-orange-400 hover:underline lg:text-sm"
         >
           Set location
         </Link>
