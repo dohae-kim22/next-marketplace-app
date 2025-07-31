@@ -18,7 +18,7 @@ export default function SearchBar() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="hidden md:flex items-center w-full max-w-3xl mx-auto px-4 py-2 relative"
+      className="hidden md:flex items-center w-full max-w-3xl mx-auto mb-3 px-4 py-2 relative"
     >
       <input
         type="text"
@@ -29,9 +29,9 @@ export default function SearchBar() {
       />
       <button
         type="submit"
-        className="absolute right-5
+        className="absolute right-6
         
-        ml-2 px-2 py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600"
+        ml-2 px-1 py-1 bg-orange-500 text-white rounded-full hover:bg-orange-600"
       >
         <ArrowRightIcon className="size-5" />
       </button>
