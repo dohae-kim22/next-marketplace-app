@@ -43,7 +43,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   }
 
   return (
-    <div className="flex justify-end p-4 gap-2 md:justify-between md:max-w-[1280px] md:mx-auto">
+    <div className="flex justify-end p-4 gap-2 md:justify-between md:max-w-[1280px] md:mx-auto lg:relative">
       <Link
         href={"/products"}
         className="cursor-pointer flex-1 md:flex-none hover:opacity-80"
@@ -66,7 +66,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
         )}
       </div>
 
-      <nav className="hidden md:flex items-center gap-6 justify-center font-semibold">
+      <nav className="hidden md:flex items-center gap-6 justify-center font-semibold lg:absolute lg:left-1/2 lg:-translate-x-1/2">
         {menu.map(({ href, label, icon: Icon }) => {
           const active = pathname.startsWith(href);
           return (
