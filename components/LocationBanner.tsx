@@ -14,7 +14,7 @@ export default function LocationBanner({
   const hasLocation = location && radius;
 
   return (
-    <div className="flex justify-between items-center bg-neutral-800 text-sm text-white px-4 py-2 rounded-md mb-4">
+    <div className="flex justify-between items-center bg-neutral-800 text-sm text-white px-4 py-2 rounded-md">
       <span>
         {hasLocation
           ? `📍 ${location} • ${radius}km`
