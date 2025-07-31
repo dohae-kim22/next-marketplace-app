@@ -2,14 +2,17 @@ import db from "@/lib/db";
 import ListPost from "@/components/ListPost";
 import FormInput from "@/components/FormInput";
 
-interface Props {
-  searchParams: {
+interface PostSearchPageProps {
+  searchParams: Promise<{
     q?: string;
-  };
+  }>;
 }
 
-export default async function PostSearchPage({ searchParams }: Props) {
-  const query = searchParams.q?.trim();
+export default async function PostSearchPage({
+  searchParams,
+}: PostSearchPageProps) {
+  const { q } = await searchParams;
+  const query = q?.trim();
 
   const posts = query
     ? await db.post.findMany({

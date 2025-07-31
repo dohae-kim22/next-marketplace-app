@@ -1,16 +1,16 @@
-import FormButton from "@/components/FormButton";
 import FormInput from "@/components/FormInput";
 import ListProduct from "@/components/ListProduct";
 import db from "@/lib/db";
 
-interface Props {
-  searchParams: {
+interface ProductSearchPageProps {
+  searchParams: Promise<{
     q?: string;
-  };
+  }>;
 }
 
-export default async function ProductSearchPage({ searchParams }: Props) {
-  const query = searchParams.q?.trim();
+export default async function ProductSearchPage({ searchParams }: ProductSearchPageProps) {
+  const { q } = await searchParams;
+  const query = q?.trim();
 
   const products = query
     ? await db.product.findMany({

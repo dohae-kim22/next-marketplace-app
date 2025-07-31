@@ -3,14 +3,21 @@ import db from "@/lib/db";
 import { redirect } from "next/navigation";
 import ReviewForm from "@/components/ReviewForm";
 
+interface NewReviewPageProps {
+  searchParams: Promise<{
+    chatRoomId?: string;
+  }>;
+}
+
 export default async function NewReviewPage({
   searchParams,
-}: {
-  searchParams: { chatRoomId: string };
-}) {
+}: NewReviewPageProps) {
+  const { chatRoomId } = await searchParams;
+  if (!chatRoomId) redirect("/");
+
   const session = await getSession();
   const chatRoom = await db.chatRoom.findUnique({
-    where: { id: searchParams.chatRoomId },
+    where: { id: chatRoomId },
     include: {
       buyer: true,
       seller: true,

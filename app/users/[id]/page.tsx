@@ -8,21 +8,23 @@ import { ChatButton } from "@/components/ChatButton";
 import { getReceivedReviews } from "@/lib/reviews";
 
 interface UserProfileProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function UserProfile({ params }: UserProfileProps) {
-  const id = Number(params.id);
-  if (isNaN(id)) return notFound();
+  const { id } = await params;
+  const numericId = Number(id);
+
+  if (isNaN(numericId)) return notFound();
 
   const session = await getSession();
 
-  if (session?.id === id) {
+  if (session?.id === numericId) {
     return redirect("/profile");
   }
 
   const user = await db.user.findUnique({
-    where: { id },
+    where: { id: numericId },
     include: {
       products: {
         orderBy: { created_at: "desc" },
@@ -44,7 +46,7 @@ export default async function UserProfile({ params }: UserProfileProps) {
 
   if (!user) return notFound();
 
-  const reviews = await getReceivedReviews(id);
+  const reviews = await getReceivedReviews(numericId);
 
   return (
     <div className="p-5 space-y-6">

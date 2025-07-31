@@ -2,14 +2,17 @@ import db from "@/lib/db";
 import ListStream from "@/components/ListStream";
 import FormInput from "@/components/FormInput";
 
-interface Props {
-  searchParams: {
+interface LiveSearchPageProps {
+  searchParams: Promise<{
     q?: string;
-  };
+  }>;
 }
 
-export default async function LiveSearchPage({ searchParams }: Props) {
-  const query = searchParams.q?.trim();
+export default async function LiveSearchPage({
+  searchParams,
+}: LiveSearchPageProps) {
+  const { q } = await searchParams;
+  const query = q?.trim();
 
   const streams = query
     ? await db.liveStream.findMany({
