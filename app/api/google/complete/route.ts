@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     const session = await getSession();
     session.id = user.id;
     await session.save();
-    return redirect("/profile");
+    return redirect("/products");
   }
 
   const newUser = await db.user.create({
@@ -77,5 +77,5 @@ export async function GET(request: NextRequest) {
   session.id = newUser.id;
   await session.save();
 
-  return redirect("/profile");
+  return redirect("/products");
 }

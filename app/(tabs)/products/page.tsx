@@ -51,12 +51,6 @@ export default async function Products() {
   const user = await getUserWithLocation();
   const products = await getFilteredProductsByLocation();
 
-  if (process.env.NODE_ENV === "development") {
-    console.log("지금은 개발 모드!");
-  } else if (process.env.NODE_ENV === "production") {
-    console.log("지금은 프로덕션 모드!");
-  }
-
   return (
     <div className="px-5 flex flex-col gap-3 mb-20">
       <LocationBanner
