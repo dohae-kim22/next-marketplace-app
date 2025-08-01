@@ -103,7 +103,7 @@ export default async function PostDetail({
   );
 
   return (
-    <div className="p-5 text-white">
+    <div className="container-lg p-5 text-white md:p-20 md:pt-0 lg:p-50 lg:pt-0">
       <Link
         href={`/users/${post.userId}`}
         className="flex items-center gap-2 mb-3"
@@ -123,17 +123,19 @@ export default async function PostDetail({
         </div>
       </Link>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 md:gap-3 md:mb-5">
         <h2 className="text-lg font-semibold">{post.title}</h2>
         <p className="text-sm text-justify mb-2">{post.description}</p>
-        <div className="relative w-full h-60">
-          <Image
-            src={`${post.photo}/public`}
-            fill
-            className="absolute object-cover"
-            alt={post.title}
-          />
-        </div>
+        {post.photo ? (
+          <div className="relative w-full mx-auto h-60 md:w-lg md:h-80">
+            <Image
+              src={`${post.photo}/public`}
+              fill
+              className="absolute object-cover"
+              alt={post.title}
+            />
+          </div>
+        ) : null}
       </div>
 
       <div className="flex gap-2 text-neutral-400 text-sm font-semibold mt-3 items-center">
