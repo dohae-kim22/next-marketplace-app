@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen items-center justify-between p-6">
+    <div className="flex flex-col min-h-screen items-center justify-between mx-auto p-6 md:max-w-xl md:p-10">
       <div className="my-auto flex flex-col items-center gap-2 *:font-medium">
         <img src="/logo.png" alt="next market logo" className="h-32" />
         <h1 className="text-4xl">Next Market</h1>
