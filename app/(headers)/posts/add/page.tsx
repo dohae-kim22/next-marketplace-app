@@ -70,7 +70,6 @@ export default function AddProduct() {
   };
 
   const [state, dispatch] = useActionState(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (_: any, formData: FormData) => {
       formData.append("photo", uploadUrl ?? "");
       return uploadProduct(_, formData);
@@ -85,10 +84,11 @@ export default function AddProduct() {
   }, [state?.fieldErrors?.photo]);
 
   return (
-    <form action={dispatch} className="p-5 flex flex-col gap-5">
-      <h1 className="text-neutral-500 font-semibold text-lg">
-        Create New Post
-      </h1>
+    <form
+      action={dispatch}
+      className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto"
+    >
+      <h1 className="text-neutral-300 font-medium text-xl">Create New Post</h1>
       <div className="flex gap-3 flex-wrap justify-center">
         <div className="relative size-60">
           <label
