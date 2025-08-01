@@ -1,6 +1,6 @@
 "use client";
 
-import { createChatWithUser } from "@/app/users/[id]/actions";
+import { createChatWithUser } from "@/app/(headers)/users/[id]/actions";
 import { useTransition } from "react";
 
 export function ChatButton({ userId }: { userId: number }) {
@@ -16,7 +16,7 @@ export function ChatButton({ userId }: { userId: number }) {
     <button
       onClick={handleChat}
       disabled={isPending}
-      className="bg-orange-500 hover:bg-orange-400 text-white px-4 py-2 rounded-md mt-2 text-sm font-medium disabled:opacity-50"
+      className="bg-orange-500 hover:bg-orange-400 text-white px-2 py-1 rounded-md mt-2 text-sm font-medium disabled:opacity-50"
     >
       {isPending ? "Starting chat..." : "Chat with this user"}
     </button>
