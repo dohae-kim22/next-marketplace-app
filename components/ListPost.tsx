@@ -29,10 +29,10 @@ export default function ListPost(props: ListPostProps) {
       <h2 className="text-white text-lg font-semibold overflow-hidden text-ellipsis whitespace-nowrap">
         {props.title}
       </h2>
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         {props.description && (
-          <p className="line-clamp-3 text-sm leading-[1.6]">
-            {props.description}
+          <p className="text-sm text-justify">
+            <span className="line-clamp-4">{props.description}</span>
           </p>
         )}
         {props.photo && (

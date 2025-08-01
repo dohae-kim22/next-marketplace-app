@@ -1,7 +1,7 @@
 "use server";
 
 import db from "@/lib/db";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import { revalidateTag } from "next/cache";
 
 export async function likePost(postId: number) {
@@ -52,6 +52,8 @@ export async function createComment(
       parentId: parentId ?? null,
     },
   });
+
+  console.log("add comment");
 
   revalidateTag(`comments-${postId}`);
 }

@@ -81,9 +81,9 @@ export default function CommentSection({
       )
     );
 
+    await createComment(postId, replyText, parentId);
     setReplyText("");
     setReplyTo(null);
-    await createComment(postId, replyText, parentId);
   };
 
   return (
@@ -132,7 +132,6 @@ export default function CommentSection({
                   </div>
                   <p className="mt-1">{comment.content}</p>
 
-                  {/* Reply 버튼 */}
                   <button
                     onClick={() =>
                       setReplyTo(replyTo === comment.id ? null : comment.id)

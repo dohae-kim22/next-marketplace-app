@@ -1,58 +1,15 @@
-import db from "@/lib/db";
-import { getSession } from "@/lib/session";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import ListProduct from "@/components/ListProduct";
 import ListPost from "@/components/ListPost";
 import { formatToTimeAgo } from "@/lib/utils";
-import { logOut } from "./actions";
+import { getUserWithContent, logOut } from "./actions";
 import { getReceivedReviews } from "@/lib/reviews";
-
-async function getUserWithContent() {
-  const session = await getSession();
-  if (!session?.id) return null;
-
-  const user = await db.user.findUnique({
-    where: { id: session.id },
-    include: {
-      products: {
-        orderBy: { created_at: "desc" },
-        select: {
-          id: true,
-          title: true,
-          price: true,
-          photo: true,
-          created_at: true,
-          views: true,
-          productLikes: true,
-          location: true,
-          status: true,
-          type: true,
-        },
-      },
-      posts: {
-        orderBy: { created_at: "desc" },
-        select: {
-          id: true,
-          title: true,
-          description: true,
-          photo: true,
-          created_at: true,
-          views: true,
-          _count: {
-            select: {
-              postLikes: true,
-              comments: true,
-            },
-          },
-        },
-      },
-    },
-  });
-
-  return user;
-}
+import {
+  ArrowRightStartOnRectangleIcon,
+  PencilIcon,
+} from "@heroicons/react/24/outline";
 
 export default async function ProfilePage() {
   const user = await getUserWithContent();
@@ -61,30 +18,38 @@ export default async function ProfilePage() {
   const reviews = await getReceivedReviews(user.id);
 
   return (
-    <div className="p-5 space-y-10">
+    <div className="container-lg p-5 mb-30 flex flex-col gap-7 md:p-20 md:pt-0 md:mb-10 lg:p-50 lg:pt-10">
       <div className="flex items-center gap-4">
         <Image
           src={user.avatar || "/default-avatar.png"}
-          width={60}
-          height={60}
+          width={70}
+          height={70}
           className="rounded-full aspect-square object-cover"
           alt={user.userName}
         />
+
         <div>
           <h1 className="text-xl font-bold text-white">{user.userName}</h1>
           <p className="text-sm text-neutral-400">
             Joined {formatToTimeAgo(user.created_at.toISOString())}
           </p>
-          <Link
-            href="/profile/edit"
-            className="text-sm text-orange-400 hover:underline"
-          >
-            Edit Profile
-          </Link>
+          <div className="flex gap-4 mt-3">
+            <Link
+              href="/profile/edit"
+              className="flex gap-1 text-sm text-neutral-300 hover:text-neutral-400 border rounded-md px-2 py-1 justify-center items-center"
+            >
+              <PencilIcon className="size-4" />
+              <span>Edit Profile</span>
+            </Link>
+
+            <form action={logOut}>
+              <button className="text-sm text-red-500 hover:text-red-600 flex gap-1 border rounded-md px-2 py-1 justify-center items-center">
+                <ArrowRightStartOnRectangleIcon className="size-4" />
+                <span>Log out</span>
+              </button>
+            </form>
+          </div>
         </div>
-        <form action={logOut}>
-          <button className="text-sm text-red-500 underline">Log out</button>
-        </form>
       </div>
 
       <div>
@@ -122,7 +87,7 @@ export default async function ProfilePage() {
                   <p className="text-sm text-neutral-300 mt-1">
                     {review.comment}
                   </p>
-                  <p className="text-xs text-neutral-500 mt-1">
+                  <p className="text-xs text-neutral-500 mt-1 line-clamp-1">
                     Product: <strong>{review.product.title}</strong>
                   </p>
                 </div>
@@ -147,7 +112,7 @@ export default async function ProfilePage() {
         )}
       </div>
 
-      <div className="mt-10">
+      <div>
         <h2 className="text-lg font-semibold text-white mb-2">Sold Items</h2>
         {user.products.filter((p) => p.status === "SOLD").length === 0 ? (
           <p className="text-neutral-500">

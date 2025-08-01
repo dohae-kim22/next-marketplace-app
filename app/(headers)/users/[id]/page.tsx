@@ -49,14 +49,14 @@ export default async function UserProfile({ params }: UserProfileProps) {
   const reviews = await getReceivedReviews(numericId);
 
   return (
-    <div className="p-5 space-y-6">
+    <div className="container-lg p-5 mb-30 flex flex-col gap-7 md:p-20 md:pt-0 md:mb-10 lg:p-50 lg:pt-10">
       <div className="flex items-center gap-4">
         <div className="size-16 rounded-full overflow-hidden bg-neutral-700">
           <Image
             src={user.avatar || "/default-avatar.png"}
             alt={user.userName}
-            width={64}
-            height={64}
+            width={70}
+            height={70}
             className="w-full h-full object-cover aspect-square"
           />
         </div>
@@ -100,7 +100,7 @@ export default async function UserProfile({ params }: UserProfileProps) {
                   <p className="text-sm text-neutral-300 mt-1">
                     {review.comment}
                   </p>
-                  <p className="text-xs text-neutral-500 mt-1">
+                  <p className="text-xs text-neutral-500 mt-1 line-clamp-1">
                     Product: <strong>{review.product.title}</strong>
                   </p>
                 </div>
