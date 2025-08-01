@@ -80,9 +80,9 @@ export default async function ProductDetail({
   const isOwner = await getIsOwner(product.userId);
 
   return (
-    <div className="flex flex-col gap-3 p-5">
+    <div className="container-lg flex flex-col gap-3 p-5 md:p-20 md:pt-0 lg:p-50 lg:pt-0">
       <div>
-        <div className="relative aspect-square overflow-hidden">
+        <div className="relative overflow-hidden">
           <ProductImageSlider photos={product.photos} />
         </div>
       </div>
@@ -140,7 +140,7 @@ export default async function ProductDetail({
         <h1 className="text-xl font-semibold">{product.title}</h1>
         <p className="text-sm whitespace-pre-line">{product.description}</p>
         {product.location && (
-          <div className="mt-4 flex flex-col gap-2">
+          <div className="mt-5 flex flex-col gap-2 md:mt-7">
             <h2 className="text-sm text-neutral-400 font-semibold">
               Meet-up Location
             </h2>

@@ -20,10 +20,10 @@ export default function ProductImageSlider({
   });
 
   return (
-    <div className="relative">
+    <div className="relative md:size-[500px] mx-auto">
       <div
         ref={sliderRef}
-        className="keen-slider aspect-square overflow-hidden"
+        className="keen-slider aspect-square overflow-hidden rounded-md"
       >
         {photos.map((photo, i) => (
           <div key={i} className="keen-slider__slide relative">
@@ -41,16 +41,16 @@ export default function ProductImageSlider({
         <>
           <button
             onClick={() => slider.current?.prev()}
-            className="absolute flex justify-center items-center left-1 top-1/2 -translate-y-1/2 bg-neutral-600 text-white p-1 rounded-full opacity-80 cursor-pointer"
+            className="absolute flex justify-center items-center left-1 md:-left-12 top-1/2 -translate-y-1/2 bg-neutral-600 text-white p-1 rounded-full opacity-80 cursor-pointer hover:bg-neutral-500"
           >
-            <ChevronLeftIcon className="w-5 h-5" />
+            <ChevronLeftIcon className="size-5 md:size-6" />
           </button>
 
           <button
             onClick={() => slider.current?.next()}
-            className="absolute flex justify-center items-center right-1 top-1/2 -translate-y-1/2 bg-neutral-600 text-white p-1 rounded-full opacity-80 cursor-pointer"
+            className="absolute flex justify-center items-center right-1 md:-right-12 top-1/2 -translate-y-1/2 bg-neutral-600 text-white p-1 rounded-full opacity-80 cursor-pointer hover:bg-neutral-500"
           >
-            <ChevronRightIcon className="w-5 h-5" />
+            <ChevronRightIcon className="size-5 md:size-6" />
           </button>
           <div className="absolute bottom-2 w-full flex justify-center gap-2">
             {photos.map((_, i) => (
