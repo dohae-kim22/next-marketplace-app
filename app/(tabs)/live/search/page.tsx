@@ -35,6 +35,7 @@ export default async function LiveSearchPage({
           id: true,
           title: true,
           streamId: true,
+          description: true,
           user: {
             select: { userName: true },
           },
