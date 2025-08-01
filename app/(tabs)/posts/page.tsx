@@ -66,7 +66,7 @@ export default async function Town() {
   const { posts, user } = await getFilteredPostsByLocation();
 
   return (
-    <div className="p-5 flex flex-col gap-3 mb-30">
+    <div className="container-lg p-5 flex flex-col gap-3 mb-30 md:p-20 md:pt-0">
       <LocationBanner
         location={user?.location ?? undefined}
         radius={user?.radius ?? undefined}

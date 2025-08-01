@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { createComment } from "@/app/posts/[id]/actions";
+import { createComment } from "@/app/(headers)/posts/[id]/actions";
 import { formatToTimeAgo } from "@/lib/utils";
 import Link from "next/link";
 
