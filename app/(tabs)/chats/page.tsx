@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
-import { getMyChatRooms } from "@/app/chats/actions";
+import { getMyChatRooms } from "@/app/(headers)/chats/actions";
 
 export default async function ChatList() {
   const rooms = await getMyChatRooms();
 
   return (
-    <div className="p-5 flex flex-col gap-4">
+    <div className="p-5 flex flex-col gap-4 mx-auto md:max-w-lg">
       <h1 className="text-xl font-semibold text-white mb-px">My Chats</h1>
 
       {rooms.length === 0 ? (
