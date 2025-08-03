@@ -1,9 +1,10 @@
 import CopyButton from "@/components/CopyButton";
 import db from "@/lib/db";
-import { getSession } from "@/lib/session";
+import { getIsOwner } from "@/lib/session";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import DeleteStreamButton from "@/components/DeleteStreamButton";
 
 async function getStream(id: number) {
   return db.liveStream.findUnique({
@@ -37,7 +38,7 @@ export default async function LiveDetail({
   const stream = await getStream(numericId);
   if (!stream) return notFound();
 
-  const session = await getSession();
+  const isOwner = await getIsOwner(stream.userId);
 
   return (
     <div className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto text-white">
@@ -63,13 +64,17 @@ export default async function LiveDetail({
             <UserIcon className="size-6 text-white" />
           </div>
         )}
-        <span className="font-semibold text-base">{stream.user.userName}</span>
+        <span className="font-semibold text-base flex-1">
+          {stream.user.userName}
+        </span>
+
+        {isOwner && <DeleteStreamButton streamId={numericId} />}
       </div>
 
       <h1 className="text-2xl font-bold">{stream.title}</h1>
       {stream.description ? <p>{stream.description}</p> : null}
 
-      {stream.userId === session.id && (
+      {isOwner && (
         <>
           <div className="bg-neutral-800 p-4 rounded-lg border border-yellow-500 space-y-4">
             <div className="flex items-center justify-between gap-2 text-sm">
