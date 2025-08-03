@@ -15,7 +15,7 @@ export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
   const pathname = usePathname();
 
   return (
-    <div className="fixed z-10 bottom-0 flex justify-between w-full mx-auto max-w-sm px-5 py-3 border-neutral-600 border-t bg-neutral-900 md:hidden">
+    <div className="fixed z-10 bottom-0 flex justify-between w-full mx-auto px-5 py-3 border-neutral-600 border-t bg-neutral-900 md:hidden">
       <Link
         href="/products"
         className={`flex flex-col gap-px items-center ${
