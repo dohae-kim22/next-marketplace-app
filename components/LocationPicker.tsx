@@ -39,7 +39,8 @@ export default function LocationPicker({
     address?: string;
   } | null>(null);
   const [center, setCenter] = useState(defaultCenter);
-  const [localErrors, setLocalErrors] = useState<string[]>(errors);
+  const [localErrors, setLocalErrors] = useState<string[]>([]); // 부모와 독립된 에러 상태
+
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -53,24 +54,18 @@ export default function LocationPicker({
   }, []);
 
   useEffect(() => {
-    if (JSON.stringify(localErrors) !== JSON.stringify(errors)) {
-      setLocalErrors(errors);
-    }
-  }, [errors]);
-
-  useEffect(() => {
     if (!isLoaded || !defaultValue || position) return;
 
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ address: defaultValue }, (results, status) => {
       if (status === "OK" && results && results[0]) {
-        const { lat, lng } = results[0].geometry.location;
-        const latNum = typeof lat === "function" ? lat() : lat;
-        const lngNum = typeof lng === "function" ? lng() : lng;
+        const location = results[0].geometry.location;
+        const lat = location.lat();
+        const lng = location.lng();
         const address = results[0].formatted_address;
 
-        const newPosition = { lat: latNum, lng: lngNum, address };
-        setCenter({ lat: latNum, lng: lngNum });
+        const newPosition = { lat, lng, address };
+        setCenter({ lat, lng });
         setPosition(newPosition);
         if (inputRef.current) inputRef.current.value = address;
         onChange(newPosition);
@@ -87,6 +82,18 @@ export default function LocationPicker({
     const lng = place.geometry.location.lng();
     const address = place.formatted_address;
 
+    const countryComponent = place.address_components?.find((c) =>
+      c.types.includes("country")
+    );
+
+    if (countryComponent?.short_name !== "FR") {
+      setPosition(null);
+      onChange({ lat: NaN, lng: NaN, address: undefined });
+      if (inputRef.current) inputRef.current.value = "";
+      setLocalErrors(["Only locations in France are allowed."]);
+      return;
+    }
+
     setCenter({ lat, lng });
     setPosition({ lat, lng, address });
     if (inputRef.current && address) inputRef.current.value = address;
@@ -101,7 +108,21 @@ export default function LocationPicker({
 
     const geocoder = new google.maps.Geocoder();
     const res = await geocoder.geocode({ location: { lat, lng } });
-    const address = res.results[0]?.formatted_address;
+
+    if (!res.results || res.results.length === 0) return;
+
+    const address = res.results[0].formatted_address;
+    const countryComponent = res.results[0].address_components.find((c) =>
+      c.types.includes("country")
+    );
+
+    if (countryComponent?.short_name !== "FR") {
+      setPosition(null);
+      onChange({ lat: NaN, lng: NaN, address: undefined });
+      if (inputRef.current) inputRef.current.value = "";
+      setLocalErrors(["Only locations in France are allowed."]);
+      return;
+    }
 
     setPosition({ lat, lng, address });
     if (inputRef.current && address) inputRef.current.value = address;
@@ -116,26 +137,28 @@ export default function LocationPicker({
       <label className="text-sm font-medium text-neutral-300 lg:text-base">
         Choose a meeting spot on the map
       </label>
+
       <Autocomplete
         onLoad={(ref) => (autocompleteRef.current = ref)}
         onPlaceChanged={onPlaceChanged}
+        options={{
+          componentRestrictions: { country: "fr" },
+        }}
       >
-        <>
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder="Search address..."
-            defaultValue={defaultValue}
-            className="w-full bg-transparent border-none rounded-md focus:outline-none transition h-10 ring-1 ring-neutral-200 focus:ring-2 focus:ring-orange-500 placeholder:text-neutral-400"
-          />
-          {localErrors &&
-            localErrors.map((error) => (
-              <span key={error} className="text-red-500 text-sm">
-                {error}
-              </span>
-            ))}
-        </>
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="Search address..."
+          defaultValue={defaultValue}
+          className="w-full bg-transparent border-none rounded-md focus:outline-none transition h-10 ring-1 ring-neutral-200 focus:ring-2 focus:ring-orange-500 placeholder:text-neutral-400"
+        />
       </Autocomplete>
+
+      {localErrors.map((error) => (
+        <span key={error} className="text-red-500 text-sm">
+          {error}
+        </span>
+      ))}
 
       <GoogleMap
         mapContainerStyle={containerStyle}

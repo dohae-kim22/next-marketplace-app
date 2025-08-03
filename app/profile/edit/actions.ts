@@ -3,7 +3,6 @@
 import { z } from "zod";
 import db from "@/lib/db";
 import { getSession } from "@/lib/session";
-import { redirect } from "next/navigation";
 
 const profileSchema = z.object({
   userName: z
@@ -60,7 +59,7 @@ export async function updateProfile(formData: FormData) {
     },
   });
 
-  redirect("/profile");
+  return { success: true };
 }
 
 // Get Cloudflare Upload URL
