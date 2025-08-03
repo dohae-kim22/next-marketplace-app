@@ -2,8 +2,8 @@ import { PhotoIcon } from "@heroicons/react/24/solid";
 
 export default function Loading() {
   return (
-    <div className="flex flex-col gap-3 animate-pulse p-5">
-      <div className="flex justify-center items-center aspect-square border-neutral-700 text-neutral-700 border-4 border-dashed rounded-md">
+    <div className="animate-pulse container-lg flex flex-col gap-3 p-5 md:p-20 md:pt-0 lg:p-50 lg:pt-0">
+      <div className="flex justify-center items-center aspect-square border-neutral-700 text-neutral-700 border-4 border-dashed rounded-md md:size-[500px] mx-auto">
         <PhotoIcon className="h-22" />
       </div>
       <div className="flex gap-2 items-center">
