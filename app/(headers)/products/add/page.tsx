@@ -191,7 +191,11 @@ export default function AddProduct() {
           Giveaway
         </button>
       </div>
-      <input type="hidden" name="type" value={isFree ? "FREE" : "SALE"} />
+      <input
+        type="hidden"
+        name="type"
+        value={isFree || price === "0" ? "FREE" : "SALE"}
+      />
 
       <FormInput
         name="price"
