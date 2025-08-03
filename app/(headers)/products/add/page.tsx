@@ -14,6 +14,10 @@ export default function AddProduct() {
   const [imageError, setImageError] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [isFree, setIsFree] = useState(false);
+  const [location, setLocation] = useState("");
+  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
+    null
+  );
 
   const handleRemoveImage = (index: number) => {
     setPreviews((prev) => prev.filter((_, i) => i !== index));
@@ -204,20 +208,14 @@ export default function AddProduct() {
       <LocationPicker
         errors={state?.fieldErrors.location}
         onChange={({ lat, lng, address }) => {
-          const loc = {
-            location: address ?? "",
-            latitude: lat,
-            longitude: lng,
-          };
-          const hidden = document.createElement("div");
-          hidden.innerHTML = `
-            <input type="hidden" name="location" value="${loc.location}" />
-            <input type="hidden" name="latitude" value="${loc.latitude}" />
-            <input type="hidden" name="longitude" value="${loc.longitude}" />
-          `;
-          document.forms[0].appendChild(hidden);
+          setLocation(address ?? "");
+          setLatLng({ lat, lng });
         }}
       />
+      <input type="hidden" name="location" value={location} />
+      <input type="hidden" name="latitude" value={latLng?.lat ?? ""} />
+      <input type="hidden" name="longitude" value={latLng?.lng ?? ""} />
+
       <FormButton text="Post" />
     </form>
   );

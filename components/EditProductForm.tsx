@@ -20,6 +20,10 @@ export default function EditProductForm({ product }: { product: any }) {
   );
   const [imageError, setImageError] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+  const [location, setLocation] = useState("");
+  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
+    null
+  );
 
   const [state, formAction] = useActionState(
     async (_: any, formData: FormData) => {
@@ -198,20 +202,14 @@ export default function EditProductForm({ product }: { product: any }) {
         errors={state?.fieldErrors?.location}
         defaultValue={product.location}
         onChange={({ lat, lng, address }) => {
-          const loc = {
-            location: address ?? "",
-            latitude: lat,
-            longitude: lng,
-          };
-          const hidden = document.createElement("div");
-          hidden.innerHTML = `
-            <input type="hidden" name="location" value="${loc.location}" />
-            <input type="hidden" name="latitude" value="${loc.latitude}" />
-            <input type="hidden" name="longitude" value="${loc.longitude}" />
-          `;
-          document.forms[0].appendChild(hidden);
+          setLocation(address ?? "");
+          setLatLng({ lat, lng });
         }}
       />
+
+      <input type="hidden" name="location" value={location} />
+      <input type="hidden" name="latitude" value={latLng?.lat ?? ""} />
+      <input type="hidden" name="longitude" value={latLng?.lng ?? ""} />
 
       <FormButton text="Save Changes" />
     </form>
