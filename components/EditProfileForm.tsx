@@ -182,7 +182,7 @@ export default function EditProfileForm({ user }: { user: any }) {
             setLatLng({ lat, lng });
           }}
           onChange={() => {
-            if (locationError) setLocationError(""); // 입력 시작 시 에러 제거
+            if (locationError) setLocationError("");
           }}
           location={user.location}
         />

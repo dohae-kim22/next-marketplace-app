@@ -7,6 +7,7 @@ import FormInput from "@/components/FormInput";
 import FormTextarea from "@/components/FormTextArea";
 import FormButton from "@/components/FormButton";
 import LocationPicker from "@/components/LocationPicker";
+import CategorySelector from "@/components/CategorySelector";
 
 export default function AddProduct() {
   const [previews, setPreviews] = useState<string[]>([]);
@@ -15,6 +16,7 @@ export default function AddProduct() {
   const [isUploading, setIsUploading] = useState(false);
   const [isFree, setIsFree] = useState(false);
   const [price, setPrice] = useState<string>("");
+  const [category, setCategory] = useState({ main: "", sub: "", subSub: "" });
   const [location, setLocation] = useState("");
   const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
     null
@@ -90,6 +92,10 @@ export default function AddProduct() {
         formData.set("price", "0");
       }
 
+      formData.set("categoryMain", category.main);
+      formData.set("categorySub", category.sub);
+      formData.set("categorySubSub", category.subSub);
+
       return uploadProduct(_, formData);
     },
     null
@@ -163,6 +169,20 @@ export default function AddProduct() {
         errors={state?.fieldErrors.title}
         defaultValue={state?.values?.title as string}
       />
+
+      <CategorySelector
+        onChange={(values) =>
+          setCategory({
+            main: values[0] || "",
+            sub: values[1] || "",
+            subSub: values[2] || "",
+          })
+        }
+        errors={state?.fieldErrors?.categoryMain}
+      />
+      <input type="hidden" name="categoryMain" value={category.main} />
+      <input type="hidden" name="categorySub" value={category.sub} />
+      <input type="hidden" name="categorySubSub" value={category.subSub} />
 
       <div className="flex gap-2 items-center">
         <button
