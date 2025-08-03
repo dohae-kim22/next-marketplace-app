@@ -7,6 +7,7 @@ import FormButton from "@/components/FormButton";
 import { UserIcon, XMarkIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import LocationAutocomplete from "./LocationAutocomplete";
+import { useRouter } from "next/navigation";
 
 const RADIUS_OPTIONS = [5, 10, 30, 50];
 
@@ -25,6 +26,8 @@ export default function EditProfileForm({ user }: { user: any }) {
       : null
   );
 
+  const router = useRouter();
+
   const [state, formAction] = useActionState(
     async (_: any, formData: FormData) => {
       formData.set("avatar", uploadUrl ?? "");
@@ -37,11 +40,22 @@ export default function EditProfileForm({ user }: { user: any }) {
     null
   );
 
+  const [locationError, setLocationError] = useState(
+    state?.fieldErrors?.location ?? ""
+  );
+
+  useEffect(() => {
+    setLocationError(state?.fieldErrors?.location ?? "");
+  }, [state?.fieldErrors?.location]);
+
   useEffect(() => {
     const avatar = state?.values?.avatar;
     if (typeof avatar === "string") {
       setPreview(avatar);
       setUploadUrl(avatar);
+    }
+    if (state && !state.fieldErrors) {
+      router.back();
     }
   }, [state]);
 
@@ -167,10 +181,13 @@ export default function EditProfileForm({ user }: { user: any }) {
             setLocation(address);
             setLatLng({ lat, lng });
           }}
+          onChange={() => {
+            if (locationError) setLocationError(""); // 입력 시작 시 에러 제거
+          }}
           location={user.location}
         />
-        {state?.fieldErrors?.location && (
-          <p className="text-red-500 text-sm">{state.fieldErrors.location}</p>
+        {locationError && (
+          <p className="text-red-500 text-sm">{locationError}</p>
         )}
       </div>
 
@@ -194,7 +211,16 @@ export default function EditProfileForm({ user }: { user: any }) {
         </div>
       </div>
 
-      <FormButton text="Save Changes" />
+      <div className="flex flex-col gap-3 mt-5">
+        <FormButton text="Save Changes" />
+        <button
+          type="button"
+          className="bg-neutral-700 h-10 rounded-md text-center hover:bg-neutral-600"
+          onClick={() => router.back()}
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 }
