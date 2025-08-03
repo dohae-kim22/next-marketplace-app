@@ -18,8 +18,8 @@ export default async function PostSearchPage({
     ? await db.post.findMany({
         where: {
           OR: [
-            { title: { contains: query } },
-            { description: { contains: query } },
+            { title: { contains: query, mode: "insensitive" } },
+            { description: { contains: query, mode: "insensitive" } },
           ],
         },
         orderBy: {
@@ -43,8 +43,8 @@ export default async function PostSearchPage({
     : [];
 
   return (
-    <div className="p-5 space-y-4">
-      <form>
+    <div className="container-lg p-5 flex flex-col gap-3 mb-20">
+      <form className="md:hidden">
         <FormInput
           type="text"
           name="q"

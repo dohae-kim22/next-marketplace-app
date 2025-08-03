@@ -31,7 +31,6 @@ export default async function ChatRoom({
   if (!user) {
     return notFound();
   }
-  console.log(room);
 
   return (
     <div className="flex flex-col mx-auto md:max-w-lg relative">

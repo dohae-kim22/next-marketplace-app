@@ -53,7 +53,5 @@ export async function createComment(
     },
   });
 
-  console.log("add comment");
-
   revalidateTag(`comments-${postId}`);
 }

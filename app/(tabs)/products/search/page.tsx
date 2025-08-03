@@ -1,5 +1,6 @@
 import FormInput from "@/components/FormInput";
 import ListProduct from "@/components/ListProduct";
+import ListProductDesktop from "@/components/ListProductDesktop";
 import db from "@/lib/db";
 
 interface ProductSearchPageProps {
@@ -8,7 +9,9 @@ interface ProductSearchPageProps {
   }>;
 }
 
-export default async function ProductSearchPage({ searchParams }: ProductSearchPageProps) {
+export default async function ProductSearchPage({
+  searchParams,
+}: ProductSearchPageProps) {
   const { q } = await searchParams;
   const query = q?.trim();
 
@@ -19,11 +22,13 @@ export default async function ProductSearchPage({ searchParams }: ProductSearchP
             {
               title: {
                 contains: query,
+                mode: "insensitive",
               },
             },
             {
               description: {
                 contains: query,
+                mode: "insensitive",
               },
             },
           ],
@@ -44,8 +49,8 @@ export default async function ProductSearchPage({ searchParams }: ProductSearchP
     : [];
 
   return (
-    <div className="p-5 space-y-4">
-      <form className="mb-4">
+    <div className="container-lg p-5 flex flex-col gap-3 mb-20">
+      <form className="mb-4 md:hidden">
         <FormInput
           type="text"
           name="q"
@@ -57,11 +62,19 @@ export default async function ProductSearchPage({ searchParams }: ProductSearchP
       {products.length === 0 ? (
         <p className="text-white">No products found.</p>
       ) : (
-        <div className="flex flex-col gap-3">
-          {products.map((product) => (
-            <ListProduct key={product.id} {...product} />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-col gap-3 lg:hidden">
+            {products.map((product) => (
+              <ListProduct key={product.id} {...product} />
+            ))}
+          </div>
+
+          <div className="hidden lg:grid lg:grid-cols-5 gap-6">
+            {products.map((product) => (
+              <ListProductDesktop key={product.id} {...product} />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
