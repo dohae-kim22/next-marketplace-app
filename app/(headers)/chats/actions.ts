@@ -127,7 +127,7 @@ export async function markMessagesAsRead(chatRoomId: string) {
   await db.message.updateMany({
     where: {
       chatRoomId,
-      senderId: { not: session.id }, // 내가 보낸 게 아닌 메시지들만
+      senderId: { not: session.id },
       read: false,
     },
     data: {

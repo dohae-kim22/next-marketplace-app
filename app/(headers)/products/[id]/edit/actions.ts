@@ -23,6 +23,9 @@ const productSchema = z.object({
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),
   type: z.enum(["SALE", "FREE"]),
+  categoryMain: z.string().min(1, "Main category is required."),
+  categorySub: z.string().optional(),
+  categorySubSub: z.string().optional(),
 });
 
 export async function updateProduct(productId: number, formData: FormData) {
@@ -35,6 +38,9 @@ export async function updateProduct(productId: number, formData: FormData) {
     latitude: formData.get("latitude"),
     longitude: formData.get("longitude"),
     type: formData.get("type"),
+    categoryMain: formData.get("categoryMain"),
+    categorySub: formData.get("categorySub"),
+    categorySubSub: formData.get("categorySubSub"),
   };
 
   const result = productSchema.safeParse(data);
@@ -69,6 +75,9 @@ export async function updateProduct(productId: number, formData: FormData) {
       location: result.data.location,
       latitude: result.data.latitude,
       longitude: result.data.longitude,
+      categoryMain: result.data.categoryMain,
+      categorySub: result.data.categorySub || null,
+      categorySubSub: result.data.categorySubSub || null,
     },
   });
 

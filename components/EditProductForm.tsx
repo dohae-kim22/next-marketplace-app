@@ -9,10 +9,16 @@ import FormButton from "@/components/FormButton";
 import LocationPicker from "@/components/LocationPicker";
 import { updateProduct } from "@/app/(headers)/products/[id]/edit/actions";
 import { getUploadURL } from "@/app/(headers)/products/add/actions";
+import CategorySelector from "./CategorySelector";
 
 export default function EditProductForm({ product }: { product: any }) {
   const [isFree, setIsFree] = useState(product.price === 0);
   const [price, setPrice] = useState(product.price.toString());
+  const [category, setCategory] = useState({
+    main: product.categoryMain || "",
+    sub: product.categorySub || "",
+    subSub: product.categorySubSub || "",
+  });
   const [previews, setPreviews] = useState<string[]>(
     product.photos.map((p: any) => p.url)
   );
@@ -30,6 +36,11 @@ export default function EditProductForm({ product }: { product: any }) {
     async (_: any, formData: FormData) => {
       uploadUrls.forEach((url) => formData.append("photos", url));
       if (isFree) formData.set("price", "0");
+
+      formData.set("categoryMain", category.main);
+      formData.set("categorySub", category.sub);
+      formData.set("categorySubSub", category.subSub);
+
       return await updateProduct(product.id, formData);
     },
     null
@@ -155,6 +166,26 @@ export default function EditProductForm({ product }: { product: any }) {
         errors={state?.fieldErrors?.title}
         defaultValue={product.title}
       />
+
+      <CategorySelector
+        defaultValue={[
+          product.categoryMain || "",
+          product.categorySub || "",
+          product.categorySubSub || "",
+        ]}
+        onChange={(values) =>
+          setCategory({
+            main: values[0] || "",
+            sub: values[1] || "",
+            subSub: values[2] || "",
+          })
+        }
+        errors={state?.fieldErrors?.categoryMain}
+      />
+
+      <input type="hidden" name="categoryMain" value={category.main} />
+      <input type="hidden" name="categorySub" value={category.sub} />
+      <input type="hidden" name="categorySubSub" value={category.subSub} />
 
       <div className="flex gap-2 items-center">
         <button

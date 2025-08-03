@@ -39,7 +39,7 @@ export default function LocationPicker({
     address?: string;
   } | null>(null);
   const [center, setCenter] = useState(defaultCenter);
-  const [localErrors, setLocalErrors] = useState<string[]>([]); // 부모와 독립된 에러 상태
+  const [localErrors, setLocalErrors] = useState<string[]>([]); 
 
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);

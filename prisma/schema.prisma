@@ -62,6 +62,9 @@ model Product {
   views       Int           @default(0)
   status      ProductStatus @default(ON_SALE)
   type        ProductType   @default(SALE)
+  categoryMain   String   @default("Uncategorized")
+  categorySub    String?  
+  categorySubSub String?
 
   photos       Photo[]
   productLikes ProductLike[]
