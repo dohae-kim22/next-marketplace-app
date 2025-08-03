@@ -46,7 +46,7 @@ export default async function LiveSearchPage({
     : [];
 
   return (
-    <div className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto">
+    <div className="p-5 flex flex-col gap-5 mb-20 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto">
       <form className="md:hidden">
         <FormInput
           type="text"
