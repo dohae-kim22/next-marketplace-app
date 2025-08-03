@@ -1,7 +1,7 @@
 "use server";
 
 import z from "zod";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import db from "@/lib/db";
 import { redirect } from "next/navigation";
 
@@ -22,6 +22,7 @@ const productSchema = z.object({
   location: z.string(),
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),
+  type: z.enum(["SALE", "FREE"]),
 });
 
 export async function updateProduct(productId: number, formData: FormData) {
@@ -33,6 +34,7 @@ export async function updateProduct(productId: number, formData: FormData) {
     location: formData.get("location"),
     latitude: formData.get("latitude"),
     longitude: formData.get("longitude"),
+    type: formData.get("type"),
   };
 
   const result = productSchema.safeParse(data);
@@ -56,6 +58,7 @@ export async function updateProduct(productId: number, formData: FormData) {
       title: result.data.title,
       description: result.data.description,
       price: result.data.price,
+      type: result.data.type,
       photo: urls[0],
       photos: {
         deleteMany: {},

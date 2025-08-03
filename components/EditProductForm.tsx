@@ -12,6 +12,7 @@ import { getUploadURL } from "@/app/(headers)/products/add/actions";
 
 export default function EditProductForm({ product }: { product: any }) {
   const [isFree, setIsFree] = useState(product.price === 0);
+  const [price, setPrice] = useState(product.price.toString());
   const [previews, setPreviews] = useState<string[]>(
     product.photos.map((p: any) => p.url)
   );
@@ -96,7 +97,10 @@ export default function EditProductForm({ product }: { product: any }) {
   };
 
   return (
-    <form action={formAction} className="p-5 flex flex-col gap-5">
+    <form
+      action={formAction}
+      className="container-lg flex flex-col gap-5 p-5 md:p-20 md:py-5 lg:p-50 lg:py-5"
+    >
       <div className="flex gap-3 flex-wrap">
         {previews.map((preview, i) => (
           <div key={i} className="relative">
@@ -168,6 +172,7 @@ export default function EditProductForm({ product }: { product: any }) {
           type="button"
           onClick={() => {
             setIsFree(true);
+            setPrice("0");
           }}
           className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
             isFree
@@ -178,6 +183,7 @@ export default function EditProductForm({ product }: { product: any }) {
           Giveaway
         </button>
       </div>
+      <input type="hidden" name="type" value={isFree ? "FREE" : "SALE"} />
 
       <FormInput
         name="price"
@@ -188,6 +194,8 @@ export default function EditProductForm({ product }: { product: any }) {
         errors={state?.fieldErrors?.price}
         defaultValue={product.price.toString()}
         disabled={isFree}
+        value={isFree ? "0" : price}
+        onChange={(e) => setPrice(e.target.value)}
       />
 
       <FormTextarea

@@ -14,6 +14,7 @@ export default function AddProduct() {
   const [imageError, setImageError] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [isFree, setIsFree] = useState(false);
+  const [price, setPrice] = useState<string>("");
   const [location, setLocation] = useState("");
   const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
     null
@@ -177,7 +178,10 @@ export default function AddProduct() {
         </button>
         <button
           type="button"
-          onClick={() => setIsFree(true)}
+          onClick={() => {
+            setIsFree(true);
+            setPrice("0");
+          }}
           className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
             isFree
               ? "bg-orange-500 text-neutral-50"
@@ -198,6 +202,8 @@ export default function AddProduct() {
         errors={state?.fieldErrors.price}
         defaultValue={state?.values?.price as string}
         disabled={isFree}
+        value={isFree ? "0" : price}
+        onChange={(e) => setPrice(e.target.value)}
       />
       <FormTextarea
         name="description"
