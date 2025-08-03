@@ -19,7 +19,7 @@ export default function Login() {
   const [state, dispatch] = useActionState(login, initialState);
 
   return (
-    <div className="flex flex-col justify-center px-6 py-8 gap-8">
+    <div className="flex flex-col justify-center px-6 py-8 gap-8 mx-auto md:max-w-lg">
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold">Welcome Back!</h1>
         <h2 className="text-lg font-medium">
@@ -44,7 +44,7 @@ export default function Login() {
           errors={state?.fieldErrors?.password}
           minLength={PASSWORD_MIN_LENGTH}
         />
-        <FormButton text="Log In"/>
+        <FormButton text="Log In" />
       </form>
       <SocialLogin />
     </div>

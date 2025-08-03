@@ -21,7 +21,7 @@ export default function CreateAccount() {
   const [state, dispatch] = useActionState(createAccount, initialState);
 
   return (
-    <div className="flex flex-col justify-center px-6 py-8 gap-8">
+    <div className="flex flex-col justify-center px-6 py-8 gap-8 mx-auto md:max-w-lg">
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold">Welcome!</h1>
         <h2 className="text-lg font-medium">

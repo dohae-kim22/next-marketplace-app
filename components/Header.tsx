@@ -16,7 +16,8 @@ import SearchBar from "./SearchBar";
 
 export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   const pathname = usePathname();
-  const hideSearchAddButton = pathname === "/profile" || pathname === "/chats";
+  const hideSearchAddButton =
+    pathname.startsWith("/profile") || pathname.startsWith("/chats");
 
   const menu = [
     { href: "/products", label: "Marketplace", icon: CurrencyEuroIcon },

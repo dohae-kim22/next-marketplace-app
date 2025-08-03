@@ -182,3 +182,67 @@ export async function completeTradeAction(chatRoomId: string) {
 
   revalidatePath(`/chats/${chatRoomId}`);
 }
+
+export async function getRoom(id: string) {
+  const room = await db.chatRoom.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      buyer: {
+        select: { id: true, userName: true },
+      },
+      seller: {
+        select: { id: true, userName: true },
+      },
+      product: {
+        select: {
+          id: true,
+          title: true,
+          photo: true,
+          price: true,
+          status: true,
+        },
+      },
+    },
+  });
+
+  if (!room) return null;
+
+  const session = await getSession();
+  const sessionId = session.id;
+
+  const canSee = room.buyer.id === sessionId || room.seller.id === sessionId;
+
+  if (!canSee) {
+    return null;
+  }
+
+  return room;
+}
+
+export async function getUserProfile() {
+  const session = await getSession();
+  const user = await db.user.findUnique({
+    where: {
+      id: session.id!,
+    },
+    select: {
+      userName: true,
+      avatar: true,
+    },
+  });
+  return user;
+}
+
+export async function getReviewStatus(chatRoomId: string, userId: number) {
+  const review = await db.review.findUnique({
+    where: {
+      chatRoomId_reviewerId: {
+        chatRoomId,
+        reviewerId: userId,
+      },
+    },
+  });
+  return !!review;
+}

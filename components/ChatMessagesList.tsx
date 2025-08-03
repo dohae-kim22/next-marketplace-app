@@ -4,7 +4,7 @@ import {
   InitialChatMessages,
   markMessagesAsRead,
   saveMessage,
-} from "@/app/chats/actions";
+} from "@/app/(headers)/chats/actions";
 import { formatToTimeAgo } from "@/lib/utils";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
@@ -28,7 +28,13 @@ export default function ChatMessagesList({
   const [messages, setMessages] = useState(initialMessages);
   const [message, setMessage] = useState("");
   const channel = useRef<RealtimeChannel>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -85,6 +91,7 @@ export default function ChatMessagesList({
         setMessages((prevMsgs) => [...prevMsgs, payload.payload]);
       })
       .subscribe();
+
     return () => {
       channel.current?.unsubscribe();
     };
@@ -95,12 +102,12 @@ export default function ChatMessagesList({
   }, [chatRoomId]);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollToBottom();
   }, [messages]);
 
   return (
-    <div className="p-5 flex flex-col gap-5 h-[calc(100vh-174px)] justify-end">
-      <div className="overflow-y-auto hide-scrollbar flex flex-col gap-4">
+    <div className="flex flex-col">
+      <div className="p-5 flex flex-col gap-3 min-h-screen justify-end pb-20">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -146,22 +153,24 @@ export default function ChatMessagesList({
             </div>
           </div>
         ))}
-        <div ref={scrollRef} />
+        <div ref={bottomRef} />
       </div>
-      <form className="flex relative" onSubmit={onSubmit}>
-        <input
-          required
-          onChange={onChange}
-          value={message}
-          className="bg-transparent rounded-full w-full h-10 focus:outline-none px-5 ring-2 focus:ring-4 transition ring-neutral-200 focus:ring-neutral-50 border-none placeholder:text-neutral-400"
-          type="text"
-          name="message"
-          placeholder="Write a message..."
-        />
-        <button className="absolute right-0">
-          <ArrowUpCircleIcon className="size-10 text-orange-500 transition-colors hover:text-orange-300" />
-        </button>
-      </form>
+      <div className="flex items-center justify-center fixed bottom-0 right-0 w-full p-5 bg-neutral-900">
+        <form className="flex relative max-w-lg w-full" onSubmit={onSubmit}>
+          <input
+            required
+            onChange={onChange}
+            value={message}
+            className="bg-transparent rounded-full w-full h-10 focus:outline-none px-5 ring-2 focus:ring-4 transition ring-neutral-200 focus:ring-neutral-50 border-none placeholder:text-neutral-400"
+            type="text"
+            name="message"
+            placeholder="Write a message..."
+          />
+          <button className="absolute right-0">
+            <ArrowUpCircleIcon className="size-10 text-orange-500 transition-colors hover:text-orange-300" />
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

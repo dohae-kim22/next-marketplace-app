@@ -48,9 +48,9 @@ export async function startLive(_: any, formData: FormData) {
       }),
     }
   );
-  console.log(response);
+
   const responseData = await response.json();
-  console.log(responseData);
+  
   const session = await getSession();
   const stream = await db.liveStream.create({
     data: {

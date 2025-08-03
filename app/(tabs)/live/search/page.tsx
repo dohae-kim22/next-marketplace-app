@@ -21,11 +21,13 @@ export default async function LiveSearchPage({
             {
               title: {
                 contains: query,
+                mode: "insensitive",
               },
             },
             {
               description: {
                 contains: query,
+                mode: "insensitive",
               },
             },
           ],
@@ -44,10 +46,8 @@ export default async function LiveSearchPage({
     : [];
 
   return (
-    <div className="p-5 space-y-6">
-      <h1 className="text-2xl font-bold text-white">Search Streams</h1>
-
-      <form className="mb-4">
+    <div className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto">
+      <form className="md:hidden">
         <FormInput
           type="text"
           name="q"
