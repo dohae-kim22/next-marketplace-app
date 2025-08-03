@@ -80,7 +80,7 @@ export default async function ProductDetail({
   const isOwner = await getIsOwner(product.userId);
 
   return (
-    <div className="container-lg flex flex-col gap-3 p-5 md:p-20 md:pt-0 lg:p-50 lg:pt-0">
+    <div className="container-lg flex flex-col gap-3 p-5 md:p-20 md:py-0 lg:p-50 lg:py-0">
       <div>
         <div className="relative overflow-hidden">
           <ProductImageSlider photos={product.photos} />
@@ -153,7 +153,7 @@ export default async function ProductDetail({
         )}
       </div>
 
-      <div className="fixed w-full bottom-0 p-5 left-0 bg-neutral-800 flex gap-2 items-center">
+      <div className="fixed lg:sticky w-full bottom-0 p-5 left-0 bg-neutral-800 flex gap-2 items-center">
         <span className="font-semibold text-xl flex-1">
           €{formatToEuro(product.price)}
         </span>
