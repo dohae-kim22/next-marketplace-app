@@ -63,8 +63,8 @@ export default function EditProfileForm({ user }: { user: any }) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      setImageError("File must be less than 5MB.");
+    if (file.size > 15 * 1024 * 1024) {
+      setImageError("File must be less than 15MB.");
       return;
     }
 
