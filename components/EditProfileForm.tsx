@@ -167,6 +167,7 @@ export default function EditProfileForm({ user }: { user: any }) {
             setLocation(address);
             setLatLng({ lat, lng });
           }}
+          location={user.location}
         />
         {state?.fieldErrors?.location && (
           <p className="text-red-500 text-sm">{state.fieldErrors.location}</p>

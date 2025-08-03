@@ -125,6 +125,7 @@ export default function LocationPicker({
             ref={inputRef}
             type="text"
             placeholder="Search address..."
+            defaultValue={defaultValue}
             className="w-full bg-transparent border-none rounded-md focus:outline-none transition h-10 ring-1 ring-neutral-200 focus:ring-2 focus:ring-orange-500 placeholder:text-neutral-400"
           />
           {localErrors &&

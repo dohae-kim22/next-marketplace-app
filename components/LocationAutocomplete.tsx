@@ -5,8 +5,10 @@ import { useRef } from "react";
 
 export default function LocationAutocomplete({
   onSelect,
+  location,
 }: {
   onSelect: (value: { address: string; lat: number; lng: number }) => void;
+  location?: string;
 }) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
@@ -41,6 +43,7 @@ export default function LocationAutocomplete({
         ref={inputRef}
         placeholder="Enter a location (e.g. Paris)"
         className="w-full border rounded-md px-3 py-2 bg-transparent"
+        defaultValue={location}
       />
     </Autocomplete>
   );

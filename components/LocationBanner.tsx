@@ -21,14 +21,12 @@ export default function LocationBanner({
           : `📍 Showing all locations`}
       </span>
 
-      {!hasLocation && (
-        <Link
-          href="/profile/edit"
-          className="text-xs text-orange-400 hover:underline lg:text-sm"
-        >
-          Set location
-        </Link>
-      )}
+      <Link
+        href="/profile/edit"
+        className="text-xs text-orange-400 hover:underline lg:text-sm"
+      >
+        {hasLocation ? "Edit location" : "Set location"}
+      </Link>
     </div>
   );
 }
