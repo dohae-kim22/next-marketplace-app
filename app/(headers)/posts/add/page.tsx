@@ -32,8 +32,8 @@ export default function AddProduct() {
       return;
     }
 
-    if (file.size > 2 * 1024 * 1024) {
-      setImageError("File must be less than 2MB.");
+    if (file.size > 5 * 1024 * 1024) {
+      setImageError("File must be less than 5MB.");
       setIsUploading(false);
       return;
     }
