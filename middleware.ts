@@ -1,38 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
+import createMiddleware from "next-intl/middleware";
+import { routing } from "./i18n/routing";
 import { getSession } from "./lib/session";
 
-interface Routes {
-  [key: string]: boolean;
-}
+const publicOnlyUrls = [
+  "/",
+  "/login",
+  "/sms",
+  "/create-account",
+  "/api/github/start",
+  "/api/github/complete",
+  "/api/google/start",
+  "/api/google/complete",
+];
 
-const publicOnlyUrls: Routes = {
-  "/": true,
-  "/login": true,
-  "/sms": true,
-  "/create-account": true,
-  "/api/github/start": true,
-  "/api/github/complete": true,
-  "/api/google/start": true,
-  "/api/google/complete": true,
-};
+const intlMiddleware = createMiddleware(routing);
 
 export async function middleware(request: NextRequest) {
-  const session = await getSession();
-  const exist = publicOnlyUrls[request.nextUrl.pathname];
+  const intlResponse = await intlMiddleware(request);
 
-  if (!session.id) {
-    if (!exist) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
-  } else {
-    if (exist) {
-      return NextResponse.redirect(new URL("/products", request.url));
-    }
+  const pathname = request.nextUrl.pathname.replace(/^\/(en|fr)/, "") || "/";
+  const isPublic = publicOnlyUrls.includes(pathname);
+
+  const session = await getSession();
+
+  if (!session.id && !isPublic) {
+    return NextResponse.redirect(
+      new URL(`/${request.nextUrl.locale || "fr"}`, request.url)
+    );
   }
+
+  if (session.id && isPublic) {
+    return NextResponse.redirect(
+      new URL(`/${request.nextUrl.locale || "fr"}/products`, request.url)
+    );
+  }
+
+  return intlResponse;
 }
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

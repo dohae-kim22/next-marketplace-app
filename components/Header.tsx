@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  PlusIcon,
   PlusCircleIcon,
   ChatBubbleOvalLeftEllipsisIcon,
   NewspaperIcon,
@@ -16,35 +15,46 @@ import { usePathname } from "next/navigation";
 import SearchBar from "./SearchBar";
 import MobileNavigationBar from "./MobileNavigationBar";
 import NavigationBar from "./NavigationBar";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   const pathname = usePathname();
+  const t = useTranslations("header");
+
+  const segments = pathname.split("/").filter(Boolean);
+  const locale = segments[0] || "fr";
+  const pathWithoutLocale = segments.slice(1).join("/") || "/";
+
   const hideSearchAddButton =
     pathname.startsWith("/profile") || pathname.startsWith("/chats");
 
   const menu = [
-    { href: "/products", label: "Marketplace", icon: CurrencyEuroIcon },
-    { href: "/posts", label: "My Town", icon: NewspaperIcon },
-    { href: "/live", label: "Live", icon: VideoCameraIcon },
-    { href: "/chats", label: "Chats", icon: ChatBubbleOvalLeftEllipsisIcon },
+    { href: "/products", label: t("menu.products"), icon: CurrencyEuroIcon },
+    { href: "/posts", label: t("menu.posts"), icon: NewspaperIcon },
+    { href: "/live", label: t("menu.live"), icon: VideoCameraIcon },
+    {
+      href: "/chats",
+      label: t("menu.chats"),
+      icon: ChatBubbleOvalLeftEllipsisIcon,
+    },
   ];
 
   let addHref: string | undefined;
-  let addLabel: string | undefined;
   let searchHref: string | undefined;
 
-  if (pathname.startsWith("/products") || pathname.startsWith("/category")) {
-    addHref = "/products/add";
-    addLabel = "Add Product";
-    searchHref = "/products/search";
-  } else if (pathname.startsWith("/posts")) {
-    addHref = "/posts/add";
-    addLabel = "Write Post";
-    searchHref = "/posts/search";
-  } else if (pathname.startsWith("/live")) {
-    addHref = "/live/add";
-    addLabel = "Start Live";
-    searchHref = "/live/search";
+  if (
+    pathWithoutLocale.startsWith("products") ||
+    pathWithoutLocale.startsWith("category")
+  ) {
+    addHref = `/${locale}/products/add`;
+    searchHref = `/${locale}/products/search`;
+  } else if (pathWithoutLocale.startsWith("posts")) {
+    addHref = `/${locale}/posts/add`;
+    searchHref = `/${locale}/posts/search`;
+  } else if (pathWithoutLocale.startsWith("live")) {
+    addHref = `/${locale}/live/add`;
+    searchHref = `/${locale}/live/search`;
   }
 
   return (
@@ -104,15 +114,6 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
         </nav>
 
         <div className="hidden lg:flex items-center gap-4">
-          {!hideSearchAddButton && (
-            <Link
-              href={addHref ?? "#"}
-              className="cursor-pointer flex bg-orange-500 text-white items-center justify-center gap-1 rounded-md py-1 px-2 hover:bg-orange-600"
-            >
-              <PlusIcon className="size-4" />
-              <span>{addLabel}</span>
-            </Link>
-          )}
           <Link href="#">
             <HeartIcon className="size-7 text-white" />
           </Link>
@@ -122,6 +123,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
           >
             <UserIcon className="size-6" />
           </Link>
+          <LanguageSwitcher />
         </div>
       </div>
       <div>

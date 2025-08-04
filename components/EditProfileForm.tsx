@@ -1,13 +1,16 @@
 "use client";
 
 import { useActionState, useEffect, useState, ChangeEvent } from "react";
-import { updateProfile, getUploadURL } from "@/app/profile/edit/actions";
 import FormInput from "@/components/FormInput";
 import FormButton from "@/components/FormButton";
 import { UserIcon, XMarkIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import LocationAutocomplete from "./LocationAutocomplete";
 import { useRouter } from "next/navigation";
+import {
+  getUploadURL,
+  updateProfile,
+} from "@/app/[locale]/profile/edit/actions";
 
 const RADIUS_OPTIONS = [5, 10, 30, 50];
 

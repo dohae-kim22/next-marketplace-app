@@ -1,6 +1,6 @@
 "use client";
 
-import { createChatWithUser } from "@/app/(headers)/users/[id]/actions";
+import { createChatWithUser } from "@/app/[locale]/(headers)/users/[id]/actions";
 import { useTransition } from "react";
 
 export function ChatButton({ userId }: { userId: number }) {

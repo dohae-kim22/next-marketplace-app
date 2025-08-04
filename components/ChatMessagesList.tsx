@@ -4,7 +4,7 @@ import {
   InitialChatMessages,
   markMessagesAsRead,
   saveMessage,
-} from "@/app/(headers)/chats/actions";
+} from "@/app/[locale]/(headers)/chats/actions";
 import { formatToTimeAgo } from "@/lib/utils";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";

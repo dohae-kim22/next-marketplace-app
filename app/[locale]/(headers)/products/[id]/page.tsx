@@ -17,7 +17,7 @@ import LocationMap from "@/components/LocationMap";
 import CopyButton from "@/components/CopyButton";
 import { deleteProduct, toggleSoldStatus } from "./actions";
 import LikeButton from "@/components/LikeButton";
-import { createOrGetChatRoom } from "@/app/(headers)/chats/actions";
+import { createOrGetChatRoom } from "@/app/[locale]/(headers)/chats/actions";
 
 async function getProduct(id: number) {
   const session = await getSession();

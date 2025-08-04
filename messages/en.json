@@ -1,0 +1,34 @@
+{
+  "home": {
+    "logoAlt": "next market logo",
+    "title": "Next Market",
+    "subtitle": "Join your local community marketplace",
+    "createAccount": "Create an account",
+    "alreadyMember": "Already a member?",
+    "signIn": "Sign in"
+  },
+  "header": {
+    "menu": {
+      "products": "Marketplace",
+      "posts": "My Town",
+      "live": "Live",
+      "chats": "Chats"
+    },
+    "searchBar": {
+      "products": "products",
+      "posts": "posts",
+      "live": "live",
+      "searchProducts": "Search products...",
+      "searchPosts": "Search posts...",
+      "searchLive": "Search live...",
+      "addProduct": "Add Product",
+      "writePost": "Write Post",
+      "startLive": "Start Live"
+    }
+  },
+  "locationBanner": {
+    "showingAll": "📍 Showing all locations",
+    "editLocation": "Edit location",
+    "setLocation": "Set location"
+  }
+}

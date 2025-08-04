@@ -1,6 +1,6 @@
 "use client";
 
-import { completeTradeAction } from "@/app/(headers)/chats/actions";
+import { completeTradeAction } from "@/app/[locale]/(headers)/chats/actions";
 import { useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
