@@ -71,9 +71,8 @@ export default async function CategoryPage({
   params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await params;
-  const realSlug = slug.slice(1);
   const [categoryMainSlug, categorySubSlug, categorySubSubSlug] =
-    realSlug || [];
+    slug || [];
 
   const user = await getUserWithLocation();
   const products = await getFilteredProductsByLocation();

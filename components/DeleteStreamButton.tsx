@@ -1,9 +1,8 @@
 "use client";
 
-
 import { useTransition } from "react";
 import { TrashIcon } from "@heroicons/react/24/outline";
-import { deleteStream } from "@/app/(headers)/live/[id]/actions";
+import { deleteStream } from "@/app/[locale]/(headers)/live/[id]/actions";
 
 export default function DeleteStreamButton({ streamId }: { streamId: number }) {
   const [isPending, startTransition] = useTransition();

@@ -1,6 +1,6 @@
 "use client";
 
-import { createReview } from "@/app/reviews/add/actions";
+import { createReview } from "@/app/[locale]/reviews/add/actions";
 import { useState, useTransition } from "react";
 
 interface Props {

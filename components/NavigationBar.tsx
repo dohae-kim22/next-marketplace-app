@@ -3,8 +3,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import { mainCategories } from "@/constants/categories";
+import { usePathname } from "next/navigation";
 
 export default function NavigationBar() {
+  const pathname = usePathname();
+  const segments = pathname.split("/").filter(Boolean);
+  const currentLocale = segments[0] === "fr" ? "fr" : "en";
+
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [activeSubCategory, setActiveSubCategory] = useState<number | null>(
     null
@@ -68,7 +73,7 @@ export default function NavigationBar() {
                   : "text-neutral-200 hover:text-orange-400"
               }`}
             >
-              {category.name.en}
+              {category.name[currentLocale]}
             </Link>
           </div>
         ))}
@@ -99,7 +104,7 @@ export default function NavigationBar() {
                   }`}
                   onMouseEnter={(e) => handleSubEnter(subIdx, e)}
                 >
-                  {subCat.name.en}
+                  {subCat.name[currentLocale]}
                 </Link>
               ))}
             </div>
@@ -128,7 +133,7 @@ export default function NavigationBar() {
                     )}/${encodeURIComponent(subSubCat.slug)}`}
                     className="block px-4 py-2 text-neutral-200 hover:bg-neutral-800 hover:text-orange-400 transition-colors"
                   >
-                    {subSubCat.name.en}
+                    {subSubCat.name[currentLocale]}
                   </Link>
                 ))}
               </div>

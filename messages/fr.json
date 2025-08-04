@@ -1,0 +1,34 @@
+{
+  "home": {
+    "logoAlt": "logo du marché next",
+    "title": "Next Market",
+    "subtitle": "Rejoignez votre marché communautaire local",
+    "createAccount": "Créer un compte",
+    "alreadyMember": "Déjà membre ?",
+    "signIn": "Se connecter"
+  },
+  "header": {
+    "menu": {
+      "products": "Marché",
+      "posts": "Ma Ville",
+      "live": "En Direct",
+      "chats": "Discussions"
+    },
+    "searchBar": {
+      "products": "produits",
+      "posts": "articles",
+      "live": "direct",
+      "searchProducts": "Rechercher des produits...",
+      "searchPosts": "Rechercher des posts...",
+      "searchLive": "Rechercher des lives...",
+      "addProduct": "Ajouter un produit",
+      "writePost": "Écrire un post",
+      "startLive": "Démarrer le direct"
+    }
+  },
+  "locationBanner": {
+    "showingAll": "📍 Affichage de tous les lieux",
+    "editLocation": "Modifier la localisation",
+    "setLocation": "Définir la localisation"
+  }
+}

@@ -1,6 +1,12 @@
 "use client";
 
-import { ArrowRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowRightIcon,
+  ChevronDownIcon,
+  PlusIcon,
+} from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -11,9 +17,37 @@ const categories: SearchCategory[] = ["products", "posts", "live"];
 export default function SearchBar() {
   const router = useRouter();
   const pathname = usePathname();
+  const segments = pathname.split("/").filter(Boolean);
+  const locale = segments[0] || "fr";
+  const pathWithoutLocale = segments.slice(1).join("/") || "/";
   const [term, setTerm] = useState("");
   const [category, setCategory] = useState<SearchCategory>("products");
   const [open, setOpen] = useState(false);
+  const t = useTranslations("header.searchBar");
+
+  const hideAddButton =
+    pathname.startsWith("/profile") || pathname.startsWith("/chats");
+
+  let addHref: string | undefined;
+  let addLabel: string | undefined;
+  let searchHref: string | undefined;
+
+  if (
+    pathWithoutLocale.startsWith("products") ||
+    pathWithoutLocale.startsWith("category")
+  ) {
+    addHref = `/${locale}/products/add`;
+    addLabel = t("addProduct");
+    searchHref = `/${locale}/products/search`;
+  } else if (pathWithoutLocale.startsWith("posts")) {
+    addHref = `/${locale}/posts/add`;
+    addLabel = t("writePost");
+    searchHref = `/${locale}/posts/search`;
+  } else if (pathWithoutLocale.startsWith("live")) {
+    addHref = `/${locale}/live/add`;
+    addLabel = t("startLive");
+    searchHref = `/${locale}/live/search`;
+  }
 
   const prevRootRef = useRef<string>("");
 
@@ -25,7 +59,7 @@ export default function SearchBar() {
   };
 
   useEffect(() => {
-    const root = pathname.split("/")[1] || "";
+    const root = pathname.split("/")[2] || "";
 
     if (root === "posts") {
       setCategory("posts");
@@ -43,55 +77,68 @@ export default function SearchBar() {
   }, [pathname]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="hidden lg:flex items-center w-full max-w-3xl mx-auto px-4 py-2 relative"
-    >
-      <div>
+    <div className="flex items-center">
+      <form
+        onSubmit={handleSubmit}
+        className="hidden lg:flex items-center w-full max-w-3xl mx-auto px-4 py-2 relative"
+      >
+        <div>
+          <button
+            type="button"
+            onClick={() => setOpen((prev) => !prev)}
+            className="flex items-center gap-1 pl-5 pr-3 py-2 bg-neutral-800 text-white rounded-l-full border border-neutral-600"
+          >
+            {t(category)}
+            <ChevronDownIcon className="size-4" />
+          </button>
+
+          {open && (
+            <div className="absolute left-[22px] top-full mt-0 w-26 bg-neutral-800 border border-neutral-600 rounded-lg shadow-lg z-50">
+              {categories.map((c) => (
+                <div
+                  key={c}
+                  onClick={() => {
+                    setCategory(c);
+                    setOpen(false);
+                  }}
+                  className={`px-4 py-2 cursor-pointer hover:bg-neutral-700 ${
+                    category === c ? "text-orange-400" : "text-white"
+                  }`}
+                >
+                  {c}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <input
+          type="text"
+          placeholder={t(
+            `search${category.charAt(0).toUpperCase() + category.slice(1)}`
+          )}
+          value={term}
+          onChange={(e) => setTerm(e.target.value)}
+          className="flex-1 pl-4 pr-12 py-2 rounded-r-full bg-neutral-800 text-white border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
+        />
         <button
-          type="button"
-          onClick={() => setOpen((prev) => !prev)}
-          className="flex items-center gap-1 pl-5 pr-3 py-2 bg-neutral-800 text-white rounded-l-full border border-neutral-600"
-        >
-          {category}
-          <ChevronDownIcon className="size-4" />
-        </button>
-
-        {open && (
-          <div className="absolute left-[22px] top-full mt-0 w-26 bg-neutral-800 border border-neutral-600 rounded-lg shadow-lg z-50">
-            {categories.map((c) => (
-              <div
-                key={c}
-                onClick={() => {
-                  setCategory(c);
-                  setOpen(false);
-                }}
-                className={`px-4 py-2 cursor-pointer hover:bg-neutral-700 ${
-                  category === c ? "text-orange-400" : "text-white"
-                }`}
-              >
-                {c}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <input
-        type="text"
-        placeholder={`Search ${category}...`}
-        value={term}
-        onChange={(e) => setTerm(e.target.value)}
-        className="flex-1 pl-4 pr-12 py-2 rounded-r-full bg-neutral-800 text-white border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
-      />
-      <button
-        type="submit"
-        className="absolute right-6
+          type="submit"
+          className="absolute right-6
         
         ml-2 px-1 py-1 bg-orange-500 text-white rounded-full hover:bg-orange-600"
-      >
-        <ArrowRightIcon className="size-5" />
-      </button>
-    </form>
+        >
+          <ArrowRightIcon className="size-5" />
+        </button>
+      </form>
+      {!hideAddButton && (
+        <Link
+          href={addHref ?? "#"}
+          className="absolute right-5 cursor-pointer flex bg-orange-500 text-white items-center justify-center gap-1 rounded-md py-1 px-2 hover:bg-orange-600"
+        >
+          <PlusIcon className="size-4" />
+          <span>{addLabel}</span>
+        </Link>
+      )}
+    </div>
   );
 }

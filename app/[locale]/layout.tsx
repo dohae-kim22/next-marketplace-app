@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Audiowide } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
+import { NextIntlClientProvider, useMessages } from "next-intl";
+import { notFound } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,17 +29,24 @@ export const metadata: Metadata = {
     "A community marketplace app where users can buy and sell locally with ease.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode;
-}>) {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  if (!["fr", "en"].includes(locale)) notFound();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${audioWide.variable} antialiased bg-neutral-900 text-white`}
       >
-        {children}
+        <NextIntlClientProvider locale={locale}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

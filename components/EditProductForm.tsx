@@ -7,8 +7,8 @@ import FormInput from "@/components/FormInput";
 import FormTextarea from "@/components/FormTextArea";
 import FormButton from "@/components/FormButton";
 import LocationPicker from "@/components/LocationPicker";
-import { updateProduct } from "@/app/(headers)/products/[id]/edit/actions";
-import { getUploadURL } from "@/app/(headers)/products/add/actions";
+import { updateProduct } from "@/app/[locale]/(headers)/products/[id]/edit/actions";
+import { getUploadURL } from "@/app/[locale]/(headers)/products/add/actions";
 import CategorySelector from "./CategorySelector";
 
 export default function EditProductForm({ product }: { product: any }) {

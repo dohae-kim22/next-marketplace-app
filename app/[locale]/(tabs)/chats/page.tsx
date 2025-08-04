@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
-import { getMyChatRooms } from "@/app/(headers)/chats/actions";
+import { getMyChatRooms } from "@/app/[locale]/(headers)/chats/actions";
 
 export default async function ChatList() {
   const rooms = await getMyChatRooms();
