@@ -22,7 +22,7 @@ const productSchema = z.object({
   location: z.string("Location is required."),
   latitude: z.coerce.number("Latitude is required."),
   longitude: z.coerce.number("Longitude is required."),
-  type: z.enum(["SALE", "FREE"]),
+  type: z.enum(["SALE", "FREE", "WANTED"]),
   categoryMain: z.string().min(1, "Main category is required."),
   categorySub: z.string().optional(),
   categorySubSub: z.string().optional(),
