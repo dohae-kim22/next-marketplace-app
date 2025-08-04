@@ -13,6 +13,7 @@ import CategorySelector from "./CategorySelector";
 
 export default function EditProductForm({ product }: { product: any }) {
   const [isFree, setIsFree] = useState(product.price === 0);
+  const [type, setType] = useState<"SALE" | "FREE" | "WANTED">("SALE");
   const [price, setPrice] = useState(product.price.toString());
   const [category, setCategory] = useState({
     main: product.categoryMain || "",
@@ -190,35 +191,45 @@ export default function EditProductForm({ product }: { product: any }) {
       <div className="flex gap-2 items-center">
         <button
           type="button"
-          onClick={() => setIsFree(false)}
+          onClick={() => setType("SALE")}
           className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
-            !isFree
-              ? "bg-orange-500 text-neutral-50"
-              : "bg-neutral-50 text-neutral-700"
+            type === "SALE"
+              ? "bg-orange-500 text-neutral-100"
+              : "bg-neutral-100 text-neutral-700"
           }`}
         >
           For Sale
         </button>
+
         <button
           type="button"
           onClick={() => {
-            setIsFree(true);
+            setType("FREE");
             setPrice("0");
           }}
           className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
-            isFree
-              ? "bg-orange-500 text-neutral-50"
-              : "bg-neutral-50 text-neutral-700"
+            type === "FREE"
+              ? "bg-orange-500 text-neutral-100"
+              : "bg-neutral-100 text-neutral-700"
           }`}
         >
-          Giveaway
+          Free Giveaway
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setType("WANTED")}
+          className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
+            type === "WANTED"
+              ? "bg-orange-500 text-neutral-100"
+              : "bg-neutral-100 text-neutral-700"
+          }`}
+        >
+          Wanted
         </button>
       </div>
-      <input
-        type="hidden"
-        name="type"
-        value={isFree || price === "0" ? "FREE" : "SALE"}
-      />
+
+      <input type="hidden" name="type" value={price === "0" ? "FREE" : type} />
 
       <FormInput
         name="price"

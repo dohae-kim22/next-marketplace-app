@@ -47,6 +47,7 @@ enum ProductStatus {
 enum ProductType {
   SALE
   FREE
+  WANTED
 }
 
 model Product {

@@ -15,6 +15,7 @@ export default function AddProduct() {
   const [imageError, setImageError] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [isFree, setIsFree] = useState(false);
+  const [type, setType] = useState<"SALE" | "FREE" | "WANTED">("SALE");
   const [price, setPrice] = useState<string>("");
   const [category, setCategory] = useState({ main: "", sub: "", subSub: "" });
   const [location, setLocation] = useState("");
@@ -112,7 +113,7 @@ export default function AddProduct() {
       action={dispatch}
       className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto"
     >
-      <h1 className="text-neutral-300 font-medium text-xl">Sell an item</h1>
+      <h1 className="text-neutral-300 font-medium text-xl">Add an item</h1>
       <div className="flex gap-3 flex-wrap">
         {previews.map((preview, i) => (
           <div key={i} className="relative">
@@ -187,35 +188,45 @@ export default function AddProduct() {
       <div className="flex gap-2 items-center">
         <button
           type="button"
-          onClick={() => setIsFree(false)}
+          onClick={() => setType("SALE")}
           className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
-            !isFree
-              ? "bg-orange-500 text-neutral-50"
-              : "bg-neutral-50 text-neutral-700"
+            type === "SALE"
+              ? "bg-orange-500 text-neutral-100"
+              : "bg-neutral-100 text-neutral-700"
           }`}
         >
           For Sale
         </button>
+
         <button
           type="button"
           onClick={() => {
-            setIsFree(true);
+            setType("FREE");
             setPrice("0");
           }}
           className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
-            isFree
-              ? "bg-orange-500 text-neutral-50"
-              : "bg-neutral-50 text-neutral-700"
+            type === "FREE"
+              ? "bg-orange-500 text-neutral-100"
+              : "bg-neutral-100 text-neutral-700"
           }`}
         >
-          Giveaway
+          Free Giveaway
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setType("WANTED")}
+          className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
+            type === "WANTED"
+              ? "bg-orange-500 text-neutral-100"
+              : "bg-neutral-100 text-neutral-700"
+          }`}
+        >
+          Wanted
         </button>
       </div>
-      <input
-        type="hidden"
-        name="type"
-        value={isFree || price === "0" ? "FREE" : "SALE"}
-      />
+
+      <input type="hidden" name="type" value={price === "0" ? "FREE" : type} />
 
       <FormInput
         name="price"

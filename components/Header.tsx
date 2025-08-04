@@ -35,7 +35,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
 
   if (pathname.startsWith("/products") || pathname.startsWith("/category")) {
     addHref = "/products/add";
-    addLabel = "Sell Product";
+    addLabel = "Add Product";
     searchHref = "/products/search";
   } else if (pathname.startsWith("/posts")) {
     addHref = "/posts/add";
