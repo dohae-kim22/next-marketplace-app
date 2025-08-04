@@ -51,11 +51,11 @@ export default function MobileNavigationBar() {
             <div key={idx} className=" pb-2">
               <div className="flex justify-between items-center">
                 <Link
-                  href={`/category/${encodeURIComponent(category.name)}`}
-                  className="flex-1 py-2 text-neutral-200 text-base font-medium hover:text-orange-400 transition-colors"
+                  href={`/category/${encodeURIComponent(category.slug)}`}
+                  className="flex-1 py-2 text-neutral-200 text-lg font-medium hover:text-orange-400 transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >
-                  {category.name}
+                  {category.name.en}
                 </Link>
                 {category.sub && (
                   <button
@@ -81,12 +81,12 @@ export default function MobileNavigationBar() {
                     <div className="flex justify-between items-center">
                       <Link
                         href={`/category/${encodeURIComponent(
-                          category.name
-                        )}/${encodeURIComponent(subCat.name)}`}
+                          category.slug
+                        )}/${encodeURIComponent(subCat.slug)}`}
                         className="flex-1 py-2 text-neutral-300 hover:text-orange-400 transition-colors"
                         onClick={() => setMenuOpen(false)}
                       >
-                        {subCat.name}
+                        {subCat.name.en}
                       </Link>
                       {subCat.sub && (
                         <button
@@ -111,14 +111,14 @@ export default function MobileNavigationBar() {
                         <Link
                           key={subSubIdx}
                           href={`/category/${encodeURIComponent(
-                            category.name
+                            category.slug
                           )}/${encodeURIComponent(
-                            subCat.name
-                          )}/${encodeURIComponent(subSubCat.name)}`}
+                            subCat.slug
+                          )}/${encodeURIComponent(subSubCat.slug)}`}
                           className="block py-2 text-neutral-400 hover:text-orange-400 transition-colors"
                           onClick={() => setMenuOpen(false)}
                         >
-                          {subSubCat.name}
+                          {subSubCat.name.en}
                         </Link>
                       ))}
                     </div>

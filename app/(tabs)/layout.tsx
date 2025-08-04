@@ -10,7 +10,6 @@ export default async function TabLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Header unreadCount={unreadCount} />
-      <NavigationBar />
       {children}
       <TabBar unreadCount={unreadCount} />
     </>

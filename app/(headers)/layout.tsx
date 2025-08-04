@@ -13,7 +13,6 @@ export default async function HeaderLayout({
   return (
     <>
       <Header unreadCount={unreadCount} />
-      <NavigationBar />
       {children}
     </>
   );
