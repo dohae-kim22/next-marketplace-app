@@ -48,7 +48,7 @@ export default function NavigationBar() {
   };
 
   return (
-    <nav className="w-full mb-5 bg-neutral-900 border-b border-neutral-700 shadow-sm relative hidden lg:block">
+    <nav className="w-full bg-neutral-900 border-b border-neutral-700 shadow-sm relative hidden lg:block">
       <div className="flex container mx-auto h-14 items-center overflow-x-auto hide-scrollbar">
         {mainCategories.map((category, idx) => (
           <div
@@ -61,14 +61,14 @@ export default function NavigationBar() {
             }}
           >
             <Link
-              href={`/category/${encodeURIComponent(category.name)}`}
+              href={`/category/${encodeURIComponent(category.slug)}`}
               className={`px-4 py-3 whitespace-nowrap block transition-colors ${
                 activeCategory === idx
                   ? "text-orange-400"
                   : "text-neutral-200 hover:text-orange-400"
               }`}
             >
-              {category.name}
+              {category.name.en}
             </Link>
           </div>
         ))}
@@ -90,8 +90,8 @@ export default function NavigationBar() {
                 <Link
                   key={subIdx}
                   href={`/category/${encodeURIComponent(
-                    mainCategories[activeCategory].name
-                  )}/${encodeURIComponent(subCat.name)}`}
+                    mainCategories[activeCategory].slug
+                  )}/${encodeURIComponent(subCat.slug)}`}
                   className={`block px-4 py-2 text-neutral-200 hover:bg-neutral-800 hover:text-orange-400 transition-colors ${
                     activeSubCategory === subIdx
                       ? "bg-neutral-800 text-orange-400"
@@ -99,7 +99,7 @@ export default function NavigationBar() {
                   }`}
                   onMouseEnter={(e) => handleSubEnter(subIdx, e)}
                 >
-                  {subCat.name}
+                  {subCat.name.en}
                 </Link>
               ))}
             </div>
@@ -121,14 +121,14 @@ export default function NavigationBar() {
                   <Link
                     key={subSubIdx}
                     href={`/category/${encodeURIComponent(
-                      mainCategories[activeCategory].name
+                      mainCategories[activeCategory].slug
                     )}/${encodeURIComponent(
                       mainCategories[activeCategory].sub![activeSubCategory]
-                        .name
-                    )}/${encodeURIComponent(subSubCat.name)}`}
+                        .slug
+                    )}/${encodeURIComponent(subSubCat.slug)}`}
                     className="block px-4 py-2 text-neutral-200 hover:bg-neutral-800 hover:text-orange-400 transition-colors"
                   >
-                    {subSubCat.name}
+                    {subSubCat.name.en}
                   </Link>
                 ))}
               </div>

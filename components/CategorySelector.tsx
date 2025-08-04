@@ -27,8 +27,8 @@ export default function CategorySelector({
     const newPath: number[] = [];
     let currentLevel = mainCategories as Category[];
 
-    for (const name of defaultValue) {
-      const idx = currentLevel.findIndex((c) => c.name === name);
+    for (const id of defaultValue) {
+      const idx = currentLevel.findIndex((c) => c.id === id);
       if (idx === -1) break;
       newPath.push(idx);
       currentLevel = currentLevel[idx].sub || [];
@@ -36,7 +36,6 @@ export default function CategorySelector({
 
     if (newPath.length > 0) {
       setPath(newPath);
-      console.log(newPath);
       onChange(defaultValue);
     }
   }, []);
@@ -75,7 +74,7 @@ export default function CategorySelector({
     return path.map((idx) => {
       const category = currentLevel[idx];
       currentLevel = category.sub || [];
-      return category.name;
+      return category.name.en;
     });
   };
 
@@ -84,15 +83,15 @@ export default function CategorySelector({
     const selected = currentLevel[idx];
     const newPath = [...path, idx];
 
-    const selectedNames: string[] = [];
+    const selectedIds: string[] = [];
     let levelCats = mainCategories as Category[];
     for (const i of newPath) {
       const cat = levelCats[i];
-      selectedNames.push(cat.name);
+      selectedIds.push(cat.id);
       levelCats = cat.sub || [];
     }
 
-    onChange(selectedNames);
+    onChange(selectedIds);
 
     if (selected.sub && selected.sub.length > 0) {
       setPath(newPath);
@@ -105,7 +104,6 @@ export default function CategorySelector({
 
   const handleBack = () => {
     setPath((prev) => prev.slice(0, -1));
-    console.log("back");
   };
 
   const currentCategories = getCurrentLevelCategories();
@@ -117,11 +115,11 @@ export default function CategorySelector({
   };
 
   return (
-    <div className="relative w-64" ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       <button
         onClick={handleButtonClick}
         type="button"
-        className="w-full border px-4 py-2 rounded bg-neutral-900 text-left shadow"
+        className="w-full border border-neutral-200 px-4 py-2 rounded-md bg-neutral-900 text-left shadow"
       >
         {selectedNames.length === 0
           ? "Select Category"
@@ -133,7 +131,7 @@ export default function CategorySelector({
           {path.length > 0 && (
             <div
               onClick={handleBack}
-              className="px-4 py-2 text-blue-500 cursor-pointer hover:bg-neutral-800 border-b"
+              className="px-4 py-2 text-orange-500 cursor-pointer hover:bg-neutral-800 border-b"
             >
               ← Back
             </div>
@@ -146,7 +144,7 @@ export default function CategorySelector({
                 onClick={() => handleSelect(idx)}
                 className="px-4 py-2 hover:bg-neutral-800 cursor-pointer flex justify-between items-center"
               >
-                <span>{cat.name}</span>
+                <span>{cat.name.en}</span>
                 {cat.sub && cat.sub.length > 0 && (
                   <span className="text-gray-400">›</span>
                 )}

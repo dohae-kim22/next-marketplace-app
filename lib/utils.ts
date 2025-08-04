@@ -73,3 +73,11 @@ export function getDistanceFromLatLonInKm(
 function deg2rad(deg: number) {
   return deg * (Math.PI / 180);
 }
+
+export function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}

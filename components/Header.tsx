@@ -15,6 +15,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SearchBar from "./SearchBar";
 import MobileNavigationBar from "./MobileNavigationBar";
+import NavigationBar from "./NavigationBar";
 
 export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   const pathname = usePathname();
@@ -32,7 +33,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   let addLabel: string | undefined;
   let searchHref: string | undefined;
 
-  if (pathname.startsWith("/products")) {
+  if (pathname.startsWith("/products") || pathname.startsWith("/category")) {
     addHref = "/products/add";
     addLabel = "Sell Product";
     searchHref = "/products/search";
@@ -125,6 +126,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
       </div>
       <div>
         <SearchBar />
+        <NavigationBar />
       </div>
     </div>
   );
