@@ -45,7 +45,7 @@ export default function SearchBar() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="hidden md:flex items-center w-full max-w-3xl mx-auto mb-5 px-4 py-2 relative"
+      className="hidden lg:flex items-center w-full max-w-3xl mx-auto px-4 py-2 relative"
     >
       <div>
         <button

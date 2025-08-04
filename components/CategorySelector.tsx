@@ -36,6 +36,7 @@ export default function CategorySelector({
 
     if (newPath.length > 0) {
       setPath(newPath);
+      console.log(newPath);
       onChange(defaultValue);
     }
   }, []);
