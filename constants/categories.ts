@@ -5,68 +5,33 @@ export interface Category {
 
 export const mainCategories: Category[] = [
   {
-    name: "Men's Fashion",
+    name: "Women",
     sub: [
       {
-        name: "Tops",
+        name: "Top",
         sub: [
           { name: "T-Shirts" },
           { name: "Shirts" },
           { name: "Sweaters" },
+          { name: "Hoodies" },
           { name: "Jackets" },
+          { name: "Coats" },
           { name: "Other" },
         ],
       },
       {
-        name: "Bottoms",
+        name: "Bottom",
         sub: [
           { name: "Jeans" },
           { name: "Pants" },
           { name: "Shorts" },
-          { name: "Other" },
-        ],
-      },
-      {
-        name: "Shoes",
-        sub: [
-          { name: "Sneakers" },
-          { name: "Formal Shoes" },
-          { name: "Boots" },
-          { name: "Other" },
-        ],
-      },
-      {
-        name: "Accessories",
-        sub: [
-          { name: "Watches" },
-          { name: "Bags" },
-          { name: "Hats" },
-          { name: "Other" },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Women's Fashion",
-    sub: [
-      {
-        name: "Tops",
-        sub: [
-          { name: "Blouses" },
-          { name: "T-Shirts" },
-          { name: "Sweaters" },
-          { name: "Jackets" },
-          { name: "Other" },
-        ],
-      },
-      {
-        name: "Bottoms",
-        sub: [
-          { name: "Jeans" },
           { name: "Skirts" },
-          { name: "Pants" },
           { name: "Other" },
         ],
+      },
+      {
+        name: "Dresses",
+        sub: [{ name: "Casual" }, { name: "Formal" }],
       },
       {
         name: "Shoes",
@@ -82,92 +47,117 @@ export const mainCategories: Category[] = [
         name: "Accessories",
         sub: [
           { name: "Bags" },
+          { name: "Belts" },
+          { name: "Watches" },
+          { name: "Hats" },
           { name: "Jewelry" },
-          { name: "Hats & Scarves" },
+          { name: "Hair Accessories" },
+          { name: "Hats" },
           { name: "Other" },
         ],
       },
     ],
   },
   {
-    name: "Electronics",
+    name: "Men",
     sub: [
       {
-        name: "Phones & Tablets",
+        name: "Top",
         sub: [
-          { name: "Mobile Phones" },
-          { name: "Tablets" },
-          { name: "Accessories" },
+          { name: "T-Shirts" },
+          { name: "Shirts" },
+          { name: "Sweaters" },
+          { name: "Hoodies" },
+          { name: "Jackets" },
+          { name: "Coats" },
           { name: "Other" },
         ],
       },
       {
-        name: "Computers",
+        name: "Bottom",
         sub: [
-          { name: "Laptops" },
-          { name: "Desktops" },
-          { name: "Monitors" },
+          { name: "Jeans" },
+          { name: "Pants" },
+          { name: "Shorts" },
           { name: "Other" },
         ],
       },
       {
-        name: "Cameras",
+        name: "Shoes",
         sub: [
-          { name: "DSLR" },
-          { name: "Mirrorless" },
-          { name: "Compact" },
+          { name: "Sneakers" },
+          { name: "Dress Shoes" },
+          { name: "Boots" },
           { name: "Other" },
         ],
       },
       {
-        name: "Audio",
+        name: "Accessories",
         sub: [
-          { name: "Headphones" },
-          { name: "Speakers" },
-          { name: "Home Audio" },
+          { name: "Bags" },
+          { name: "Belts" },
+          { name: "Watches" },
+          { name: "Jewelry" },
+          { name: "Hats" },
           { name: "Other" },
         ],
       },
     ],
   },
   {
-    name: "Cars & Motorbikes",
+    name: "Baby & Kids",
     sub: [
       {
-        name: "Cars",
+        name: "Clothing",
         sub: [
-          { name: "Sedans" },
-          { name: "SUVs" },
-          { name: "Electric Cars" },
-          { name: "Classic Cars" },
+          { name: "0–2Y" },
+          { name: "3–5Y" },
+          { name: "6–12Y" },
           { name: "Other" },
         ],
       },
       {
-        name: "Motorbikes",
+        name: "Toys",
         sub: [
-          { name: "Scooters" },
-          { name: "Sport Bikes" },
-          { name: "Cruisers" },
+          { name: "Educational" },
+          { name: "Plush" },
+          { name: "Outdoor" },
           { name: "Other" },
         ],
       },
       {
-        name: "Bicycles & Scooters",
+        name: "Gear",
         sub: [
-          { name: "Mountain Bikes" },
-          { name: "Road Bikes" },
-          { name: "E-Bikes" },
-          { name: "Kick Scooters" },
+          { name: "Strollers" },
+          { name: "Car Seats" },
+          { name: "High Chairs" },
+          { name: "Other" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Beauty & Personal Care",
+    sub: [
+      {
+        name: "Skincare",
+        sub: [{ name: "Face" }, { name: "Body" }, { name: "Other" }],
+      },
+      {
+        name: "Haircare",
+        sub: [
+          { name: "Shampoo" },
+          { name: "Styling" },
+          { name: "Tools" },
           { name: "Other" },
         ],
       },
       {
-        name: "Vehicle Accessories",
+        name: "Makeup",
         sub: [
-          { name: "Tires" },
-          { name: "Helmets" },
-          { name: "Tools & Parts" },
+          { name: "Eyes" },
+          { name: "Lips" },
+          { name: "Face" },
           { name: "Other" },
         ],
       },
@@ -242,32 +232,35 @@ export const mainCategories: Category[] = [
     ],
   },
   {
-    name: "Books",
+    name: "Electronics",
     sub: [
       {
-        name: "Fiction",
+        name: "Mobile Devices",
         sub: [
-          { name: "Novels" },
-          { name: "Short Stories" },
-          { name: "Fantasy" },
+          { name: "Mobile Phones" },
+          { name: "Tablets" },
+          { name: "Smartwatches" },
+          { name: "Accessories" },
           { name: "Other" },
         ],
       },
       {
-        name: "Non-Fiction",
+        name: "Computers",
         sub: [
-          { name: "History" },
-          { name: "Science" },
-          { name: "Self-Help" },
+          { name: "Laptops" },
+          { name: "Desktops" },
+          { name: "Monitors" },
+          { name: "Accessories" },
           { name: "Other" },
         ],
       },
       {
-        name: "Comics & Manga",
+        name: "Home Electronics",
         sub: [
-          { name: "Comics" },
-          { name: "Manga" },
-          { name: "Graphic Novels" },
+          { name: "TV" },
+          { name: "Audio" },
+          { name: "Cameras" },
+          { name: "Gaming Consoles" },
           { name: "Other" },
         ],
       },
@@ -306,28 +299,47 @@ export const mainCategories: Category[] = [
     ],
   },
   {
-    name: "Toys & Games",
+    name: "Books",
     sub: [
       {
-        name: "Action Figures",
+        name: "Fiction",
         sub: [
-          { name: "Collectibles" },
-          { name: "Superheroes" },
+          { name: "Novels" },
+          { name: "Short Stories" },
+          { name: "Fantasy" },
           { name: "Other" },
         ],
       },
       {
-        name: "Board Games",
-        sub: [{ name: "Family" }, { name: "Strategy" }, { name: "Other" }],
+        name: "Non-Fiction",
+        sub: [
+          { name: "History" },
+          { name: "Science" },
+          { name: "Self-Help" },
+          { name: "Other" },
+        ],
       },
       {
-        name: "Puzzles",
-        sub: [{ name: "Jigsaw" }, { name: "3D Puzzles" }, { name: "Other" }],
+        name: "Comics & Manga",
+        sub: [
+          { name: "Comics" },
+          { name: "Manga" },
+          { name: "Graphic Novels" },
+          { name: "Other" },
+        ],
+      },
+      {
+        name: "Education",
+        sub: [
+          { name: "Textbooks" },
+          { name: "Children's Books" },
+          { name: "Other" },
+        ],
       },
     ],
   },
   {
-    name: "Pet Supplies",
+    name: "Pets",
     sub: [
       {
         name: "Food",
@@ -353,109 +365,36 @@ export const mainCategories: Category[] = [
     ],
   },
   {
-    name: "Baby & Kids",
+    name: "Vehicles",
     sub: [
       {
-        name: "Clothing",
+        name: "Cars",
         sub: [
-          { name: "0–2Y" },
-          { name: "3–5Y" },
-          { name: "6–12Y" },
+          { name: "Sedans" },
+          { name: "SUVs" },
+          { name: "Electric Cars" },
+          { name: "Classic Cars" },
           { name: "Other" },
         ],
       },
       {
-        name: "Toys",
+        name: "Motorbikes",
         sub: [
-          { name: "Educational" },
-          { name: "Plush" },
-          { name: "Outdoor" },
+          { name: "Scooters" },
+          { name: "Sport Bikes" },
+          { name: "Cruisers" },
           { name: "Other" },
         ],
       },
       {
-        name: "Gear",
+        name: "Bicycles",
         sub: [
-          { name: "Strollers" },
-          { name: "Car Seats" },
-          { name: "High Chairs" },
+          { name: "Mountain Bikes" },
+          { name: "Road Bikes" },
+          { name: "E-Bikes" },
+          { name: "Kick Scooters" },
           { name: "Other" },
         ],
-      },
-    ],
-  },
-  {
-    name: "Beauty & Personal Care",
-    sub: [
-      {
-        name: "Skincare",
-        sub: [{ name: "Face" }, { name: "Body" }, { name: "Other" }],
-      },
-      {
-        name: "Haircare",
-        sub: [
-          { name: "Shampoo" },
-          { name: "Styling" },
-          { name: "Tools" },
-          { name: "Other" },
-        ],
-      },
-      {
-        name: "Makeup",
-        sub: [
-          { name: "Eyes" },
-          { name: "Lips" },
-          { name: "Face" },
-          { name: "Other" },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Musical Instruments & Gear",
-    sub: [
-      {
-        name: "Instruments",
-        sub: [
-          { name: "Guitar" },
-          { name: "Piano" },
-          { name: "Violin" },
-          { name: "Other" },
-        ],
-      },
-      {
-        name: "DJ & Audio Equipment",
-        sub: [{ name: "Mixers" }, { name: "Speakers" }, { name: "Other" }],
-      },
-      {
-        name: "Accessories",
-        sub: [{ name: "Stands" }, { name: "Cases" }, { name: "Other" }],
-      },
-    ],
-  },
-  {
-    name: "Garden & DIY",
-    sub: [
-      {
-        name: "Tools",
-        sub: [
-          { name: "Power Tools" },
-          { name: "Hand Tools" },
-          { name: "Other" },
-        ],
-      },
-      {
-        name: "Garden",
-        sub: [
-          { name: "Plants" },
-          { name: "Pots" },
-          { name: "Outdoor Furniture" },
-          { name: "Other" },
-        ],
-      },
-      {
-        name: "DIY Materials",
-        sub: [{ name: "Wood" }, { name: "Paint" }, { name: "Other" }],
       },
     ],
   },
@@ -467,22 +406,41 @@ export const mainCategories: Category[] = [
         sub: [
           { name: "Concerts" },
           { name: "Festivals" },
+          { name: "Sports" },
           { name: "Theater" },
           { name: "Other" },
         ],
       },
       {
-        name: "Travel",
+        name: "Coupons and Gift Cards",
+        sub: [{ name: "Food" }, { name: "Shopping" }],
+      },
+    ],
+  },
+  {
+    name: "Local Services",
+    sub: [
+      {
+        name: "Home",
         sub: [
-          { name: "Flights" },
-          { name: "Trains" },
-          { name: "Bus" },
+          { name: "Cleaning" },
+          { name: "Moving" },
+          { name: "Repair" },
           { name: "Other" },
         ],
       },
       {
-        name: "Sports",
-        sub: [{ name: "Football" }, { name: "Basketball" }, { name: "Other" }],
+        name: "Personal",
+        sub: [
+          { name: "Beauty" },
+          { name: "Tutor" },
+          { name: "Pet Sittng" },
+          { name: "Other" },
+        ],
+      },
+      {
+        name: "Event",
+        sub: [{ name: "Photography" }, { name: "Rental" }, { name: "Other" }],
       },
     ],
   },

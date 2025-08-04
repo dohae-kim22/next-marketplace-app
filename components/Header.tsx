@@ -8,11 +8,13 @@ import {
   VideoCameraIcon,
   CurrencyEuroIcon,
   MagnifyingGlassIcon,
+  HeartIcon,
 } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SearchBar from "./SearchBar";
+import MobileNavigationBar from "./MobileNavigationBar";
 
 export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   const pathname = usePathname();
@@ -56,20 +58,24 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
           </span>
         </Link>
 
-        <div className="flex items-center gap-3 md:hidden">
-          {!hideSearchAddButton && (
-            <>
+        <div className="flex items-center gap-3 lg:hidden">
+          <>
+            {!hideSearchAddButton && (
               <Link href={searchHref ?? "#"} className="cursor-pointer">
                 <MagnifyingGlassIcon className="size-7 text-white" />
               </Link>
-              <Link href={addHref ?? "#"} className="cursor-pointer">
-                <PlusCircleIcon className="size-7 text-white" />
-              </Link>
-            </>
-          )}
+            )}
+            <Link href={addHref ?? "#"} className="cursor-pointer">
+              <PlusCircleIcon className="size-7 text-white" />
+            </Link>
+            <Link href="#">
+              <HeartIcon className="size-7 text-white" />
+            </Link>
+            <MobileNavigationBar />
+          </>
         </div>
 
-        <nav className="hidden md:flex items-center gap-6 justify-center font-semibold lg:absolute lg:left-1/2 lg:-translate-x-1/2">
+        <nav className="hidden lg:flex items-center gap-6 justify-center font-semibold absolute left-1/2 -translate-x-1/2">
           {menu.map(({ href, label, icon: Icon }) => {
             const active = pathname.startsWith(href);
             return (
@@ -96,7 +102,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
           })}
         </nav>
 
-        <div className="hidden md:flex items-center gap-5">
+        <div className="hidden lg:flex items-center gap-4">
           {!hideSearchAddButton && (
             <Link
               href={addHref ?? "#"}
@@ -106,6 +112,9 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
               <span>{addLabel}</span>
             </Link>
           )}
+          <Link href="#">
+            <HeartIcon className="size-7 text-white" />
+          </Link>
           <Link
             href="/profile"
             className="flex flex-col gap-px items-center bg-neutral-800 p-1.5 rounded-full text-white hover:text-neutral-400"

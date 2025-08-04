@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import NavigationBar from "@/components/NavigationBar";
 import { getUnreadMessageCount } from "@/lib/unread";
 import { ReactNode } from "react";
 
@@ -12,6 +13,7 @@ export default async function HeaderLayout({
   return (
     <>
       <Header unreadCount={unreadCount} />
+      <NavigationBar />
       {children}
     </>
   );
