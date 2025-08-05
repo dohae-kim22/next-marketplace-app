@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { Link } from "@/i18n/navigation";
 
 export default function Home() {
   const t = useTranslations("home");

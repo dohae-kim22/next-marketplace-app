@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useState, useEffect } from "react";
 import { mainCategories } from "@/constants/categories";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";

@@ -3,7 +3,7 @@ import { getIsOwner, getSession } from "@/lib/session";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { UserIcon } from "@heroicons/react/24/solid";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { formatDateString, formatToEuro } from "@/lib/utils";
 import {
   CheckCircleIcon,
