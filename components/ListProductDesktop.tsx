@@ -15,6 +15,11 @@ interface ListProductProps {
   photo: string;
   location: string;
   views: number;
+  street: string | null;
+  postalCode: string | null;
+  state: string | null;
+  countryCode: string | null;
+  city: string | null;
   productLikes: ProductLike[];
   created_at: Date;
   status: ProductStatus;
@@ -25,6 +30,8 @@ export default function ListProductDesktop({
   title,
   price,
   id,
+  city,
+  postalCode,
   location,
   photo,
   created_at,
@@ -54,7 +61,11 @@ export default function ListProductDesktop({
       <div className="flex flex-col gap-1 p-3 text-white">
         <span className="text-lg font-semibold line-clamp-1">{title}</span>
         <span className="text-xs text-neutral-400">
-          {formatShortAddress(location)}
+          {formatShortAddress({
+            city: city ?? "",
+            postalCode: postalCode ?? "",
+            location,
+          })}
         </span>
         <span className="text-xs text-neutral-500">
           {formatToTimeAgo(created_at.toString())}

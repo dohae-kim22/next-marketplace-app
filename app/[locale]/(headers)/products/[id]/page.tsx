@@ -4,7 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { Link } from "@/i18n/navigation";
-import { formatDateString, formatToEuro } from "@/lib/utils";
+import { formatDateString, formatFullAddress, formatToEuro } from "@/lib/utils";
 import {
   CheckCircleIcon,
   EyeIcon,
@@ -145,7 +145,14 @@ export default async function ProductDetail({
               Meet-up Location
             </h2>
             <div className="flex items-center justify-between">
-              <p className="text-sm">{product.location}</p>
+              <p className="text-sm">
+                {formatFullAddress({
+                  street: product.street ?? "",
+                  postalCode: product.postalCode ?? "",
+                  city: product.city ?? "",
+                  location: product.location,
+                })}
+              </p>
               <CopyButton value={product.location} />
             </div>
             <LocationMap lat={product.latitude} lng={product.longitude} />

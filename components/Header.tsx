@@ -29,9 +29,9 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
     pathname.startsWith("/profile") || pathname.startsWith("/chats");
 
   const menu = [
-    { href: "products", label: t("menu.products"), icon: CurrencyEuroIcon },
-    { href: "posts", label: t("menu.posts"), icon: NewspaperIcon },
-    { href: "live", label: t("menu.live"), icon: VideoCameraIcon },
+    { href: "/products", label: t("menu.products"), icon: CurrencyEuroIcon },
+    { href: "/posts", label: t("menu.posts"), icon: NewspaperIcon },
+    { href: "/live", label: t("menu.live"), icon: VideoCameraIcon },
     {
       href: "/chats",
       label: t("menu.chats"),

@@ -20,6 +20,11 @@ async function getAllProducts() {
       type: true,
       latitude: true,
       longitude: true,
+      city: true,
+      street: true,
+      postalCode: true,
+      state: true,
+      countryCode: true,
     },
     orderBy: { created_at: "desc" },
   });
