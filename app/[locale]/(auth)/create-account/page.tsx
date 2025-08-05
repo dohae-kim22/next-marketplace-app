@@ -28,43 +28,62 @@ export default function CreateAccount() {
           Join us by filling out the form below.
         </h2>
       </div>
-      <form action={dispatch} className="flex flex-col gap-4 w-full">
-        <FormInput
-          name="userName"
-          type="text"
-          placeholder="Username"
-          required
-          defaultValue={state?.values.userName as string}
-          errors={state?.fieldErrors?.userName}
-          minLength={3}
-          maxLength={10}
-        />
-        <FormInput
-          name="email"
-          type="email"
-          placeholder="Email"
-          required
-          defaultValue={state?.values.email as string}
-          errors={state?.fieldErrors?.email}
-        />
-        <FormInput
-          name="password"
-          type="password"
-          placeholder="Password"
-          required
-          defaultValue={state?.values.password as string}
-          errors={state?.fieldErrors?.password}
-          minLength={PASSWORD_MIN_LENGTH}
-        />
-        <FormInput
-          name="confirmPassword"
-          type="password"
-          placeholder="Confirm Password"
-          required
-          defaultValue={state?.values.confirmPassword as string}
-          errors={state?.fieldErrors?.confirmPassword}
-          minLength={PASSWORD_MIN_LENGTH}
-        />
+      <form action={dispatch} className="flex flex-col gap-5 w-full">
+        <div className="flex flex-col gap-2 text-neutral-400 font-semibold">
+          <label htmlFor="username" className="text-sm">
+            USERNAME :*
+          </label>
+          <FormInput
+            id="username"
+            name="userName"
+            type="text"
+            required
+            defaultValue={state?.values.userName as string}
+            errors={state?.fieldErrors?.userName}
+            minLength={3}
+            maxLength={10}
+          />
+        </div>
+        <div className="flex flex-col gap-2 text-neutral-400 font-semibold">
+          <label htmlFor="email" className="text-sm">
+            EMAIL :*
+          </label>
+          <FormInput
+            id="email"
+            name="email"
+            type="email"
+            required
+            defaultValue={state?.values.email as string}
+            errors={state?.fieldErrors?.email}
+          />
+        </div>
+        <div className="flex flex-col gap-2 text-neutral-400 font-semibold">
+          <label htmlFor="password" className="text-sm">
+            PASSWORD :*
+          </label>
+          <FormInput
+            id="password"
+            name="password"
+            type="password"
+            required
+            defaultValue={state?.values.password as string}
+            errors={state?.fieldErrors?.password}
+            minLength={PASSWORD_MIN_LENGTH}
+          />
+        </div>
+        <div className="flex flex-col gap-2 text-neutral-400 font-semibold">
+          <label htmlFor="password" className="text-sm">
+            CONFIRM PASSWORD :*
+          </label>
+          <FormInput
+            name="confirmPassword"
+            type="password"
+            required
+            defaultValue={state?.values.confirmPassword as string}
+            errors={state?.fieldErrors?.confirmPassword}
+            minLength={PASSWORD_MIN_LENGTH}
+          />
+        </div>
         <FormButton text="Create Account" />
       </form>
       <SocialLogin />
