@@ -18,7 +18,7 @@ export default function Home() {
           <h1 className="text-4xl text-neutral-10">{t("title")}</h1>
           <h2 className="text-sm text-neutral-400">{t("subtitle")}</h2>
         </div>
-        <div className="flex flex-col gap-3 items-center w-full">
+        <div className="flex flex-col gap-3 items-center w-full sticky bottom-0">
           <Link href="/create-account" className="primary-btn py-2 text-lg">
             {t("createAccount")}
           </Link>
