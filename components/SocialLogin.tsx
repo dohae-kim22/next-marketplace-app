@@ -1,6 +1,11 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 export default function SocialLogin() {
+  const t = useTranslations("socialLogin");
+
   return (
     <>
       <div className="w-full h-px bg-neutral-500" />
@@ -71,7 +76,7 @@ export default function SocialLogin() {
               </g>{" "}
             </g>
           </svg>
-          <span>Continue with Google</span>
+          <span>{t("continueWithGoogle")}</span>
         </Link>
         <Link
           href="/api/github/start"
@@ -90,7 +95,7 @@ export default function SocialLogin() {
               clipRule="evenodd"
             ></path>
           </svg>
-          <span>Continue with Github</span>
+          <span>{t("continueWithGithub")}</span>
         </Link>
       </div>
     </>

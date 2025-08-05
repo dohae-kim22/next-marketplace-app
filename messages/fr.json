@@ -30,5 +30,25 @@
     "showingAll": "📍 Affichage de tous les lieux",
     "editLocation": "Modifier la localisation",
     "setLocation": "Définir la localisation"
+  },
+  "signUp": {
+    "welcome": "Bienvenue !",
+    "subtitle": "Rejoignez-nous en remplissant le formulaire ci-dessous.",
+    "username": "NOM D’UTILISATEUR :*",
+    "email": "EMAIL :*",
+    "password": "MOT DE PASSE :*",
+    "confirmPassword": "CONFIRMER LE MOT DE PASSE :*",
+    "createAccount": "Créer un compte"
+  },
+  "signIn": {
+    "welcome": "Bon retour !",
+    "subtitle": "Connectez-vous à votre marché local dès maintenant.",
+    "email": "EMAIL :*",
+    "password": "MOT DE PASSE :*",
+    "logIn": "Se connecter"
+  },
+  "socialLogin": {
+    "continueWithGoogle": "Continuer avec Google",
+    "continueWithGithub": "Continuer avec Github"
   }
 }

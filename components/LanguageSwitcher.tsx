@@ -17,7 +17,7 @@ export default function LanguageSwitcher() {
 
   const currentLocale = supportedLocales.some((l) => l.code === segments[0])
     ? segments[0]
-    : "en";
+    : "fr";
 
   const [locale, setLocale] = useState(currentLocale);
   const [open, setOpen] = useState(false);
