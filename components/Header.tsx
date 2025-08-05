@@ -102,7 +102,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
               `}
               >
                 <Icon className="size-5" />
-                <span>{label}</span>
+                <span className="whitespace-nowrap">{label}</span>
                 {href === "/chats" && unreadCount > 0 && (
                   <span className="ml-1 bg-red-500 text-white text-[10px] font-bold rounded-full px-2 py-0.5">
                     {unreadCount > 99 ? "99+" : unreadCount}

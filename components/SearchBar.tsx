@@ -5,7 +5,7 @@ import {
   ChevronDownIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -23,9 +23,11 @@ export default function SearchBar() {
   const [category, setCategory] = useState<SearchCategory>("products");
   const [open, setOpen] = useState(false);
   const t = useTranslations("header.searchBar");
+  const locale = useLocale();
 
   const hideAddButton =
-    pathname.startsWith("/profile") || pathname.startsWith("/chats");
+    pathname.startsWith(`/${locale}/profile`) ||
+    pathname.startsWith(`/${locale}/chats`);
 
   let addHref: string | undefined;
   let addLabel: string | undefined;
