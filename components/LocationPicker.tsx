@@ -6,9 +6,20 @@ import {
 } from "@react-google-maps/api";
 import { useRef, useState, useEffect } from "react";
 
+interface LocationData {
+  lat: number;
+  lng: number;
+  location?: string;
+  street?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  countryCode?: string;
+}
+
 interface LocationPickerProps {
   errors?: string[];
-  onChange: (value: { lat: number; lng: number; address?: string }) => void;
+  onChange: (value: LocationData) => void;
   defaultValue?: string;
 }
 
@@ -18,10 +29,7 @@ const containerStyle = {
 };
 
 // Paris
-const defaultCenter = {
-  lat: 48.8566,
-  lng: 2.3522,
-};
+const defaultCenter = { lat: 48.8566, lng: 2.3522 };
 
 export default function LocationPicker({
   errors = [],
@@ -33,16 +41,60 @@ export default function LocationPicker({
     libraries: ["places"],
   });
 
-  const [position, setPosition] = useState<{
-    lat: number;
-    lng: number;
-    address?: string;
-  } | null>(null);
+  const [position, setPosition] = useState<LocationData | null>(null);
   const [center, setCenter] = useState(defaultCenter);
-  const [localErrors, setLocalErrors] = useState<string[]>([]); 
+  const [localErrors, setLocalErrors] = useState<string[]>([]);
 
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const parseAddressComponents = (
+    components: google.maps.GeocoderAddressComponent[]
+  ) => {
+    let streetNumber = "";
+    let route = "";
+    let street = "";
+    let city = "";
+    let state = "";
+    let postalCode = "";
+    let countryCode = "";
+
+    components.forEach((c) => {
+      if (c.types.includes("street_number")) streetNumber = c.long_name;
+      if (c.types.includes("route")) route = c.long_name;
+      if (c.types.includes("locality")) city = c.long_name;
+      if (c.types.includes("administrative_area_level_1")) state = c.long_name;
+      if (c.types.includes("postal_code")) postalCode = c.long_name;
+      if (c.types.includes("country")) countryCode = c.short_name;
+    });
+
+    if (streetNumber || route) street = `${streetNumber} ${route}`.trim();
+
+    return { street, city, state, postalCode, countryCode };
+  };
+
+  const ensurePostalCode = async (
+    lat: number,
+    lng: number,
+    parsed: LocationData
+  ) => {
+    if (parsed.postalCode) return parsed;
+
+    const geocoder = new google.maps.Geocoder();
+    const res = await geocoder.geocode({ location: { lat, lng } });
+
+    if (res.results?.[0]) {
+      const postalComponent = res.results[0].address_components.find((c) =>
+        c.types.includes("postal_code")
+      );
+      return {
+        ...parsed,
+        postalCode: postalComponent?.long_name || "",
+      };
+    }
+
+    return parsed;
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -55,7 +107,6 @@ export default function LocationPicker({
 
   useEffect(() => {
     if (!isLoaded || !defaultValue || position) return;
-
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ address: defaultValue }, (results, status) => {
       if (status === "OK" && results && results[0]) {
@@ -64,41 +115,66 @@ export default function LocationPicker({
         const lng = location.lng();
         const address = results[0].formatted_address;
 
-        const newPosition = { lat, lng, address };
+        const { street, city, state, postalCode, countryCode } =
+          parseAddressComponents(results[0].address_components);
+
+        const newPosition: LocationData = {
+          lat,
+          lng,
+          location: address,
+          street,
+          city,
+          state,
+          postalCode,
+          countryCode,
+        };
+
         setCenter({ lat, lng });
         setPosition(newPosition);
-        if (inputRef.current) inputRef.current.value = address;
+        if (inputRef.current) {
+          inputRef.current.value = address;
+        }
         onChange(newPosition);
       }
     });
   }, [defaultValue, isLoaded, position, onChange]);
 
-  const onPlaceChanged = () => {
+  const onPlaceChanged = async () => {
     if (!autocompleteRef.current) return;
     const place = autocompleteRef.current.getPlace();
     if (!place.geometry || !place.geometry.location) return;
-
     const lat = place.geometry.location.lat();
     const lng = place.geometry.location.lng();
-    const address = place.formatted_address;
+    const address = place.formatted_address || "";
 
-    const countryComponent = place.address_components?.find((c) =>
-      c.types.includes("country")
-    );
+    const { street, city, state, postalCode, countryCode } =
+      parseAddressComponents(place.address_components || []);
 
-    if (countryComponent?.short_name !== "FR") {
+    if (countryCode !== "FR") {
       setPosition(null);
-      onChange({ lat: NaN, lng: NaN, address: undefined });
+      onChange({ lat: NaN, lng: NaN });
       if (inputRef.current) inputRef.current.value = "";
       setLocalErrors(["Only locations in France are allowed."]);
       return;
     }
 
+    let parsed: LocationData = {
+      lat,
+      lng,
+      location: address,
+      street,
+      city,
+      state,
+      postalCode,
+      countryCode,
+    };
+    parsed = await ensurePostalCode(lat, lng, parsed);
+
     setCenter({ lat, lng });
-    setPosition({ lat, lng, address });
+    setPosition(parsed);
     if (inputRef.current && address) inputRef.current.value = address;
     setLocalErrors([]);
-    onChange({ lat, lng, address });
+    onChange(parsed);
   };
 
   const handleMapClick = async (e: google.maps.MapMouseEvent) => {
@@ -112,22 +188,33 @@ export default function LocationPicker({
     if (!res.results || res.results.length === 0) return;
 
     const address = res.results[0].formatted_address;
-    const countryComponent = res.results[0].address_components.find((c) =>
-      c.types.includes("country")
-    );
+    const { street, city, state, postalCode, countryCode } =
+      parseAddressComponents(res.results[0].address_components);
 
-    if (countryComponent?.short_name !== "FR") {
+    if (countryCode !== "FR") {
       setPosition(null);
-      onChange({ lat: NaN, lng: NaN, address: undefined });
+      onChange({ lat: NaN, lng: NaN });
       if (inputRef.current) inputRef.current.value = "";
       setLocalErrors(["Only locations in France are allowed."]);
       return;
     }
 
-    setPosition({ lat, lng, address });
+    let parsed: LocationData = {
+      lat,
+      lng,
+      location: address,
+      street,
+      city,
+      state,
+      postalCode,
+      countryCode,
+    };
+    parsed = await ensurePostalCode(lat, lng, parsed);
+
+    setPosition(parsed);
     if (inputRef.current && address) inputRef.current.value = address;
     setLocalErrors([]);
-    onChange({ lat, lng, address });
+    onChange(parsed);
   };
 
   if (!isLoaded) return <p>Loading map...</p>;
@@ -141,9 +228,7 @@ export default function LocationPicker({
       <Autocomplete
         onLoad={(ref) => (autocompleteRef.current = ref)}
         onPlaceChanged={onPlaceChanged}
-        options={{
-          componentRestrictions: { country: "fr" },
-        }}
+        options={{ componentRestrictions: { country: "fr" } }}
       >
         <input
           ref={inputRef}

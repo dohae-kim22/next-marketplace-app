@@ -56,7 +56,7 @@ export default function LanguageSwitcher() {
              border-b-2 border-transparent hover:border-white
              transition-colors"
       >
-        <span className="text-sm font-semibold">
+        <span className="hidden lg:inline text-sm font-semibold">
           {supportedLocales.find((l) => l.code === locale)?.code.toUpperCase()}
         </span>
         <GlobeAltIcon className="size-7" />

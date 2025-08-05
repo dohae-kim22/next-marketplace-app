@@ -1,7 +1,7 @@
 "use server";
 
 import z from "zod";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import db from "@/lib/db";
 import { redirect } from "next/navigation";
 
@@ -18,9 +18,13 @@ const productSchema = z.object({
   location: z.string("Location is required."),
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),
+  street: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  postalCode: z.string().optional(),
+  countryCode: z.string().optional(),
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function uploadProduct(_: any, formData: FormData) {
   const data = {
     photo: formData.get("photo"),
@@ -29,6 +33,11 @@ export async function uploadProduct(_: any, formData: FormData) {
     location: formData.get("location"),
     latitude: formData.get("latitude"),
     longitude: formData.get("longitude"),
+    street: formData.get("street") as string | undefined,
+    city: formData.get("city") as string | undefined,
+    state: formData.get("state") as string | undefined,
+    postalCode: formData.get("postalCode") as string | undefined,
+    countryCode: formData.get("countryCode") as string | undefined,
   };
 
   const result = productSchema.safeParse(data);
@@ -50,6 +59,11 @@ export async function uploadProduct(_: any, formData: FormData) {
           location: result.data.location,
           latitude: result.data.latitude,
           longitude: result.data.longitude,
+          street: result.data.street,
+          city: result.data.city,
+          state: result.data.state,
+          postalCode: result.data.postalCode,
+          countryCode: result.data.countryCode,
           user: {
             connect: {
               id: session.id,

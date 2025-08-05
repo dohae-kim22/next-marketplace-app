@@ -28,10 +28,16 @@ export default function EditProductForm({ product }: { product: any }) {
   );
   const [imageError, setImageError] = useState("");
   const [isUploading, setIsUploading] = useState(false);
-  const [location, setLocation] = useState("");
-  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
-    null
-  );
+  const [position, setPosition] = useState<{
+    lat: number;
+    lng: number;
+    location?: string;
+    street?: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+    countryCode?: string;
+  } | null>(null);
 
   const [state, formAction] = useActionState(
     async (_: any, formData: FormData) => {
@@ -255,15 +261,47 @@ export default function EditProductForm({ product }: { product: any }) {
       <LocationPicker
         errors={state?.fieldErrors?.location}
         defaultValue={product.location}
-        onChange={({ lat, lng, address }) => {
-          setLocation(address ?? "");
-          setLatLng({ lat, lng });
+        onChange={({
+          lat,
+          lng,
+          location,
+          street,
+          city,
+          state,
+          postalCode,
+          countryCode,
+        }) => {
+          const data = {
+            lat,
+            lng,
+            location,
+            street,
+            city,
+            state,
+            postalCode,
+            countryCode,
+          };
+
+          setPosition(data);
         }}
       />
 
-      <input type="hidden" name="location" value={location} />
-      <input type="hidden" name="latitude" value={latLng?.lat ?? ""} />
-      <input type="hidden" name="longitude" value={latLng?.lng ?? ""} />
+      <input type="hidden" name="location" value={position?.location ?? ""} />
+      <input type="hidden" name="latitude" value={position?.lat ?? ""} />
+      <input type="hidden" name="longitude" value={position?.lng ?? ""} />
+      <input type="hidden" name="street" value={position?.street ?? ""} />
+      <input type="hidden" name="city" value={position?.city ?? ""} />
+      <input type="hidden" name="state" value={position?.state ?? ""} />
+      <input
+        type="hidden"
+        name="postalCode"
+        value={position?.postalCode ?? ""}
+      />
+      <input
+        type="hidden"
+        name="countryCode"
+        value={position?.countryCode ?? ""}
+      />
 
       <FormButton text="Save Changes" />
     </form>

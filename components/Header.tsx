@@ -8,8 +8,8 @@ import {
   CurrencyEuroIcon,
   MagnifyingGlassIcon,
   HeartIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
-import { UserIcon } from "@heroicons/react/24/solid";
 import { Link } from "@/i18n/navigation";
 import { usePathname } from "next/navigation";
 import SearchBar from "./SearchBar";
@@ -23,16 +23,15 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   const t = useTranslations("header");
 
   const segments = pathname.split("/").filter(Boolean);
-  const locale = segments[0] || "fr";
   const pathWithoutLocale = segments.slice(1).join("/") || "/";
 
   const hideSearchAddButton =
     pathname.startsWith("/profile") || pathname.startsWith("/chats");
 
   const menu = [
-    { href: "/products", label: t("menu.products"), icon: CurrencyEuroIcon },
-    { href: "/posts", label: t("menu.posts"), icon: NewspaperIcon },
-    { href: "/live", label: t("menu.live"), icon: VideoCameraIcon },
+    { href: "products", label: t("menu.products"), icon: CurrencyEuroIcon },
+    { href: "posts", label: t("menu.posts"), icon: NewspaperIcon },
+    { href: "live", label: t("menu.live"), icon: VideoCameraIcon },
     {
       href: "/chats",
       label: t("menu.chats"),
@@ -47,14 +46,14 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
     pathWithoutLocale.startsWith("products") ||
     pathWithoutLocale.startsWith("category")
   ) {
-    addHref = `/${locale}/products/add`;
-    searchHref = `/${locale}/products/search`;
+    addHref = "/products/add";
+    searchHref = "/products/search";
   } else if (pathWithoutLocale.startsWith("posts")) {
-    addHref = `/${locale}/posts/add`;
-    searchHref = `/${locale}/posts/search`;
+    addHref = "/posts/add";
+    searchHref = "/posts/search";
   } else if (pathWithoutLocale.startsWith("live")) {
-    addHref = `/${locale}/live/add`;
-    searchHref = `/${locale}/live/search`;
+    addHref = "/live/add";
+    searchHref = "/live/search";
   }
 
   return (
@@ -62,7 +61,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
       <div className="flex justify-end py-4 gap-2 md:justify-between">
         <Link
           href={"/products"}
-          className="cursor-pointer flex-1 md:flex-none hover:opacity-80"
+          className="cursor-pointer flex-1 md:flex-none hover:opacity-80 py-1.5"
         >
           <span className="inline-flex items-center justify-center h-8 px-2 border border-orange-400 rounded-md font-audio-wide bg-gradient-to-r from-[#FE971E] to-[#FF6A00] bg-clip-text text-transparent text-lg">
             Next
@@ -82,21 +81,22 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
             <Link href="#">
               <HeartIcon className="size-7 text-white" />
             </Link>
+            <LanguageSwitcher />
             <MobileNavigationBar />
           </>
         </div>
 
         <nav className="hidden lg:flex items-center gap-6 justify-center font-semibold absolute left-1/2 -translate-x-1/2">
           {menu.map(({ href, label, icon: Icon }) => {
-            const active = pathname.startsWith(href);
+            const active = pathWithoutLocale.startsWith(href);
             return (
               <Link
                 key={href}
                 href={href}
-                className={`flex items-center gap-1.5 transition-colors px-0.5 py-1 
+                className={`flex items-center gap-1.5 transition-colors px-0.5 py-1.5 
                 ${
                   active
-                    ? "text-white border-b"
+                    ? "text-white border-b-2"
                     : "text-neutral-400 hover:text-white"
                 }
               `}
@@ -114,14 +114,17 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
         </nav>
 
         <div className="hidden lg:flex items-center gap-4">
-          <Link href="#">
-            <HeartIcon className="size-7 text-white" />
+          <Link
+            href="#"
+            className="border-b-2 text-white hover:text-red-500 border-transparent hover:border-white py-1.5"
+          >
+            <HeartIcon className="size-7" />
           </Link>
           <Link
             href="/profile"
-            className="flex flex-col gap-px items-center bg-neutral-800 p-1.5 rounded-full text-white hover:text-neutral-400"
+            className=" text-white border-b-2 border-transparent hover:border-white py-1.5"
           >
-            <UserIcon className="size-6" />
+            <UserIcon className="size-7" />
           </Link>
           <LanguageSwitcher />
         </div>

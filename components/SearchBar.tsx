@@ -18,7 +18,6 @@ export default function SearchBar() {
   const router = useRouter();
   const pathname = usePathname();
   const segments = pathname.split("/").filter(Boolean);
-  const locale = segments[0] || "fr";
   const pathWithoutLocale = segments.slice(1).join("/") || "/";
   const [term, setTerm] = useState("");
   const [category, setCategory] = useState<SearchCategory>("products");
@@ -30,23 +29,19 @@ export default function SearchBar() {
 
   let addHref: string | undefined;
   let addLabel: string | undefined;
-  let searchHref: string | undefined;
 
   if (
     pathWithoutLocale.startsWith("products") ||
     pathWithoutLocale.startsWith("category")
   ) {
-    addHref = `/${locale}/products/add`;
+    addHref = "/products/add";
     addLabel = t("addProduct");
-    searchHref = `/${locale}/products/search`;
   } else if (pathWithoutLocale.startsWith("posts")) {
-    addHref = `/${locale}/posts/add`;
+    addHref = "/posts/add";
     addLabel = t("writePost");
-    searchHref = `/${locale}/posts/search`;
   } else if (pathWithoutLocale.startsWith("live")) {
-    addHref = `/${locale}/live/add`;
+    addHref = "/live/add";
     addLabel = t("startLive");
-    searchHref = `/${locale}/live/search`;
   }
 
   const prevRootRef = useRef<string>("");
@@ -80,7 +75,7 @@ export default function SearchBar() {
     <div className="flex items-center">
       <form
         onSubmit={handleSubmit}
-        className="hidden lg:flex items-center w-full max-w-3xl mx-auto px-4 py-2 relative"
+        className="hidden lg:flex items-center w-full mx-auto px-50 py-2 relative"
       >
         <div>
           <button
@@ -93,7 +88,7 @@ export default function SearchBar() {
           </button>
 
           {open && (
-            <div className="absolute left-[22px] top-full mt-0 w-26 bg-neutral-800 border border-neutral-600 rounded-lg shadow-lg z-50">
+            <div className="absolute left-[50px] top-full mt-0 w-26 bg-neutral-800 border border-neutral-600 rounded-lg shadow-lg z-50">
               {categories.map((c) => (
                 <div
                   key={c}
@@ -123,17 +118,18 @@ export default function SearchBar() {
         />
         <button
           type="submit"
-          className="absolute right-6
+          className="absolute right-52
         
         ml-2 px-1 py-1 bg-orange-500 text-white rounded-full hover:bg-orange-600"
         >
           <ArrowRightIcon className="size-5" />
         </button>
       </form>
+
       {!hideAddButton && (
         <Link
           href={addHref ?? "#"}
-          className="absolute right-5 cursor-pointer flex bg-orange-500 text-white items-center justify-center gap-1 rounded-md py-1 px-2 hover:bg-orange-600"
+          className="hidden absolute right-5 cursor-pointer lg:flex bg-orange-500 text-white items-center justify-center gap-1 rounded-md p-2 hover:bg-orange-600 text-sm font-semibold"
         >
           <PlusIcon className="size-4" />
           <span>{addLabel}</span>
