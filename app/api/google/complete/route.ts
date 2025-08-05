@@ -45,14 +45,13 @@ export async function GET(request: NextRequest) {
   );
 
   const { id, name, picture, email } = await userProfileResponse.json();
+  if (!email) return new Response("Email not found", { status: 400 });
 
-  const user = await db.user.findUnique({
+  const user = await db.user.findFirst({
     where: {
-      googleId: id + "",
+      OR: [{ googleId: id + "" }, { email }],
     },
-    select: {
-      id: true,
-    },
+    select: { id: true },
   });
 
   if (user) {
@@ -62,9 +61,18 @@ export async function GET(request: NextRequest) {
     return redirect("/products");
   }
 
+  let finalUserName = name || `user-${id}`;
+  const exists = await db.user.findUnique({
+    where: { userName: finalUserName },
+  });
+
+  if (exists) {
+    finalUserName = `${finalUserName}-${Math.floor(Math.random() * 10000)}`;
+  }
+
   const newUser = await db.user.create({
     data: {
-      userName: name,
+      userName: finalUserName,
       googleId: id + "",
       avatar: picture ?? "/default-user.png",
       email,
