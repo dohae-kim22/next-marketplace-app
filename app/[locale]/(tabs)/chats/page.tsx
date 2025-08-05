@@ -7,7 +7,7 @@ export default async function ChatList() {
   const rooms = await getMyChatRooms();
 
   return (
-    <div className="p-5 flex flex-col mb-20 gap-4 mx-auto md:max-w-lg">
+    <div className="p-5 flex flex-col mb-20 gap-4 mx-auto md:max-w-lg lg:mt-10">
       <h1 className="text-xl font-semibold text-white mb-px">My Chats</h1>
 
       {rooms.length === 0 ? (

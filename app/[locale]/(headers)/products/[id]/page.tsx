@@ -80,7 +80,7 @@ export default async function ProductDetail({
   const isOwner = await getIsOwner(product.userId);
 
   return (
-    <div className="container-lg flex flex-col gap-3 p-5 md:p-20 md:py-0 lg:p-50 lg:py-0">
+    <div className="container-lg flex flex-col gap-3 p-5 md:p-20 md:py-0 md:pt-5 lg:p-50 lg:py-0 lg:pt-15">
       <div>
         <div className="relative overflow-hidden">
           <ProductImageSlider photos={product.photos} />
