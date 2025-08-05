@@ -1,7 +1,7 @@
 "use server";
 
 import z from "zod";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import db from "@/lib/db";
 import { redirect } from "next/navigation";
 
@@ -20,6 +20,11 @@ const productSchema = z.object({
     .min(0, "Price must be at least 0.")
     .max(1_000_000, "Price must be less than 1,000,000."),
   location: z.string("Location is required."),
+  street: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  postalCode: z.string().optional(),
+  countryCode: z.string().optional(),
   latitude: z.coerce.number("Latitude is required."),
   longitude: z.coerce.number("Longitude is required."),
   type: z.enum(["SALE", "FREE", "WANTED"]),
@@ -28,7 +33,6 @@ const productSchema = z.object({
   categorySubSub: z.string().optional(),
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function uploadProduct(_: any, formData: FormData) {
   const data = {
     photos: formData.getAll("photos"),
@@ -38,6 +42,11 @@ export async function uploadProduct(_: any, formData: FormData) {
     location: formData.get("location"),
     latitude: formData.get("latitude"),
     longitude: formData.get("longitude"),
+    street: formData.get("street"),
+    city: formData.get("city"),
+    state: formData.get("state"),
+    postalCode: formData.get("postalCode"),
+    countryCode: formData.get("countryCode"),
     type: formData.get("type"),
     categoryMain: formData.get("categoryMain"),
     categorySub: formData.get("categorySub"),
@@ -71,6 +80,11 @@ export async function uploadProduct(_: any, formData: FormData) {
           location: result.data.location,
           latitude: result.data.latitude,
           longitude: result.data.longitude,
+          street: result.data.street,
+          city: result.data.city,
+          state: result.data.state,
+          postalCode: result.data.postalCode,
+          countryCode: result.data.countryCode,
           type: result.data.type,
           categoryMain: result.data.categoryMain,
           categorySub: result.data.categorySub || null,

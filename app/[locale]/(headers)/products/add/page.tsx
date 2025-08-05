@@ -9,6 +9,17 @@ import FormButton from "@/components/FormButton";
 import LocationPicker from "@/components/LocationPicker";
 import CategorySelector from "@/components/CategorySelector";
 
+interface LocationData {
+  lat: number;
+  lng: number;
+  location?: string;
+  street?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  countryCode?: string;
+}
+
 export default function AddProduct() {
   const [previews, setPreviews] = useState<string[]>([]);
   const [uploadUrls, setUploadUrls] = useState<string[]>([]);
@@ -18,10 +29,7 @@ export default function AddProduct() {
   const [type, setType] = useState<"SALE" | "FREE" | "WANTED">("SALE");
   const [price, setPrice] = useState<string>("");
   const [category, setCategory] = useState({ main: "", sub: "", subSub: "" });
-  const [location, setLocation] = useState("");
-  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
-    null
-  );
+  const [position, setPosition] = useState<LocationData | null>(null);
 
   const handleRemoveImage = (index: number) => {
     setPreviews((prev) => prev.filter((_, i) => i !== index));
@@ -248,14 +256,46 @@ export default function AddProduct() {
       />
       <LocationPicker
         errors={state?.fieldErrors.location}
-        onChange={({ lat, lng, address }) => {
-          setLocation(address ?? "");
-          setLatLng({ lat, lng });
+        onChange={({
+          lat,
+          lng,
+          location,
+          street,
+          city,
+          state,
+          postalCode,
+          countryCode,
+        }) => {
+          const data = {
+            lat,
+            lng,
+            location,
+            street,
+            city,
+            state,
+            postalCode,
+            countryCode,
+          };
+
+          setPosition(data);
         }}
       />
-      <input type="hidden" name="location" value={location} />
-      <input type="hidden" name="latitude" value={latLng?.lat ?? ""} />
-      <input type="hidden" name="longitude" value={latLng?.lng ?? ""} />
+      <input type="hidden" name="location" value={position?.location ?? ""} />
+      <input type="hidden" name="latitude" value={position?.lat ?? ""} />
+      <input type="hidden" name="longitude" value={position?.lng ?? ""} />
+      <input type="hidden" name="street" value={position?.street ?? ""} />
+      <input type="hidden" name="city" value={position?.city ?? ""} />
+      <input type="hidden" name="state" value={position?.state ?? ""} />
+      <input
+        type="hidden"
+        name="postalCode"
+        value={position?.postalCode ?? ""}
+      />
+      <input
+        type="hidden"
+        name="countryCode"
+        value={position?.countryCode ?? ""}
+      />
 
       <FormButton text="Post" />
     </form>

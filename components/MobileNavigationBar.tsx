@@ -4,11 +4,13 @@ import { Link } from "@/i18n/navigation";
 import { useState, useEffect } from "react";
 import { mainCategories } from "@/constants/categories";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useLocale } from "next-intl";
 
 export default function MobileNavigationBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openMainIdx, setOpenMainIdx] = useState<number | null>(null);
   const [openSubIdx, setOpenSubIdx] = useState<number | null>(null);
+  const currentLocale = useLocale() as "en" | "fr";
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -55,7 +57,7 @@ export default function MobileNavigationBar() {
                   className="flex-1 py-2 text-neutral-200 text-lg font-medium hover:text-orange-400 transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >
-                  {category.name.en}
+                  {category.name[currentLocale]}
                 </Link>
                 {category.sub && (
                   <button
@@ -86,7 +88,7 @@ export default function MobileNavigationBar() {
                         className="flex-1 py-2 text-neutral-300 hover:text-orange-400 transition-colors"
                         onClick={() => setMenuOpen(false)}
                       >
-                        {subCat.name.en}
+                        {subCat.name[currentLocale]}
                       </Link>
                       {subCat.sub && (
                         <button
@@ -118,7 +120,7 @@ export default function MobileNavigationBar() {
                           className="block py-2 text-neutral-400 hover:text-orange-400 transition-colors"
                           onClick={() => setMenuOpen(false)}
                         >
-                          {subSubCat.name.en}
+                          {subSubCat.name[currentLocale]}
                         </Link>
                       ))}
                     </div>

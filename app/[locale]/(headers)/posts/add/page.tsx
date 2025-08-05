@@ -8,15 +8,23 @@ import FormTextarea from "@/components/FormTextArea";
 import FormButton from "@/components/FormButton";
 import LocationAutocomplete from "@/components/LocationAutocomplete";
 
-export default function AddProduct() {
+interface LocationData {
+  lat: number;
+  lng: number;
+  location?: string;
+  street?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  countryCode?: string;
+}
+
+export default function AddPost() {
   const [preview, setPreview] = useState<string | null>(null);
   const [uploadUrl, setUploadUrl] = useState<string | null>(null);
   const [imageError, setImageError] = useState("");
   const [isUploading, setIsUploading] = useState(false);
-  const [location, setLocation] = useState("");
-  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
-    null
-  );
+  const [position, setPosition] = useState<LocationData | null>(null);
 
   const handleRemoveImage = () => {
     setPreview(null);
@@ -154,9 +162,8 @@ export default function AddProduct() {
           Select your neighborhood*
         </span>
         <LocationAutocomplete
-          onSelect={({ address, lat, lng }) => {
-            setLocation(address);
-            setLatLng({ lat, lng });
+          onSelect={(value) => {
+            setPosition(value);
           }}
         />
         {state?.fieldErrors?.location && (
@@ -164,9 +171,22 @@ export default function AddProduct() {
         )}
       </div>
 
-      <input type="hidden" name="location" value={location} />
-      <input type="hidden" name="latitude" value={latLng?.lat ?? ""} />
-      <input type="hidden" name="longitude" value={latLng?.lng ?? ""} />
+      <input type="hidden" name="location" value={position?.location ?? ""} />
+      <input type="hidden" name="latitude" value={position?.lat ?? ""} />
+      <input type="hidden" name="longitude" value={position?.lng ?? ""} />
+      <input type="hidden" name="street" value={position?.street ?? ""} />
+      <input type="hidden" name="city" value={position?.city ?? ""} />
+      <input type="hidden" name="state" value={position?.state ?? ""} />
+      <input
+        type="hidden"
+        name="postalCode"
+        value={position?.postalCode ?? ""}
+      />
+      <input
+        type="hidden"
+        name="countryCode"
+        value={position?.countryCode ?? ""}
+      />
       {uploadUrl && <input type="hidden" name="photo" value={uploadUrl} />}
 
       <FormButton text="Post" />

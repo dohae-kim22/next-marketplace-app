@@ -3,12 +3,23 @@
 import { Autocomplete, useLoadScript } from "@react-google-maps/api";
 import { useRef, useState } from "react";
 
+interface LocationData {
+  lat: number;
+  lng: number;
+  location?: string;
+  street?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  countryCode?: string;
+}
+
 export default function LocationAutocomplete({
   onSelect,
   onChange,
   location,
 }: {
-  onSelect: (value: { address: string; lat: number; lng: number }) => void;
+  onSelect: (value: LocationData) => void;
   onChange?: () => void;
   location?: string;
 }) {
@@ -21,26 +32,98 @@ export default function LocationAutocomplete({
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
 
-  const onPlaceChanged = () => {
+  const parseAddressComponents = (
+    components: google.maps.GeocoderAddressComponent[]
+  ) => {
+    let streetNumber = "";
+    let route = "";
+    let street = "";
+    let city = "";
+    let state = "";
+    let postalCode = "";
+    let countryCode = "";
+
+    components.forEach((c) => {
+      if (c.types.includes("street_number")) streetNumber = c.long_name;
+      if (c.types.includes("route")) route = c.long_name;
+      if (c.types.includes("locality")) city = c.long_name;
+      if (c.types.includes("administrative_area_level_1")) state = c.long_name;
+      if (c.types.includes("postal_code")) postalCode = c.long_name;
+      if (c.types.includes("country")) countryCode = c.short_name;
+    });
+
+    if (streetNumber || route) street = `${streetNumber} ${route}`.trim();
+
+    return { street, city, state, postalCode, countryCode };
+  };
+
+  const ensurePostalCode = async (
+    lat: number,
+    lng: number,
+    parsed: LocationData
+  ) => {
+    if (parsed.postalCode) return parsed;
+
+    const geocoder = new google.maps.Geocoder();
+    const res = await geocoder.geocode({ location: { lat, lng } });
+
+    if (res.results?.[0]) {
+      const postalComponent = res.results[0].address_components.find((c) =>
+        c.types.includes("postal_code")
+      );
+      return {
+        ...parsed,
+        postalCode: postalComponent?.long_name || "",
+      };
+    }
+
+    return parsed;
+  };
+
+  const onPlaceChanged = async () => {
     if (!autocompleteRef.current) return;
     const place = autocompleteRef.current.getPlace();
-    if (!place?.geometry || !place?.formatted_address) {
+    if (!place.geometry || !place.geometry.location) {
       setError("Please select a location from the list.");
       return;
     }
 
-    setError("");
-    const lat = place.geometry.location?.lat();
-    const lng = place.geometry.location?.lng();
-    if (lat && lng) {
-      onSelect({ address: place.formatted_address, lat, lng });
+    const lat = place.geometry.location.lat();
+    const lng = place.geometry.location.lng();
+    const address = place.formatted_address || "";
+
+    const { street, city, state, postalCode, countryCode } =
+      parseAddressComponents(place.address_components || []);
+
+    // 국가 코드 검증
+    if (countryCode !== "FR") {
+      setError("Only locations in France are allowed.");
+      onSelect({ lat: NaN, lng: NaN });
+      if (inputRef.current) inputRef.current.value = "";
+      return;
     }
+
+    let parsed: LocationData = {
+      lat,
+      lng,
+      location: address,
+      street,
+      city,
+      state,
+      postalCode,
+      countryCode,
+    };
+
+    parsed = await ensurePostalCode(lat, lng, parsed);
+
+    setError("");
+    onSelect(parsed);
   };
 
   const handleBlur = async () => {
     const value = inputRef.current?.value;
     if (!value) {
-      onSelect({ address: "", lat: 0, lng: 0 });
+      onSelect({ lat: 0, lng: 0 });
       return;
     }
     if (!autocompleteRef.current?.getPlace()?.geometry) {

@@ -29,6 +29,14 @@ export default function EditProfileForm({ user }: { user: any }) {
       : null
   );
 
+  const [addressDetails, setAddressDetails] = useState({
+    street: user.street ?? "",
+    city: user.city ?? "",
+    state: user.state ?? "",
+    postalCode: user.postalCode ?? "",
+    countryCode: user.countryCode ?? "",
+  });
+
   const router = useRouter();
 
   const [state, formAction] = useActionState(
@@ -38,6 +46,11 @@ export default function EditProfileForm({ user }: { user: any }) {
       formData.set("latitude", String(latLng?.lat ?? ""));
       formData.set("longitude", String(latLng?.lng ?? ""));
       formData.set("radius", String(radius));
+      formData.set("street", addressDetails.street);
+      formData.set("city", addressDetails.city);
+      formData.set("state", addressDetails.state);
+      formData.set("postalCode", addressDetails.postalCode);
+      formData.set("countryCode", addressDetails.countryCode);
       return updateProfile(formData);
     },
     null
@@ -180,9 +193,19 @@ export default function EditProfileForm({ user }: { user: any }) {
       <div className="flex flex-col gap-1">
         <label className="text-sm text-white font-medium">Neighborhood</label>
         <LocationAutocomplete
-          onSelect={({ address, lat, lng }) => {
+          onSelect={({
+            location: address,
+            lat,
+            lng,
+            street,
+            city,
+            state,
+            postalCode,
+            countryCode,
+          }) => {
             setLocation(address);
             setLatLng({ lat, lng });
+            setAddressDetails({ street, city, state, postalCode, countryCode });
           }}
           onChange={() => {
             if (locationError) setLocationError("");
