@@ -53,7 +53,7 @@ export default function ListProductDesktop({
           className="object-cover"
         />
         {status === "SOLD" && (
-          <div className="absolute bottom-2 left-2 text-sm font-bold bg-neutral-600 px-2 py-1 opacity-80 text-neutral-300 rounded">
+          <div className="absolute bottom-0 left-0 text-base font-bold bg-neutral-600 px-2 py-1 opacity-80 text-neutral-300">
             SOLD
           </div>
         )}
