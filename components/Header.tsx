@@ -10,7 +10,7 @@ import {
   HeartIcon,
 } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/solid";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { usePathname } from "next/navigation";
 import SearchBar from "./SearchBar";
 import MobileNavigationBar from "./MobileNavigationBar";

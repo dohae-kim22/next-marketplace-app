@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import ListProduct from "@/components/ListProduct";
 import ListPost from "@/components/ListPost";
 import { formatToTimeAgo } from "@/lib/utils";

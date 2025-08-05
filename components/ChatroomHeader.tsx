@@ -1,5 +1,5 @@
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 export default function ChatroomHeader({ opponent }: { opponent: string }) {
   return (

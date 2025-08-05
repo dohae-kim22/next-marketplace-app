@@ -8,7 +8,7 @@ import {
   VideoCameraIcon,
 } from "@heroicons/react/24/solid";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { usePathname } from "next/navigation";
 
 export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {

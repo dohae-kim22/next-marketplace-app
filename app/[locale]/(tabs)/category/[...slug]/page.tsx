@@ -5,7 +5,7 @@ import { Category, mainCategories } from "@/constants/categories";
 import db from "@/lib/db";
 import { getUserWithLocation } from "@/lib/session";
 import { getDistanceFromLatLonInKm } from "@/lib/utils";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 async function getAllProducts() {
   return db.product.findMany({

@@ -6,7 +6,7 @@ import {
 import { formatShortAddress, formatToEuro, formatToTimeAgo } from "@/lib/utils";
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 interface ListProductProps {
   title: string;

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { createComment } from "@/app/[locale]/(headers)/posts/[id]/actions";
 import { formatToTimeAgo } from "@/lib/utils";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 interface Comment {
   id: number;

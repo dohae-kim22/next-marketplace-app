@@ -7,7 +7,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import PostLikeButton from "@/components/PostLikeButton";
 import CommentSection from "@/components/CommentSection";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 async function getPost(id: number) {
   try {

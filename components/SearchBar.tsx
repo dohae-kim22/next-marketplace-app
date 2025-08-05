@@ -6,7 +6,7 @@ import {
   PlusIcon,
 } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
