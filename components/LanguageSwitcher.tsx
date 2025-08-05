@@ -54,7 +54,7 @@ export default function LanguageSwitcher() {
         onClick={() => setOpen((prev) => !prev)}
         className="flex items-center gap-1 text-white py-1.5 
              border-b-2 border-transparent hover:border-white
-             transition-colors shadow-md"
+             transition-colors"
       >
         <span className="text-sm font-semibold">
           {supportedLocales.find((l) => l.code === locale)?.code.toUpperCase()}

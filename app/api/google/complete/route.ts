@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
     }
   );
 
-  const { id, name, picture } = await userProfileResponse.json();
+  const { id, name, picture, email } = await userProfileResponse.json();
 
   const user = await db.user.findUnique({
     where: {
@@ -67,6 +67,7 @@ export async function GET(request: NextRequest) {
       userName: name,
       googleId: id + "",
       avatar: picture ?? "/default-user.png",
+      email,
     },
     select: {
       id: true,
