@@ -30,5 +30,25 @@
     "showingAll": "📍 Showing all locations",
     "editLocation": "Edit location",
     "setLocation": "Set location"
+  },
+  "signUp": {
+    "welcome": "Welcome!",
+    "subtitle": "Join us by filling out the form below.",
+    "username": "USERNAME :*",
+    "email": "EMAIL :*",
+    "password": "PASSWORD :*",
+    "confirmPassword": "CONFIRM PASSWORD :*",
+    "createAccount": "Create Account"
+  },
+  "signIn": {
+    "welcome": "Welcome Back!",
+    "subtitle": "Connect with your local marketplace now.",
+    "email": "EMAIL :*",
+    "password": "PASSWORD :*",
+    "logIn": "Log In"
+  },
+  "socialLogin": {
+    "continueWithGoogle": "Continue with Google",
+    "continueWithGithub": "Continue with Github"
   }
 }

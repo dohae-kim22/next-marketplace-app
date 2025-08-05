@@ -6,6 +6,7 @@ import SocialLogin from "@/components/SocialLogin";
 import { createAccount } from "./actions";
 import { useActionState } from "react";
 import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
+import { useTranslations } from "next-intl";
 
 const initialState = {
   fieldErrors: {},
@@ -19,19 +20,18 @@ const initialState = {
 
 export default function CreateAccount() {
   const [state, dispatch] = useActionState(createAccount, initialState);
+  const t = useTranslations("signUp");
 
   return (
     <div className="flex flex-col justify-center px-6 py-8 gap-8 mx-auto md:max-w-lg">
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold">Welcome!</h1>
-        <h2 className="text-lg font-medium">
-          Join us by filling out the form below.
-        </h2>
+        <h1 className="text-2xl font-bold">{t("welcome")}</h1>
+        <h2 className="text-base font-semibold">{t("subtitle")}</h2>
       </div>
       <form action={dispatch} className="flex flex-col gap-5 w-full">
         <div className="flex flex-col gap-2 text-neutral-400 font-semibold">
           <label htmlFor="username" className="text-sm">
-            USERNAME :*
+            {t("username")}
           </label>
           <FormInput
             id="username"
@@ -46,7 +46,7 @@ export default function CreateAccount() {
         </div>
         <div className="flex flex-col gap-2 text-neutral-400 font-semibold">
           <label htmlFor="email" className="text-sm">
-            EMAIL :*
+            {t("email")}
           </label>
           <FormInput
             id="email"
@@ -59,7 +59,7 @@ export default function CreateAccount() {
         </div>
         <div className="flex flex-col gap-2 text-neutral-400 font-semibold">
           <label htmlFor="password" className="text-sm">
-            PASSWORD :*
+            {t("password")}
           </label>
           <FormInput
             id="password"
@@ -73,7 +73,7 @@ export default function CreateAccount() {
         </div>
         <div className="flex flex-col gap-2 text-neutral-400 font-semibold">
           <label htmlFor="password" className="text-sm">
-            CONFIRM PASSWORD :*
+            {t("confirmPassword")}
           </label>
           <FormInput
             name="confirmPassword"
@@ -84,7 +84,7 @@ export default function CreateAccount() {
             minLength={PASSWORD_MIN_LENGTH}
           />
         </div>
-        <FormButton text="Create Account" />
+        <FormButton text={t("createAccount")} />
       </form>
       <SocialLogin />
     </div>
