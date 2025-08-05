@@ -66,7 +66,7 @@ export default async function Town() {
   const { posts, user } = await getFilteredPostsByLocation();
 
   return (
-    <div className="container-lg p-5 mb-20">
+    <div className="container-lg px-5 mb-25">
       <LocationBanner
         location={user?.location ?? undefined}
         radius={user?.radius ?? undefined}

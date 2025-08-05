@@ -74,7 +74,7 @@ export default async function ProductSearchPage({
             ))}
           </div>
 
-          <div className="hidden lg:grid lg:grid-cols-5 gap-6">
+          <div className="hidden lg:grid lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {products.map((product) => (
               <ListProductDesktop key={product.id} {...product} />
             ))}

@@ -10,16 +10,20 @@ import {
 
 import { Link } from "@/i18n/navigation";
 import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 
 export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
   const pathname = usePathname();
+  const locale = useLocale();
 
   return (
     <div className="fixed z-10 bottom-0 flex justify-between md:justify-around w-full mx-auto px-5 py-3 border-neutral-600 border-t bg-neutral-900 lg:hidden">
       <Link
         href="/products"
         className={`flex flex-col gap-px items-center ${
-          pathname.startsWith("/products") ? "text-white" : "text-neutral-500"
+          pathname.startsWith(`/${locale}/products`)
+            ? "text-white"
+            : "text-neutral-500"
         }`}
       >
         <HomeIcon className="size-7" />
@@ -28,7 +32,9 @@ export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
       <Link
         href="/posts"
         className={`flex flex-col gap-px items-center ${
-          pathname.startsWith("/posts") ? "text-white" : "text-neutral-500"
+          pathname.startsWith(`/${locale}/posts`)
+            ? "text-white"
+            : "text-neutral-500"
         }`}
       >
         <NewspaperIcon className="size-7" />
@@ -37,7 +43,9 @@ export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
       <Link
         href="/chats"
         className={`flex flex-col gap-px items-center relative ${
-          pathname.startsWith("/chats") ? "text-white" : "text-neutral-500"
+          pathname.startsWith(`/${locale}/chats`)
+            ? "text-white"
+            : "text-neutral-500"
         }`}
       >
         <ChatBubbleOvalLeftEllipsisIcon className="size-7" />
@@ -51,7 +59,9 @@ export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
       <Link
         href="/live"
         className={`flex flex-col gap-px items-center ${
-          pathname.startsWith("/live") ? "text-white" : "text-neutral-500"
+          pathname.startsWith(`/${locale}/live`)
+            ? "text-white"
+            : "text-neutral-500"
         }`}
       >
         <VideoCameraIcon className="size-7" />
@@ -60,7 +70,9 @@ export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
       <Link
         href="/profile"
         className={`flex flex-col gap-px items-center ${
-          pathname.startsWith("/profile") ? "text-white" : "text-neutral-500"
+          pathname.startsWith(`/${locale}/profile`)
+            ? "text-white"
+            : "text-neutral-500"
         }`}
       >
         <UserIcon className="size-7" />

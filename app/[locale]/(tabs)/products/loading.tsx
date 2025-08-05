@@ -2,7 +2,7 @@ export default function Loading() {
   return (
     <div className="animate-pulse container-lg p-5 flex flex-col gap-3 mb-20">
       <div className="bg-neutral-700 rounded-md w-full h-9 mb-3" />
-      <div className="flex flex-col gap-5 lg:grid lg:grid-cols-5 lg:gap-8">
+      <div className="flex flex-col gap-5 lg:grid lg:grid-cols-4 xl:grid-cols-5 lg:gap-8">
         {[...Array(10)].map((_, index) => (
           <div
             key={index}

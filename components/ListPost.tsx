@@ -29,20 +29,24 @@ export default function ListPost(props: ListPostProps) {
       <h2 className="text-white text-lg font-semibold overflow-hidden text-ellipsis whitespace-nowrap">
         {props.title}
       </h2>
-      <div className="flex gap-3">
-        {props.description && (
-          <p className="text-sm text-justify">
-            <span className="line-clamp-4">{props.description}</span>
-          </p>
-        )}
+      <div className="flex gap-4">
+        <div className="flex-1 flex items-start">
+          {props.description && (
+            <p className="text-base text-justify">
+              <span className="line-clamp-3">{props.description}</span>
+            </p>
+          )}
+        </div>
+
         {props.photo && (
-          <Image
-            src={`${props.photo}/avatar`}
-            width={90}
-            height={90}
-            alt={props.title}
-            className="object-cover shrink-0"
-          />
+          <div className="w-[70px] h-[70px] relative">
+            <Image
+              src={`${props.photo}/avatar`}
+              fill
+              alt={props.title}
+              className="object-cover shrink-0 rounded-sm"
+            />
+          </div>
         )}
       </div>
       <div className="flex items-center justify-between text-sm">
