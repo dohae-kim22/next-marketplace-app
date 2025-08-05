@@ -140,7 +140,13 @@ export default async function PostDetail({
 
       <div className="flex gap-2 text-neutral-400 text-sm font-semibold mt-3 items-center">
         <MapPinIcon className="size-5" />
-        <span>{formatShortAddress(post.location)}</span>
+        <span>
+          {formatShortAddress({
+            city: post.city ?? "",
+            postalCode: post.postalCode ?? "",
+            location: post.location,
+          })}
+        </span>
       </div>
 
       <div className="flex gap-4 items-center justify-between mt-1">

@@ -45,12 +45,53 @@ export function formatDateString(date: Date) {
   return formatted;
 }
 
-export function formatShortAddress(fullAddress: string): string {
-  const parts = fullAddress.split(",");
-  if (parts.length < 2) return fullAddress.trim();
+export function formatShortAddress({
+  city,
+  postalCode,
+  location,
+}: {
+  city?: string;
+  postalCode?: string;
+  location: string;
+}): string {
+  if (postalCode && city) return `${postalCode} ${city}, France`;
+  const parts = location.split(",");
+  if (parts.length < 2) return location.trim();
 
   const lastTwo = parts.slice(-2).map((part) => part.trim());
+  lastTwo[lastTwo.length - 1] = "France";
+
   return lastTwo.join(", ");
+}
+
+export function formatFullAddress({
+  street,
+  postalCode,
+  city,
+  location,
+}: {
+  street?: string | null;
+  postalCode?: string | null;
+  city?: string | null;
+  location: string;
+}): string {
+  const hasStreet = street && street.trim() !== "";
+  const hasCityPostal =
+    postalCode && postalCode.trim() !== "" && city && city.trim() !== "";
+
+  if (hasStreet && hasCityPostal) {
+    return `${street}, ${postalCode} ${city}, France`;
+  }
+
+  if (!hasStreet && hasCityPostal) {
+    return `${postalCode} ${city}, France`;
+  }
+
+  const parts = location.split(",");
+  if (parts.length === 0) return "France";
+
+  parts[parts.length - 1] = "France";
+  return parts.map((p) => p.trim()).join(", ");
 }
 
 // Haversine formula to calculate distance between two coordinates

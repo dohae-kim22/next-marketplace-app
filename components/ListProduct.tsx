@@ -15,6 +15,11 @@ interface ListProductProps {
   photo: string;
   location: string;
   views: number;
+  street: string | null;
+  postalCode: string | null;
+  state: string | null;
+  countryCode: string | null;
+  city: string | null;
   productLikes: ProductLike[];
   created_at: Date;
   status: ProductStatus;
@@ -26,6 +31,8 @@ export default function ListProduct({
   price,
   id,
   location,
+  city,
+  postalCode,
   photo,
   created_at,
   productLikes,
@@ -54,7 +61,13 @@ export default function ListProduct({
       <div className="flex flex-col gap-1 *:text-white flex-1">
         <div className="flex flex-col flex-1 gap-1">
           <span className="text-lg line-clamp-1">{title}</span>
-          <span className="text-xs">{formatShortAddress(location)}</span>
+          <span className="text-xs">
+            {formatShortAddress({
+              city: city ?? "",
+              postalCode: postalCode ?? "",
+              location,
+            })}
+          </span>
           <span className="text-xs text-neutral-500">
             {formatToTimeAgo(created_at.toString())}
           </span>

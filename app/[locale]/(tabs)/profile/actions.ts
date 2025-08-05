@@ -1,7 +1,7 @@
 "use server";
 
 import db from "@/lib/db";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 export async function logOut() {
@@ -28,6 +28,11 @@ export async function getUserWithContent() {
           views: true,
           productLikes: true,
           location: true,
+          city: true,
+          street: true,
+          postalCode: true,
+          state: true,
+          countryCode: true,
           status: true,
           type: true,
         },
