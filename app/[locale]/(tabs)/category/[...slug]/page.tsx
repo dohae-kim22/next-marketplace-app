@@ -1,11 +1,9 @@
 import ListProduct from "@/components/ListProduct";
 import ListProductDesktop from "@/components/ListProductDesktop";
 import LocationBanner from "@/components/LocationBanner";
-import { Category, mainCategories } from "@/constants/categories";
 import db from "@/lib/db";
 import { getUserWithLocation } from "@/lib/session";
 import { getDistanceFromLatLonInKm } from "@/lib/utils";
-import { Link } from "@/i18n/navigation";
 import CategoryBreadcrumb from "@/components/CategoryBreadcrumb";
 import { findCategoryBySlugs } from "@/lib/categoryUtils";
 

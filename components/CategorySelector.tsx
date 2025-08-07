@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Category, mainCategories } from "@/constants/categories";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Props {
   onChange: (values: string[]) => void;
@@ -20,6 +21,8 @@ export default function CategorySelector({
     errors.length > 0 ? errors[0] : null
   );
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const currentLocale = useLocale() as "en" | "fr";
+  const t = useTranslations("categorySelector");
 
   useEffect(() => {
     if (defaultValue.length === 0) return;
@@ -74,7 +77,7 @@ export default function CategorySelector({
     return path.map((idx) => {
       const category = currentLevel[idx];
       currentLevel = category.sub || [];
-      return category.name.en;
+      return category.name[currentLocale];
     });
   };
 
@@ -122,7 +125,7 @@ export default function CategorySelector({
         className="w-full border border-neutral-200 px-4 py-2 rounded-md bg-neutral-900 text-left shadow"
       >
         {selectedNames.length === 0
-          ? "Select Category"
+          ? t("placeholder")
           : selectedNames.join(" → ")}
       </button>
 
@@ -133,7 +136,7 @@ export default function CategorySelector({
               onClick={handleBack}
               className="px-4 py-2 text-orange-500 cursor-pointer hover:bg-neutral-800 border-b"
             >
-              ← Back
+              {t("back")}
             </div>
           )}
 
@@ -144,7 +147,7 @@ export default function CategorySelector({
                 onClick={() => handleSelect(idx)}
                 className="px-4 py-2 hover:bg-neutral-800 cursor-pointer flex justify-between items-center"
               >
-                <span>{cat.name.en}</span>
+                <span>{cat.name[currentLocale]}</span>
                 {cat.sub && cat.sub.length > 0 && (
                   <span className="text-gray-400">›</span>
                 )}

@@ -4,6 +4,7 @@ import {
   Autocomplete,
   useLoadScript,
 } from "@react-google-maps/api";
+import { useTranslations } from "next-intl";
 import { useRef, useState, useEffect } from "react";
 
 interface LocationData {
@@ -47,6 +48,8 @@ export default function LocationPicker({
 
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const t = useTranslations("locationPicker");
 
   const parseAddressComponents = (
     components: google.maps.GeocoderAddressComponent[]
@@ -154,7 +157,7 @@ export default function LocationPicker({
       setPosition(null);
       onChange({ lat: NaN, lng: NaN });
       if (inputRef.current) inputRef.current.value = "";
-      setLocalErrors(["Only locations in France are allowed."]);
+      setLocalErrors([t("onlyFrance")]);
       return;
     }
 
@@ -217,12 +220,12 @@ export default function LocationPicker({
     onChange(parsed);
   };
 
-  if (!isLoaded) return <p>Loading map...</p>;
+  if (!isLoaded) return <p>{t("loading")}</p>;
 
   return (
     <div className="flex flex-col gap-3">
       <label className="text-sm font-medium text-neutral-300 lg:text-base">
-        Choose a meeting spot on the map
+        {t("label")}
       </label>
 
       <Autocomplete
@@ -233,7 +236,7 @@ export default function LocationPicker({
         <input
           ref={inputRef}
           type="text"
-          placeholder="Search address..."
+          placeholder={t("searchPlaceholder")}
           defaultValue={defaultValue}
           className="w-full bg-transparent border-none rounded-md focus:outline-none transition h-10 ring-1 ring-neutral-200 focus:ring-2 focus:ring-orange-500 placeholder:text-neutral-400"
         />

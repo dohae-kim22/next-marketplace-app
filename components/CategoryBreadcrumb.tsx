@@ -2,12 +2,14 @@
 
 import { Link } from "@/i18n/navigation";
 import { findCategoryBySlugs } from "@/lib/categoryUtils";
+import { useLocale } from "next-intl";
 
 interface Props {
   slug: string[];
 }
 
 export default function CategoryBreadcrumb({ slug }: Props) {
+  const currentLocale = useLocale() as "en" | "fr";
   const [main, sub, subsub] = slug || [];
 
   const categoryMainObj = findCategoryBySlugs([main]);
@@ -30,7 +32,7 @@ export default function CategoryBreadcrumb({ slug }: Props) {
             href={`/category/${main}`}
             className="underline underline-offset-4 hover:text-orange-400 transition-colors"
           >
-            {categoryMainObj.name.en}
+            {categoryMainObj.name[currentLocale]}
           </Link>
         </>
       )}
@@ -42,7 +44,7 @@ export default function CategoryBreadcrumb({ slug }: Props) {
             href={`/category/${main}/${sub}`}
             className="underline underline-offset-4 hover:text-orange-400 transition-colors"
           >
-            {categorySubObj.name.en}
+            {categorySubObj.name[currentLocale]}
           </Link>
         </>
       )}
@@ -54,7 +56,7 @@ export default function CategoryBreadcrumb({ slug }: Props) {
             href={`/category/${main}/${sub}/${subsub}`}
             className="underline underline-offset-4 hover:text-orange-400 transition-colors"
           >
-            {categorySubSubObj.name.en}
+            {categorySubSubObj.name[currentLocale]}
           </Link>
         </>
       )}

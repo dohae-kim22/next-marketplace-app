@@ -8,6 +8,8 @@ import FormTextarea from "@/components/FormTextArea";
 import FormButton from "@/components/FormButton";
 import LocationPicker from "@/components/LocationPicker";
 import CategorySelector from "@/components/CategorySelector";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface LocationData {
   lat: number;
@@ -25,11 +27,14 @@ export default function AddProduct() {
   const [uploadUrls, setUploadUrls] = useState<string[]>([]);
   const [imageError, setImageError] = useState("");
   const [isUploading, setIsUploading] = useState(false);
-  const [isFree, setIsFree] = useState(false);
   const [type, setType] = useState<"SALE" | "FREE" | "WANTED">("SALE");
+  const isFree = type === "FREE";
   const [price, setPrice] = useState<string>("");
   const [category, setCategory] = useState({ main: "", sub: "", subSub: "" });
   const [position, setPosition] = useState<LocationData | null>(null);
+
+  const router = useRouter();
+  const t = useTranslations("addProduct");
 
   const handleRemoveImage = (index: number) => {
     setPreviews((prev) => prev.filter((_, i) => i !== index));
@@ -49,14 +54,14 @@ export default function AddProduct() {
     }
 
     if (file.size > 15 * 1024 * 1024) {
-      setImageError("Each file must be less than 15MB.");
+      setImageError(t("form.sizeError"));
       setIsUploading(false);
       return;
     }
 
     const { success, result } = await getUploadURL();
     if (!success) {
-      setImageError("Failed to get upload URL.");
+      setImageError(t("form.uploadUrlError"));
       setIsUploading(false);
       return;
     }
@@ -71,7 +76,7 @@ export default function AddProduct() {
     });
 
     if (!uploadRes.ok) {
-      setImageError("Image upload failed.");
+      setImageError(t("form.uploadError"));
       return;
     }
 
@@ -119,9 +124,9 @@ export default function AddProduct() {
   return (
     <form
       action={dispatch}
-      className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto"
+      className="p-5 flex flex-col gap-5 md:p-15 md:pt-5 lg:max-w-4xl lg:mx-auto lg:pt-10"
     >
-      <h1 className="text-neutral-300 font-medium text-xl">Add an item</h1>
+      <h1 className="text-neutral-300 font-medium text-xl">{t("title")}</h1>
       <div className="flex gap-3 flex-wrap">
         {previews.map((preview, i) => (
           <div key={i} className="relative">
@@ -170,90 +175,117 @@ export default function AddProduct() {
       </div>
       {imageError && <span className="text-red-500 text-sm">{imageError}</span>}
 
-      <FormInput
-        name="title"
-        placeholder="Title"
-        type="text"
-        required
-        errors={state?.fieldErrors.title}
-        defaultValue={state?.values?.title as string}
-      />
+      <div className="flex flex-col gap-5 text-neutral-300 font-semibold">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="title" className="text-sm">
+            {t("form.title")}
+          </label>
+          <FormInput
+            id="title"
+            name="title"
+            type="text"
+            required
+            errors={state?.fieldErrors.title}
+            defaultValue={state?.values?.title as string}
+          />
+        </div>
 
-      <CategorySelector
-        onChange={(values) =>
-          setCategory({
-            main: values[0] || "",
-            sub: values[1] || "",
-            subSub: values[2] || "",
-          })
-        }
-        errors={state?.fieldErrors?.categoryMain}
-      />
-      <input type="hidden" name="categoryMain" value={category.main} />
-      <input type="hidden" name="categorySub" value={category.sub} />
-      <input type="hidden" name="categorySubSub" value={category.subSub} />
+        <div className="flex flex-col gap-2">
+          <label className="text-sm">{t("form.category")}</label>
+          <CategorySelector
+            onChange={(values) =>
+              setCategory({
+                main: values[0] || "",
+                sub: values[1] || "",
+                subSub: values[2] || "",
+              })
+            }
+            errors={state?.fieldErrors?.categoryMain}
+          />
+        </div>
+        <input type="hidden" name="categoryMain" value={category.main} />
+        <input type="hidden" name="categorySub" value={category.sub} />
+        <input type="hidden" name="categorySubSub" value={category.subSub} />
 
-      <div className="flex gap-2 items-center">
-        <button
-          type="button"
-          onClick={() => setType("SALE")}
-          className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
-            type === "SALE"
-              ? "bg-orange-500 text-neutral-100"
-              : "bg-neutral-100 text-neutral-700"
-          }`}
-        >
-          For Sale
-        </button>
+        <div className="flex gap-2 items-center">
+          <button
+            type="button"
+            onClick={() => setType("SALE")}
+            className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
+              type === "SALE"
+                ? "bg-orange-500 text-neutral-100"
+                : "bg-neutral-100 text-neutral-700"
+            }`}
+          >
+            {t("form.type.sale")}
+          </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            setType("FREE");
-            setPrice("0");
-          }}
-          className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
-            type === "FREE"
-              ? "bg-orange-500 text-neutral-100"
-              : "bg-neutral-100 text-neutral-700"
-          }`}
-        >
-          Free Giveaway
-        </button>
+          <button
+            type="button"
+            onClick={() => {
+              setType("FREE");
+              setPrice("0");
+            }}
+            className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
+              type === "FREE"
+                ? "bg-orange-500 text-neutral-100"
+                : "bg-neutral-100 text-neutral-700"
+            }`}
+          >
+            {t("form.type.free")}
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setType("WANTED")}
-          className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
-            type === "WANTED"
-              ? "bg-orange-500 text-neutral-100"
-              : "bg-neutral-100 text-neutral-700"
-          }`}
-        >
-          Wanted
-        </button>
+          <button
+            type="button"
+            onClick={() => setType("WANTED")}
+            className={`px-3 py-1 rounded-full border border-neutral-700 text-sm ${
+              type === "WANTED"
+                ? "bg-orange-500 text-neutral-100"
+                : "bg-neutral-100 text-neutral-700"
+            }`}
+          >
+            {t("form.type.wanted")}
+          </button>
+        </div>
+
+        <input
+          type="hidden"
+          name="type"
+          value={price === "0" ? "FREE" : type}
+        />
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="price" className="text-sm">
+            {t("form.price")}
+          </label>
+          <FormInput
+            id="price"
+            name="price"
+            placeholder={isFree ? "€ 0" : "€ Price"}
+            type="number"
+            step="0.01"
+            required
+            errors={state?.fieldErrors.price}
+            defaultValue={state?.values?.price as string}
+            disabled={isFree}
+            value={isFree ? "0" : price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="description" className="text-sm">
+            {t("form.description")}
+          </label>
+          <FormTextarea
+            id="description"
+            name="description"
+            required
+            errors={state?.fieldErrors.description}
+          />
+        </div>
       </div>
 
-      <input type="hidden" name="type" value={price === "0" ? "FREE" : type} />
-
-      <FormInput
-        name="price"
-        placeholder={isFree ? "€ 0" : "€ Price"}
-        type="number"
-        step="0.01"
-        required
-        errors={state?.fieldErrors.price}
-        defaultValue={state?.values?.price as string}
-        disabled={isFree}
-        value={isFree ? "0" : price}
-        onChange={(e) => setPrice(e.target.value)}
-      />
-      <FormTextarea
-        name="description"
-        placeholder="Description"
-        required
-        errors={state?.fieldErrors.description}
-      />
       <LocationPicker
         errors={state?.fieldErrors.location}
         onChange={({
@@ -296,8 +328,16 @@ export default function AddProduct() {
         name="countryCode"
         value={position?.countryCode ?? ""}
       />
-
-      <FormButton text="Post" />
+      <div className="flex flex-col gap-4 mt-5">
+        <FormButton text={t("form.post")} />
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="h-10 text-white border border-orange-500 w-full text-center font-medium rounded-md hover:border-orange-400 transition-colors"
+        >
+          {t("form.cancel")}
+        </button>
+      </div>
     </form>
   );
 }

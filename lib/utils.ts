@@ -31,9 +31,9 @@ export function formatToTimeAgo(date: string, locale: string = "en") {
   }
 }
 
-export function formatDateString(date: Date) {
+export function formatDateString(date: Date, locale: string = "en") {
   const formatted = date
-    .toLocaleString("en-GB", {
+    .toLocaleString(locale === "fr" ? "fr-FR" : "en-GB", {
       year: "numeric",
       month: "short",
       day: "2-digit",
