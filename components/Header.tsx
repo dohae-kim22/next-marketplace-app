@@ -10,8 +10,7 @@ import {
   HeartIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "@/i18n/navigation";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import SearchBar from "./SearchBar";
 import MobileNavigationBar from "./MobileNavigationBar";
 import NavigationBar from "./NavigationBar";
@@ -21,9 +20,6 @@ import { useTranslations } from "next-intl";
 export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   const pathname = usePathname();
   const t = useTranslations("header");
-
-  const segments = pathname.split("/").filter(Boolean);
-  const pathWithoutLocale = segments.slice(1).join("/") || "/";
 
   const hideSearchAddButton =
     pathname.startsWith("/profile") || pathname.startsWith("/chats");
@@ -42,16 +38,13 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   let addHref: string | undefined;
   let searchHref: string | undefined;
 
-  if (
-    pathWithoutLocale.startsWith("products") ||
-    pathWithoutLocale.startsWith("category")
-  ) {
+  if (pathname.startsWith("/products") || pathname.startsWith("category")) {
     addHref = "/products/add";
     searchHref = "/products/search";
-  } else if (pathWithoutLocale.startsWith("posts")) {
+  } else if (pathname.startsWith("/posts")) {
     addHref = "/posts/add";
     searchHref = "/posts/search";
-  } else if (pathWithoutLocale.startsWith("live")) {
+  } else if (pathname.startsWith("/live")) {
     addHref = "/live/add";
     searchHref = "/live/search";
   }
@@ -88,7 +81,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
 
         <nav className="hidden lg:flex items-center gap-6 justify-center font-semibold absolute left-1/2 -translate-x-1/2">
           {menu.map(({ href, label, icon: Icon }) => {
-            const active = pathWithoutLocale.startsWith(href);
+            const active = pathname.startsWith(href);
             return (
               <Link
                 key={href}

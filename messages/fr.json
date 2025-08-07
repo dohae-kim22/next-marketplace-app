@@ -50,5 +50,67 @@
   "socialLogin": {
     "continueWithGoogle": "Continuer avec Google",
     "continueWithGithub": "Continuer avec Github"
+  },
+  "addProduct": {
+    "title": "Ajouter un article",
+    "form": {
+      "title": "TITRE",
+      "category": "CATÉGORIE",
+      "type": {
+        "sale": "À vendre",
+        "free": "Don gratuit",
+        "wanted": "Recherche"
+      },
+      "price": "PRIX",
+      "description": "DESCRIPTION",
+      "post": "Publier",
+      "cancel": "Annuler",
+      "uploadError": "Échec du téléversement de l’image.",
+      "sizeError": "Chaque fichier doit faire moins de 15 Mo.",
+      "uploadUrlError": "Échec de l’obtention de l’URL de téléversement."
+    }
+  },
+  "categorySelector": {
+    "placeholder": "Choisir une catégorie",
+    "back": "← Retour"
+  },
+  "locationPicker": {
+    "label": "Choisissez un lieu de rencontre sur la carte",
+    "searchPlaceholder": "Rechercher une adresse...",
+    "onlyFrance": "Seules les adresses en France sont autorisées.",
+    "loading": "Chargement de la carte..."
+  },
+  "editForm": {
+    "title": "Modifier votre annonce",
+    "label": {
+      "title": "TITRE",
+      "category": "CATÉGORIE",
+      "price": "PRIX",
+      "description": "DESCRIPTION"
+    },
+    "placeholder": {
+      "title": "Titre",
+      "price": "€ Prix",
+      "description": "Description"
+    },
+    "type": {
+      "sale": "À vendre",
+      "free": "Don gratuit",
+      "wanted": "Recherche"
+    },
+    "save": "Enregistrer les modifications",
+    "cancel": "Annuler"
+  },
+  "productDetail": {
+    "freeGiveaway": "Don Gratuit",
+    "wanted": "Recherche",
+    "soldOut": "Vendu",
+    "editListing": "Modifier l'annonce",
+    "markAsAvailable": "Marquer comme disponible",
+    "markAsSold": "Marquer comme vendu",
+    "askSeller": "Contacter le vendeur",
+    "meetupLocation": "Lieu de rendez-vous",
+    "deleteConfirm": "Voulez-vous vraiment supprimer ceci ?",
+    "delete": "Supprimer"
   }
 }

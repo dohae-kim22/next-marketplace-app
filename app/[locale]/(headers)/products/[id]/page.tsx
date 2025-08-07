@@ -10,7 +10,6 @@ import {
   EyeIcon,
   PaperAirplaneIcon,
   PencilIcon,
-  TrashIcon,
 } from "@heroicons/react/24/outline";
 import ProductImageSlider from "@/components/ProductImageSlider";
 import LocationMap from "@/components/LocationMap";
@@ -19,6 +18,9 @@ import { deleteProduct, toggleSoldStatus } from "./actions";
 import LikeButton from "@/components/LikeButton";
 import { createOrGetChatRoom } from "@/app/[locale]/(headers)/chats/actions";
 import CategoryBreadcrumb from "@/components/CategoryBreadcrumb";
+import { findCategorySlugsByIds } from "@/lib/categoryUtils";
+import DeleteProductButton from "@/components/DeleteProductButton";
+import { getTranslations } from "next-intl/server";
 
 async function getProduct(id: number) {
   const session = await getSession();
@@ -63,9 +65,9 @@ async function getProduct(id: number) {
 export default async function ProductDetail({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 }) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const numericId = Number(id);
 
   if (isNaN(numericId)) {
@@ -78,9 +80,13 @@ export default async function ProductDetail({
     return notFound();
   }
 
-  const slug: string[] = [product.categoryMain];
-  if (product.categorySub) slug.push(product.categorySub);
-  if (product.categorySubSub) slug.push(product.categorySubSub);
+  const t = await getTranslations("productDetail");
+
+  const categoryIdPath = [product.categoryMain];
+  if (product.categorySub) categoryIdPath.push(product.categorySub);
+  if (product.categorySubSub) categoryIdPath.push(product.categorySubSub);
+
+  const slug = findCategorySlugsByIds(categoryIdPath);
 
   const isOwner = await getIsOwner(product.userId);
 
@@ -115,41 +121,43 @@ export default async function ProductDetail({
           </Link>
           {product.type === "FREE" && product.status === "ON_SALE" && (
             <div className="bg-teal-500 opacity-90 px-2 rounded-md font-medium text-sm lg:text-base">
-              Free Giveaway
+              {t("freeGiveaway")}
             </div>
           )}
           {product.type === "WANTED" && product.status === "ON_SALE" && (
             <div className="bg-indigo-500 opacity-90 px-2 rounded-md font-medium text-sm lg:text-base">
-              Wanted
+              {t("wanted")}
             </div>
           )}
           {product.status === "SOLD" && (
             <div className="bg-red-500 opacity-90 px-2 rounded-md font-medium text-sm lg:text-base">
-              Sold Out
+              {t("soldOut")}
             </div>
           )}
         </div>
+
         {isOwner ? (
-          <div className="hidden mt-3 lg:flex flex-col gap-3">
+          <div className="hidden mt-3 lg:flex flex-col gap-2">
             <Link
               href={`/products/${product.id}/edit`}
-              className="bg-transparent p-2.5 rounded-full text-white font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700"
+              className="bg-transparent p-2.5 rounded-full text-white font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700 gap-2"
             >
               <PencilIcon className="h-6" />
-              <span>Edit Listing</span>
+              <span>{t("editListing")}</span>
             </Link>
-            <form action={deleteProduct.bind(null, product.id)}>
-              <button className="bg-transparent w-full p-2.5 rounded-full text-red-500 font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700">
-                <TrashIcon className="h-6" />
-                <span>Delete</span>
-              </button>
-            </form>
+            <DeleteProductButton
+              productId={product.id}
+              action={deleteProduct.bind(null, product.id)}
+              isMobile={false}
+            />
           </div>
         ) : null}
       </div>
       <div className="flex flex-col gap-3 flex-1">
         <div className="flex gap-1 *:text-xs *:text-neutral-400 lg:*:text-sm">
-          <span className="flex-1">{formatDateString(product.created_at)}</span>
+          <span className="flex-1">
+            {formatDateString(product.created_at, locale)}
+          </span>
           <div className="flex gap-1">
             <EyeIcon className="size-4 lg:size-5" />
             <span>{product.views}</span>
@@ -184,8 +192,8 @@ export default async function ProductDetail({
                     <CheckCircleIcon className="h-6" />
                     <span>
                       {product.status === "SOLD"
-                        ? "Mark as Available"
-                        : "Mark as Sold"}
+                        ? t("markAsAvailable")
+                        : t("markAsSold")}
                     </span>
                   </button>
                 </form>
@@ -197,7 +205,7 @@ export default async function ProductDetail({
                     className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400 flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600"
                   >
                     <PaperAirplaneIcon className="h-5" />
-                    <span>Ask seller</span>
+                    <span>{t("askSeller")}</span>
                   </button>
                 </form>
               )}
@@ -209,7 +217,7 @@ export default async function ProductDetail({
           {product.location && (
             <div className="mt-5 flex flex-col gap-2 md:mt-7">
               <h2 className="text-sm text-neutral-400 font-semibold">
-                Meet-up Location
+                {t("meetupLocation")}
               </h2>
               <div className="flex items-center justify-between">
                 <p className="text-sm lg:text-base">
@@ -235,13 +243,14 @@ export default async function ProductDetail({
           >
             €{formatToEuro(product.price)}
           </span>
+
           {isOwner ? (
             <>
-              <form action={deleteProduct.bind(null, product.id)}>
-                <button className="bg-transparent p-2.5 rounded-full text-red-500 font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700">
-                  <TrashIcon className="h-6" />
-                </button>
-              </form>
+              <DeleteProductButton
+                productId={product.id}
+                action={deleteProduct.bind(null, product.id)}
+                isMobile={true}
+              />
               <Link
                 href={`/products/${product.id}/edit`}
                 className="bg-transparent p-2.5 rounded-full text-white font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700"
@@ -258,8 +267,8 @@ export default async function ProductDetail({
                   <CheckCircleIcon className="h-6" />
                   <span>
                     {product.status === "SOLD"
-                      ? "Mark as Available"
-                      : "Mark as Sold"}
+                      ? t("markAsAvailable")
+                      : t("markAsSold")}
                   </span>
                 </button>
               </form>

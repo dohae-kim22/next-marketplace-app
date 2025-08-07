@@ -13,3 +13,18 @@ export function findCategoryBySlugs(slugs: string[]): Category | null {
 
   return null;
 }
+
+export function findCategorySlugsByIds(ids: string[]): string[] {
+  let currentLevel = mainCategories;
+  const slugs: string[] = [];
+
+  for (const id of ids) {
+    const match = currentLevel.find((cat) => cat.id === id);
+    if (!match) break;
+
+    slugs.push(match.slug);
+    currentLevel = match.sub ?? [];
+  }
+
+  return slugs;
+}

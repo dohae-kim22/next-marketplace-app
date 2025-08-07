@@ -50,5 +50,67 @@
   "socialLogin": {
     "continueWithGoogle": "Continue with Google",
     "continueWithGithub": "Continue with Github"
+  },
+  "addProduct": {
+    "title": "Add an item",
+    "form": {
+      "title": "TITLE",
+      "category": "CATEGORY",
+      "type": {
+        "sale": "For Sale",
+        "free": "Free Giveaway",
+        "wanted": "Wanted"
+      },
+      "price": "PRICE",
+      "description": "DESCRIPTION",
+      "post": "Post",
+      "cancel": "Cancel",
+      "uploadError": "Image upload failed.",
+      "sizeError": "Each file must be less than 15MB.",
+      "uploadUrlError": "Failed to get upload URL."
+    }
+  },
+  "categorySelector": {
+    "placeholder": "Select Category",
+    "back": "← Back"
+  },
+  "locationPicker": {
+    "label": "Choose a meeting spot on the map",
+    "searchPlaceholder": "Search address...",
+    "onlyFrance": "Only locations in France are allowed.",
+    "loading": "Loading map..."
+  },
+  "editForm": {
+    "title": "Edit Your Listing",
+    "label": {
+      "title": "TITLE",
+      "category": "CATEGORY",
+      "price": "PRICE",
+      "description": "DESCRIPTION"
+    },
+    "placeholder": {
+      "title": "Title",
+      "price": "€ Price",
+      "description": "Description"
+    },
+    "type": {
+      "sale": "For Sale",
+      "free": "Free Giveaway",
+      "wanted": "Wanted"
+    },
+    "save": "Save Changes",
+    "cancel": "Cancel"
+  },
+  "productDetail": {
+    "freeGiveaway": "Free Giveaway",
+    "wanted": "Wanted",
+    "soldOut": "Sold Out",
+    "editListing": "Edit Listing",
+    "markAsAvailable": "Mark as Available",
+    "markAsSold": "Mark as Sold",
+    "askSeller": "Ask seller",
+    "meetupLocation": "Meet-up Location",
+    "deleteConfirm": "Are you sure you want to delete this?",
+    "delete": "Delete"
   }
 }
