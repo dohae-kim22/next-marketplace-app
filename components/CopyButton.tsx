@@ -31,7 +31,7 @@ export default function CopyButton({
   return (
     <button
       onClick={handleCopy}
-      className={`flex border border-neutral-500 justify-center items-center gap-1 p-1 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition ${className}`}
+      className={`flex border border-neutral-500 justify-center items-center gap-1 p-1 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition ${className}`}
       aria-label="Copy to clipboard"
       type="button"
     >

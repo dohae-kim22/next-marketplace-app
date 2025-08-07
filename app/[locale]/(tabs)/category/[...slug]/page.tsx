@@ -6,6 +6,8 @@ import db from "@/lib/db";
 import { getUserWithLocation } from "@/lib/session";
 import { getDistanceFromLatLonInKm } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
+import CategoryBreadcrumb from "@/components/CategoryBreadcrumb";
+import { findCategoryBySlugs } from "@/lib/categoryUtils";
 
 async function getAllProducts() {
   return db.product.findMany({
@@ -35,20 +37,6 @@ async function getAllProducts() {
   });
 }
 
-function findCategoryBySlugs(slugs: string[]): Category | null {
-  let currentLevel = mainCategories;
-
-  for (let i = 0; i < slugs.length; i++) {
-    const slug = slugs[i];
-    const category = currentLevel.find((c) => c.slug === slug);
-    if (!category) return null;
-    if (i === slugs.length - 1) return category;
-    currentLevel = category.sub ?? [];
-  }
-
-  return null;
-}
-
 async function getFilteredProductsByLocation() {
   const user = await getUserWithLocation();
 
@@ -76,8 +64,7 @@ export default async function CategoryPage({
   params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await params;
-  const [categoryMainSlug, categorySubSlug, categorySubSubSlug] =
-    slug || [];
+  const [categoryMainSlug, categorySubSlug, categorySubSubSlug] = slug || [];
 
   const user = await getUserWithLocation();
   const products = await getFilteredProductsByLocation();
@@ -113,56 +100,7 @@ export default async function CategoryPage({
         radius={user?.radius ?? undefined}
       />
 
-      <h1 className="text-md font-medium *:text-neutral-400 flex gap-1 items-center">
-        <Link
-          href={"/products"}
-          className="underline underline-offset-4 hover:text-orange-400 transition-colors"
-        >
-          Home
-        </Link>
-
-        {categoryMainObj && (
-          <>
-            <span>›</span>
-            <Link
-              href={`/category/${encodeURIComponent(categoryMainSlug)}`}
-              className="underline underline-offset-4 hover:text-orange-400 transition-colors"
-            >
-              {categoryMainObj.name.en}
-            </Link>
-          </>
-        )}
-
-        {categorySubObj && (
-          <>
-            <span>›</span>
-            <Link
-              href={`/category/${encodeURIComponent(
-                categoryMainSlug
-              )}/${encodeURIComponent(categorySubSlug)}`}
-              className="underline underline-offset-4 hover:text-orange-400 transition-colors"
-            >
-              {categorySubObj.name.en}
-            </Link>
-          </>
-        )}
-
-        {categorySubSubObj && (
-          <>
-            <span>›</span>
-            <Link
-              href={`/category/${encodeURIComponent(
-                categoryMainSlug
-              )}/${encodeURIComponent(categorySubSlug!)}/${encodeURIComponent(
-                categorySubSubSlug
-              )}`}
-              className="underline underline-offset-4 hover:text-orange-400 transition-colors"
-            >
-              {categorySubSubObj.name.en}
-            </Link>
-          </>
-        )}
-      </h1>
+      <CategoryBreadcrumb slug={slug} />
 
       {filteredProducts.length === 0 ? (
         <p className="text-neutral-400">No products found in this category.</p>

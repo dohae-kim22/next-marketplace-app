@@ -95,7 +95,6 @@ export default function LocationAutocomplete({
     const { street, city, state, postalCode, countryCode } =
       parseAddressComponents(place.address_components || []);
 
-    // 국가 코드 검증
     if (countryCode !== "FR") {
       setError("Only locations in France are allowed.");
       onSelect({ lat: NaN, lng: NaN });

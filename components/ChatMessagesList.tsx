@@ -8,6 +8,7 @@ import {
 import { formatToTimeAgo } from "@/lib/utils";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -29,6 +30,7 @@ export default function ChatMessagesList({
   const [message, setMessage] = useState("");
   const channel = useRef<RealtimeChannel>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const locale = useLocale();
 
   const scrollToBottom = () => {
     if (bottomRef.current) {
@@ -148,7 +150,7 @@ export default function ChatMessagesList({
                   message.sender.id === userId ? "text-end" : ""
                 }`}
               >
-                {formatToTimeAgo(message.created_at.toString())}
+                {formatToTimeAgo(message.created_at.toString(), locale)}
               </span>
             </div>
           </div>

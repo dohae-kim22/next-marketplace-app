@@ -5,6 +5,7 @@ import Image from "next/image";
 import { createComment } from "@/app/[locale]/(headers)/posts/[id]/actions";
 import { formatToTimeAgo } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
 
 interface Comment {
   id: number;
@@ -35,6 +36,8 @@ export default function CommentSection({
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [replyTo, setReplyTo] = useState<number | null>(null);
   const [replyText, setReplyText] = useState("");
+
+  const locale = useLocale();
 
   const handleSubmit = async () => {
     if (text.trim().length === 0) return;
@@ -127,7 +130,7 @@ export default function CommentSection({
                       {comment.user.userName}
                     </span>
                     <span className="text-xs text-neutral-500">
-                      {formatToTimeAgo(comment.created_at.toString())}
+                      {formatToTimeAgo(comment.created_at.toString(), locale)}
                     </span>
                   </div>
                   <p className="mt-1">{comment.content}</p>
@@ -176,7 +179,10 @@ export default function CommentSection({
                               {reply.user.userName}
                             </span>
                             <span className="ml-2 text-xs text-neutral-500">
-                              {formatToTimeAgo(reply.created_at.toString())}
+                              {formatToTimeAgo(
+                                reply.created_at.toString(),
+                                locale
+                              )}
                             </span>
                             <p>{reply.content}</p>
                           </div>

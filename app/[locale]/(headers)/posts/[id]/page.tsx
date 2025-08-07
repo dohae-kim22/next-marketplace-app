@@ -86,9 +86,9 @@ async function getLikeStatus(postId: number, userId: number | null) {
 export default async function PostDetail({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ locale: string; id: string }>;
 }) {
-  const { id } = await params;
+  const { locale, id } = await params;
   const numericId = Number(id);
   if (isNaN(numericId)) return notFound();
 
@@ -118,7 +118,7 @@ export default async function PostDetail({
         <div className="flex flex-col justify-center text-neutral-300">
           <span className="text-sm font-semibold">{post.user.userName}</span>
           <div className="text-xs">
-            <span>{formatToTimeAgo(post.created_at.toString())}</span>
+            <span>{formatToTimeAgo(post.created_at.toString(), locale)}</span>
           </div>
         </div>
       </Link>
