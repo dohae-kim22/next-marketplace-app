@@ -21,7 +21,7 @@ export default function MobileNavigationBar() {
 
   return (
     <nav className="w-full bg-neutral-900 shadow-sm relative lg:hidden">
-      <button onClick={() => setMenuOpen(true)}>
+      <button onClick={() => setMenuOpen(true)} className="flex items-center">
         <Bars3Icon className="size-7 text-white" />
       </button>
 

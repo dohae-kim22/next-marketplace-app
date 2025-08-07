@@ -2,7 +2,7 @@ export function formatToEuro(price: number) {
   return price.toLocaleString("fr-FR");
 }
 
-export function formatToTimeAgo(date: string) {
+export function formatToTimeAgo(date: string, locale: string = "en") {
   const now = new Date().getTime();
   const target = new Date(date).getTime();
   const diffInMs = target - now;
@@ -14,7 +14,7 @@ export function formatToTimeAgo(date: string) {
   const months = Math.round(diffInMs / (1000 * 60 * 60 * 24 * 30));
   const years = Math.round(diffInMs / (1000 * 60 * 60 * 24 * 365));
 
-  const formatter = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+  const formatter = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
 
   if (Math.abs(seconds) < 60) {
     return formatter.format(seconds, "second");

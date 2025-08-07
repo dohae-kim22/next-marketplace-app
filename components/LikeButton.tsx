@@ -34,7 +34,7 @@ export default function LikeButton({
       } hover:bg-neutral-700`}
       disabled={pending}
     >
-      <HeartIcon className="size-4" />
+      <HeartIcon className="size-4 lg:size-5" />
       {count}
     </button>
   );

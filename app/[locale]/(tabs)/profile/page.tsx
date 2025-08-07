@@ -11,7 +11,12 @@ import {
   PencilIcon,
 } from "@heroicons/react/24/outline";
 
-export default async function ProfilePage() {
+export default async function ProfilePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const user = await getUserWithContent();
   if (!user) return notFound();
 
@@ -31,7 +36,7 @@ export default async function ProfilePage() {
         <div>
           <h1 className="text-xl font-bold text-white">{user.userName}</h1>
           <p className="text-sm text-neutral-400">
-            Joined {formatToTimeAgo(user.created_at.toISOString())}
+            Joined {formatToTimeAgo(user.created_at.toISOString(), locale)}
           </p>
           <div className="flex gap-4 mt-3">
             <Link

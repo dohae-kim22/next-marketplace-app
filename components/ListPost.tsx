@@ -1,3 +1,5 @@
+"use client";
+
 import { formatToTimeAgo } from "@/lib/utils";
 import {
   ChatBubbleBottomCenterIcon,
@@ -6,6 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
 
 interface ListPostProps {
   id: number;
@@ -21,6 +24,8 @@ interface ListPostProps {
 }
 
 export default function ListPost(props: ListPostProps) {
+  const locale = useLocale();
+
   return (
     <Link
       href={`/posts/${props.id}`}
@@ -51,7 +56,7 @@ export default function ListPost(props: ListPostProps) {
       </div>
       <div className="flex items-center justify-between text-sm">
         <div className="flex gap-3 items-center justify-center">
-          <span>{formatToTimeAgo(props.created_at.toString())}</span>
+          <span>{formatToTimeAgo(props.created_at.toString(), locale)}</span>
           <span>·</span>
           <div className="flex items-center justify-center gap-1">
             <EyeIcon className="size-4" />

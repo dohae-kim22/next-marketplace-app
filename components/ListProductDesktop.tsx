@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ProductLike,
   ProductStatus,
@@ -7,6 +9,7 @@ import { formatShortAddress, formatToEuro, formatToTimeAgo } from "@/lib/utils";
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
 
 interface ListProductProps {
   title: string;
@@ -40,6 +43,8 @@ export default function ListProductDesktop({
   status,
   type,
 }: ListProductProps) {
+  const locale = useLocale();
+
   return (
     <Link
       href={`/products/${id}`}
@@ -68,17 +73,22 @@ export default function ListProductDesktop({
           })}
         </span>
         <span className="text-xs text-neutral-500">
-          {formatToTimeAgo(created_at.toString())}
+          {formatToTimeAgo(created_at.toString(), locale)}
         </span>
 
         <div className="flex items-center justify-between mt-2">
           {type === "SALE" ? (
             <div className="text-lg font-semibold">€{formatToEuro(price)}</div>
-          ) : (
+          ) : type === "FREE" ? (
             <span className="bg-teal-500 opacity-90 px-2 rounded-md font-medium text-sm">
               Free Giveaway
             </span>
-          )}
+          ) : type === "WANTED" ? (
+            <span className="bg-indigo-500 opacity-90 px-2 rounded-md font-medium text-sm">
+              Wanted
+            </span>
+          ) : null}
+
           <div className="flex gap-3 text-xs text-neutral-400">
             <span className="flex items-center gap-1">
               <EyeIcon className="size-4" /> {views}

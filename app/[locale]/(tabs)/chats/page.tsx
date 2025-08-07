@@ -3,7 +3,12 @@ import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
 import { getMyChatRooms } from "@/app/[locale]/(headers)/chats/actions";
 
-export default async function ChatList() {
+export default async function ChatList({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const rooms = await getMyChatRooms();
 
   return (
@@ -47,7 +52,8 @@ export default async function ChatList() {
                     <span className="text-xs text-neutral-400 shrink-0 ml-2">
                       {room.messages[0]
                         ? formatToTimeAgo(
-                            room.messages[0].created_at.toString()
+                            room.messages[0].created_at.toString(),
+                            locale
                           )
                         : ""}
                     </span>

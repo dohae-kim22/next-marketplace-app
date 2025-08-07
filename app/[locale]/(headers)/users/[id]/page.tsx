@@ -8,11 +8,11 @@ import { ChatButton } from "@/components/ChatButton";
 import { getReceivedReviews } from "@/lib/reviews";
 
 interface UserProfileProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 }
 
 export default async function UserProfile({ params }: UserProfileProps) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const numericId = Number(id);
 
   if (isNaN(numericId)) return notFound();
@@ -68,7 +68,7 @@ export default async function UserProfile({ params }: UserProfileProps) {
         <div>
           <h1 className="text-xl font-bold text-white">{user.userName}</h1>
           <p className="text-sm text-neutral-400">
-            Joined {formatToTimeAgo(user.created_at.toISOString())}
+            Joined {formatToTimeAgo(user.created_at.toISOString(), locale)}
           </p>
           <ChatButton userId={user.id} />
         </div>
