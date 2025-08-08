@@ -1,15 +1,15 @@
 "use client";
 
 import { TrashIcon } from "@heroicons/react/24/outline";
-import { useId } from "react";
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import ConfirmModal from "@/components/ConfirmModal";
 import { useTranslations } from "next-intl";
 
 interface Props {
   productId: number;
   isMobile?: boolean;
   action: (formData: FormData) => void;
-  label?: string;
 }
 
 export default function DeleteProductButton({
@@ -17,21 +17,10 @@ export default function DeleteProductButton({
   isMobile = false,
   action,
 }: Props) {
-  const formId = useId();
   const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations("productDetail");
-
-  const handleClick = () => {
-    const confirmed = confirm(t("deleteConfirm"));
-    if (confirmed) {
-      const form = document.getElementById(formId) as HTMLFormElement;
-      form?.requestSubmit();
-      if (pathname.startsWith("/products")) {
-        router.push("/products");
-      }
-    }
-  };
+  const [isOpen, setIsOpen] = useState(false);
 
   const baseClass = `cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 flex justify-center items-center ${
     isMobile
@@ -41,13 +30,34 @@ export default function DeleteProductButton({
 
   return (
     <>
-      <form id={formId} action={action}>
+      <form id={`delete-product-${productId}`} action={action}>
         <input type="hidden" name="productId" value={productId} />
       </form>
-      <button type="button" onClick={handleClick} className={baseClass}>
+
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className={baseClass}
+      >
         <TrashIcon className="h-6" />
         {!isMobile && <span>{t("delete")}</span>}
       </button>
+
+      <ConfirmModal
+        isOpen={isOpen}
+        title={t("delete")}
+        message={t("deleteConfirm")}
+        onCancel={() => setIsOpen(false)}
+        onConfirm={async () => {
+          const form = document.getElementById(
+            `delete-product-${productId}`
+          ) as HTMLFormElement;
+          form?.requestSubmit();
+          if (pathname.startsWith("/products")) {
+            router.push("/products");
+          }
+        }}
+      />
     </>
   );
 }

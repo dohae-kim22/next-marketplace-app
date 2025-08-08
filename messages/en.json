@@ -111,7 +111,8 @@
     "askSeller": "Ask seller",
     "meetupLocation": "Meet-up Location",
     "deleteConfirm": "Are you sure you want to delete this?",
-    "delete": "Delete"
+    "delete": "Delete",
+    "cancel": "Cancel"
   },
   "postDetail": {
     "views": "{count} Views",
@@ -122,7 +123,8 @@
     "writeComment": "Write a comment...",
     "reply": "Reply",
     "post": "Post",
-    "deletedComment": "This comment has been deleted."
+    "deletedComment": "This comment has been deleted.",
+    "cancel": "Cancel"
   },
   "addPost": {
     "pageTitle": "Create New Post",
@@ -159,12 +161,12 @@
   },
   "deleteStreamButton": {
     "confirm": "Are you sure you want to permanently delete this live stream?",
-    "delete": "Delete",
+    "delete": "Delete stream",
     "deleting": "Deleting..."
   },
   "chatRoomLeave": {
     "confirm": "Do you want to leave this chat? You won't see it in your list anymore.",
-    "leave": "Leave",
+    "leave": "Leave chat room",
     "leaving": "Leaving..."
   },
   "productCardInChat": {

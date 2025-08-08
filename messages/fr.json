@@ -111,7 +111,8 @@
     "askSeller": "Contacter le vendeur",
     "meetupLocation": "Lieu de rendez-vous",
     "deleteConfirm": "Voulez-vous vraiment supprimer ceci ?",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "cancel": "Annuler"
   },
   "postDetail": {
     "views": "{count} vues",
@@ -122,7 +123,8 @@
     "writeComment": "Écrivez un commentaire...",
     "reply": "Répondre",
     "post": "Publier",
-    "deletedComment": "Ce commentaire a été supprimé."
+    "deletedComment": "Ce commentaire a été supprimé.",
+    "cancel": "Annuler"
   },
   "addPost": {
     "pageTitle": "Créer une nouvelle annonce",
@@ -158,9 +160,12 @@
     ]
   },
   "deleteStreamButton": {
-    "confirm": "Êtes-vous sûr de vouloir supprimer définitivement ce flux en direct ?"
+    "confirm": "Êtes-vous sûr de vouloir supprimer définitivement ce flux en direct ?",
+    "delete": "Supprimer le flux",
+    "deleting": "Suppression..."
   },
   "chatRoomLeave": {
+    "leave": "Quitter la salle de discussion",
     "confirm": "Voulez-vous quitter cette conversation ? Elle n'apparaîtra plus dans votre liste."
   },
   "productCardInChat": {

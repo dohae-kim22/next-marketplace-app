@@ -1,36 +1,38 @@
 "use client";
 
-import { useTransition } from "react";
-import {
-  XCircleIcon,
-} from "@heroicons/react/24/outline";
+import { XCircleIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { leaveChatRoom } from "@/app/[locale]/(headers)/chats/actions";
+import ConfirmModal from "@/components/ConfirmModal";
 
 export default function LeaveChatRoomButton({
   chatRoomId,
 }: {
   chatRoomId: string;
 }) {
-  const [isPending, startTransition] = useTransition();
   const t = useTranslations("chatRoomLeave");
-
-  const onLeave = () => {
-    if (confirm(t("confirm"))) {
-      startTransition(() => {
-        leaveChatRoom(chatRoomId);
-      });
-    }
-  };
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <button
-      type="button"
-      onClick={onLeave}
-      disabled={isPending}
-      className="bg-transparent px-2 py-1 rounded-md text-red-400 font-semibold hover:text-red-500 flex items-center"
-    >
-      <XCircleIcon className="h-6" />
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className="bg-transparent px-2 py-1 rounded-md text-red-400 font-semibold hover:text-red-500 flex items-center"
+      >
+        <XCircleIcon className="h-6" />
+      </button>
+
+      <ConfirmModal
+        isOpen={isOpen}
+        title={t("leave")}
+        message={t("confirm")}
+        onCancel={() => setIsOpen(false)}
+        onConfirm={async () => {
+          await leaveChatRoom(chatRoomId);
+        }}
+      />
+    </>
   );
 }
