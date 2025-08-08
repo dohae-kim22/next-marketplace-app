@@ -3,30 +3,30 @@
 import { useState, useTransition } from "react";
 import ListProduct from "@/components/ListProduct";
 import ListProductDesktop from "@/components/ListProductDesktop";
-import { getMoreSearchedProducts } from "@/app/[locale]/(tabs)/products/actions";
+import { getMoreCategoryProducts } from "@/app/[locale]/(tabs)/category/[...slug]/actions";
 import { PAGE_SIZE } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
 type Product = Parameters<typeof ListProduct>[0];
 
-export default function LoadMoreSearchedProducts({
+export default function LoadMoreCategoryProducts({
   initialItems,
-  query,
+  slug,
 }: {
   initialItems: Product[];
-  query: string;
+  slug: string[];
 }) {
   const [items, setItems] = useState<Product[]>(initialItems);
   const [page, setPage] = useState(1);
   const [isPending, startTransition] = useTransition();
+
   const [hasMore, setHasMore] = useState(initialItems.length === PAGE_SIZE);
   const t = useTranslations("loadMoreProducts");
 
   const loadMore = () => {
     if (!hasMore || isPending) return;
-
     startTransition(async () => {
-      const next = await getMoreSearchedProducts(page, query);
+      const next = await getMoreCategoryProducts(page, slug);
       if (next.length < PAGE_SIZE) setHasMore(false);
       setItems((prev) => [...prev, ...next]);
       setPage((p) => p + 1);

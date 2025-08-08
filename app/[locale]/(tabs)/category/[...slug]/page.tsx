@@ -1,14 +1,26 @@
-import ListProduct from "@/components/ListProduct";
-import ListProductDesktop from "@/components/ListProductDesktop";
 import LocationBanner from "@/components/LocationBanner";
 import db from "@/lib/db";
 import { getUserWithLocation } from "@/lib/session";
-import { getDistanceFromLatLonInKm } from "@/lib/utils";
+import { getDistanceFromLatLonInKm, PAGE_SIZE } from "@/lib/utils";
 import CategoryBreadcrumb from "@/components/CategoryBreadcrumb";
 import { findCategoryBySlugs } from "@/lib/categoryUtils";
+import LoadMoreCategoryProducts from "@/components/LoadMoreCategoryProducts";
 
-async function getAllProducts() {
-  return db.product.findMany({
+async function getFirstPage(slug: string[]) {
+  const [mainSlug, subSlug, subSubSlug] = slug || [];
+  const mainObj = findCategoryBySlugs([mainSlug]);
+  const subObj = findCategoryBySlugs([mainSlug, subSlug]);
+  const subSubObj = findCategoryBySlugs([mainSlug, subSlug, subSubSlug]);
+
+  const where: any = {};
+  if (mainObj?.id) where.categoryMain = mainObj.id;
+  if (subObj?.id) where.categorySub = subObj.id;
+  if (subSubObj?.id) where.categorySubSub = subSubObj.id;
+
+  const user = await getUserWithLocation();
+
+  const rows = await db.product.findMany({
+    where,
     select: {
       id: true,
       title: true,
@@ -32,28 +44,24 @@ async function getAllProducts() {
       categorySubSub: true,
     },
     orderBy: { created_at: "desc" },
+    take: PAGE_SIZE,
   });
-}
 
-async function getFilteredProductsByLocation() {
-  const user = await getUserWithLocation();
-
-  if (!user?.latitude || !user.longitude || !user.radius) {
-    return getAllProducts();
+  let items = rows;
+  if (user?.latitude && user.longitude && user.radius) {
+    items = rows.filter((p) => {
+      if (p.latitude === null || p.longitude === null) return false;
+      const d = getDistanceFromLatLonInKm(
+        user.latitude!,
+        user.longitude!,
+        p.latitude,
+        p.longitude
+      );
+      return d <= user.radius!;
+    });
   }
 
-  const allProducts = await getAllProducts();
-
-  return allProducts.filter((product) => {
-    if (product.latitude === null || product.longitude === null) return false;
-    const distance = getDistanceFromLatLonInKm(
-      user.latitude!,
-      user.longitude!,
-      product.latitude,
-      product.longitude
-    );
-    return distance <= user.radius!;
-  });
+  return { items, user };
 }
 
 export default async function CategoryPage({
@@ -62,34 +70,7 @@ export default async function CategoryPage({
   params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await params;
-  const [categoryMainSlug, categorySubSlug, categorySubSubSlug] = slug || [];
-
-  const user = await getUserWithLocation();
-  const products = await getFilteredProductsByLocation();
-
-  const categoryMainObj = findCategoryBySlugs([categoryMainSlug]);
-  const categorySubObj = findCategoryBySlugs([
-    categoryMainSlug,
-    categorySubSlug,
-  ]);
-  const categorySubSubObj = findCategoryBySlugs([
-    categoryMainSlug,
-    categorySubSlug,
-    categorySubSubSlug,
-  ]);
-
-  const categoryMainId = categoryMainObj?.id ?? null;
-  const categorySubId = categorySubObj?.id ?? null;
-  const categorySubSubId = categorySubSubObj?.id ?? null;
-
-  const filteredProducts = products.filter((product) => {
-    if (!categoryMainId) return true;
-    if (product.categoryMain !== categoryMainId) return false;
-    if (categorySubId && product.categorySub !== categorySubId) return false;
-    if (categorySubSubId && product.categorySubSub !== categorySubSubId)
-      return false;
-    return true;
-  });
+  const { items, user } = await getFirstPage(slug);
 
   return (
     <div className="container-lg px-5 flex flex-col gap-3 mb-20">
@@ -100,22 +81,10 @@ export default async function CategoryPage({
 
       <CategoryBreadcrumb slug={slug} />
 
-      {filteredProducts.length === 0 ? (
+      {items.length === 0 ? (
         <p className="text-neutral-400">No products found in this category.</p>
       ) : (
-        <>
-          <div className="flex flex-col gap-3 lg:hidden">
-            {filteredProducts.map((product) => (
-              <ListProduct key={product.id} {...product} />
-            ))}
-          </div>
-
-          <div className="hidden lg:grid lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {filteredProducts.map((product) => (
-              <ListProductDesktop key={product.id} {...product} />
-            ))}
-          </div>
-        </>
+        <LoadMoreCategoryProducts initialItems={items as any} slug={slug} />
       )}
     </div>
   );
