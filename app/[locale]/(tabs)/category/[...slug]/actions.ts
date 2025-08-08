@@ -43,6 +43,7 @@ export async function getMoreCategoryProducts(page: number, slug: string[]) {
       categorySubSub: true,
     },
     orderBy: { created_at: "desc" },
+    distinct: ["id"],
     skip,
     take: PAGE_SIZE,
   });

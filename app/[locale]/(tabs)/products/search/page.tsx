@@ -56,6 +56,7 @@ export default async function ProductSearchPage({
       type: true,
     },
     orderBy: { created_at: "desc" },
+    distinct: ["id"],
     take: PAGE_SIZE,
   });
 

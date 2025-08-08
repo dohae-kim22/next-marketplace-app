@@ -52,7 +52,7 @@ export default function LoadMoreCategoryProducts({
           <button
             onClick={loadMore}
             disabled={isPending}
-            className="px-4 py-2 rounded-md border border-neutral-700 hover:bg-neutral-800"
+            className="px-4 py-2 cursor-pointer rounded-md border border-neutral-700 hover:bg-neutral-800"
           >
             {isPending ? t("loading") : t("loadMore")}
           </button>

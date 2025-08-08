@@ -3,8 +3,6 @@ import { getSession } from "@/lib/session";
 import { notFound } from "next/navigation";
 import ListProduct from "@/components/ListProduct";
 import ListProductDesktop from "@/components/ListProductDesktop";
-import LocationBanner from "@/components/LocationBanner";
-import { getUserWithLocation } from "@/lib/session";
 import { getTranslations } from "next-intl/server";
 
 export default async function FavoritesPage() {
@@ -12,7 +10,6 @@ export default async function FavoritesPage() {
   if (!session?.id) return notFound();
 
   const t = await getTranslations("favorites");
-  const user = await getUserWithLocation();
 
   const products = await db.product.findMany({
     where: {
@@ -39,6 +36,7 @@ export default async function FavoritesPage() {
       state: true,
       countryCode: true,
     },
+    distinct: ["id"],
     orderBy: { created_at: "desc" },
   });
 

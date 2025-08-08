@@ -1,6 +1,6 @@
 "use client";
 
-import { createReview } from "@/app/[locale]/reviews/add/actions";
+import { createReview } from "@/app/[locale]/(headers)/reviews/add/actions";
 import { useState, useTransition } from "react";
 
 interface Props {
@@ -17,16 +17,35 @@ export default function ReviewForm({
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = () => {
+    setError(null);
     startTransition(() => {
-      createReview(chatRoomId, productId, revieweeId, rating, comment);
+      createReview(chatRoomId, productId, revieweeId, rating, comment).catch(
+        (err: unknown) => {
+          const message =
+            err instanceof Error
+              ? err.message
+              : "Failed to submit the review. Please try again.";
+          setError(message);
+        }
+      );
     });
   };
 
   return (
     <div className="p-5 border rounded-xl flex flex-col gap-3">
       <h2 className="text-lg font-semibold">Leave a review</h2>
+      {error && (
+        <div
+          role="alert"
+          className="rounded-md border border-red-500/40 bg-red-500/10 text-red-300 px-3 py-2 text-sm"
+        >
+          {error}
+        </div>
+      )}
+
       <div className="flex gap-2">
         {[1, 2, 3, 4, 5].map((star) => (
           <button
