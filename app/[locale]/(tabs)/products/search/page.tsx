@@ -1,7 +1,7 @@
 import FormInput from "@/components/FormInput";
-import ListProduct from "@/components/ListProduct";
-import ListProductDesktop from "@/components/ListProductDesktop";
 import db from "@/lib/db";
+import LoadMoreSearchedProducts from "@/components/LoadMoreSearchedProducts";
+import { PAGE_SIZE } from "@/lib/utils";
 
 interface ProductSearchPageProps {
   searchParams: Promise<{
@@ -13,48 +13,54 @@ export default async function ProductSearchPage({
   searchParams,
 }: ProductSearchPageProps) {
   const { q } = await searchParams;
-  const query = q?.trim();
+  const query = q?.trim() ?? "";
 
-  const products = query
-    ? await db.product.findMany({
-        where: {
-          OR: [
-            {
-              title: {
-                contains: query,
-                mode: "insensitive",
-              },
-            },
-            {
-              description: {
-                contains: query,
-                mode: "insensitive",
-              },
-            },
-          ],
-        },
-        select: {
-          id: true,
-          title: true,
-          price: true,
-          photo: true,
-          created_at: true,
-          views: true,
-          productLikes: true,
-          location: true,
-          city: true,
-          street: true,
-          postalCode: true,
-          state: true,
-          countryCode: true,
-          status: true,
-          type: true,
-        },
-      })
-    : [];
+  if (!query) {
+    return (
+      <div className="container-lg p-5 flex flex-col gap-3 mb-30">
+        <form className="mb-4 lg:hidden">
+          <FormInput
+            type="text"
+            name="q"
+            defaultValue=""
+            placeholder="Search products..."
+          />
+        </form>
+        <p className="text-white">Type something to search.</p>
+      </div>
+    );
+  }
+
+  const items = await db.product.findMany({
+    where: {
+      OR: [
+        { title: { contains: query, mode: "insensitive" } },
+        { description: { contains: query, mode: "insensitive" } },
+      ],
+    },
+    select: {
+      id: true,
+      title: true,
+      price: true,
+      photo: true,
+      created_at: true,
+      views: true,
+      productLikes: true,
+      location: true,
+      city: true,
+      street: true,
+      postalCode: true,
+      state: true,
+      countryCode: true,
+      status: true,
+      type: true,
+    },
+    orderBy: { created_at: "desc" },
+    take: PAGE_SIZE,
+  });
 
   return (
-    <div className="container-lg p-5 flex flex-col gap-3 mb-20">
+    <div className="container-lg p-5 flex flex-col gap-3 mb-30">
       <form className="mb-4 lg:hidden">
         <FormInput
           type="text"
@@ -64,22 +70,10 @@ export default async function ProductSearchPage({
         />
       </form>
 
-      {products.length === 0 ? (
+      {items.length === 0 ? (
         <p className="text-white">No products found.</p>
       ) : (
-        <>
-          <div className="flex flex-col gap-3 lg:hidden">
-            {products.map((product) => (
-              <ListProduct key={product.id} {...product} />
-            ))}
-          </div>
-
-          <div className="hidden lg:grid lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {products.map((product) => (
-              <ListProductDesktop key={product.id} {...product} />
-            ))}
-          </div>
-        </>
+        <LoadMoreSearchedProducts initialItems={items as any} query={query} />
       )}
     </div>
   );
