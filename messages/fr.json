@@ -185,5 +185,50 @@
   "loadMoreProducts": {
     "loading": "Chargement...",
     "loadMore": "Charger plus"
+  },
+  "tabBar": {
+    "home": "Accueil",
+    "town": "Ville",
+    "chats": "Chats",
+    "live": "Live",
+    "my": "Moi"
+  },
+  "profile": {
+    "joined": "Inscrit {timeAgo}",
+    "editProfile": "Modifier le profil",
+    "logOut": "Se déconnecter",
+    "receivedReviews": "Avis reçus",
+    "noReviews": "Vous n'avez reçu aucun avis.",
+    "productLabel": "Produit :",
+    "onSale": "En vente",
+    "noOnSale": "Vous n'avez aucun article en vente.",
+    "soldItems": "Articles vendus",
+    "noSoldItems": "Vous n'avez encore rien vendu.",
+    "myPosts": "Mes publications",
+    "noPosts": "Vous n'avez écrit aucune publication."
+  },
+  "editProfile": {
+    "title": "Modifier le profil",
+    "avatar": {
+      "change": "Changer l’avatar",
+      "uploading": "Téléchargement...",
+      "errors": {
+        "tooLarge": "Le fichier doit faire moins de 15 Mo.",
+        "getUrlFail": "Échec de l’obtention de l’URL de téléversement.",
+        "uploadFail": "Échec du téléversement de l’image."
+      }
+    },
+    "labels": {
+      "nickname": "Surnom",
+      "neighborhood": "Quartier",
+      "searchRadius": "Rayon de recherche"
+    },
+    "buttons": {
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+       "clear": "Effacer",
+      "clearing": "Effacement..."
+    },
+    "locationErrorFallback": "Veuillez sélectionner un lieu valide."
   }
 }

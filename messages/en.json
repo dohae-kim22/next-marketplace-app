@@ -186,5 +186,50 @@
   "loadMoreProducts": {
     "loading": "Loading...",
     "loadMore": "Load more"
+  },
+  "tabBar": {
+    "home": "Home",
+    "town": "Town",
+    "chats": "Chats",
+    "live": "Live",
+    "my": "My"
+  },
+  "profile": {
+    "joined": "Joined {timeAgo}",
+    "editProfile": "Edit Profile",
+    "logOut": "Log out",
+    "receivedReviews": "Received Reviews",
+    "noReviews": "You haven't received any reviews.",
+    "productLabel": "Product:",
+    "onSale": "On Sale",
+    "noOnSale": "You have no items on sale.",
+    "soldItems": "Sold Items",
+    "noSoldItems": "You haven't sold anything yet.",
+    "myPosts": "My Posts",
+    "noPosts": "You haven't written any posts."
+  },
+  "editProfile": {
+    "title": "Edit Profile",
+    "avatar": {
+      "change": "Change Avatar",
+      "uploading": "Uploading...",
+      "errors": {
+        "tooLarge": "File must be less than 15MB.",
+        "getUrlFail": "Failed to get upload URL.",
+        "uploadFail": "Image upload failed."
+      }
+    },
+    "labels": {
+      "nickname": "Nickname",
+      "neighborhood": "Neighborhood",
+      "searchRadius": "Search Radius"
+    },
+    "buttons": {
+      "save": "Save Changes",
+      "cancel": "Cancel",
+      "clear": "Clear",
+      "clearing": "Clearing..."
+    },
+    "locationErrorFallback": "Please select a valid location."
   }
 }

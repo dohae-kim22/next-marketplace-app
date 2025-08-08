@@ -1,6 +1,12 @@
 "use client";
 
-import { useActionState, useEffect, useState, ChangeEvent } from "react";
+import {
+  useActionState,
+  useEffect,
+  useState,
+  ChangeEvent,
+  useTransition,
+} from "react";
 import FormInput from "@/components/FormInput";
 import FormButton from "@/components/FormButton";
 import { UserIcon, XMarkIcon, PhotoIcon } from "@heroicons/react/24/solid";
@@ -10,11 +16,15 @@ import { useRouter } from "next/navigation";
 import {
   getUploadURL,
   updateProfile,
+  clearLocation,
 } from "@/app/[locale]/(headers)/profile/edit/actions";
+import { useTranslations } from "next-intl";
 
 const RADIUS_OPTIONS = [5, 10, 30, 50];
 
 export default function EditProfileForm({ user }: { user: any }) {
+  const t = useTranslations("editProfile");
+
   const [preview, setPreview] = useState<string | null>(user.avatar ?? null);
   const [uploadUrl, setUploadUrl] = useState<string | null>(
     user.avatar ?? null
@@ -38,6 +48,7 @@ export default function EditProfileForm({ user }: { user: any }) {
   });
 
   const router = useRouter();
+  const [isClearing, startClearing] = useTransition();
 
   const [state, formAction] = useActionState(
     async (_: any, formData: FormData) => {
@@ -73,14 +84,14 @@ export default function EditProfileForm({ user }: { user: any }) {
     if (state && !state.fieldErrors) {
       router.back();
     }
-  }, [state]);
+  }, [state, router]);
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     if (file.size > 15 * 1024 * 1024) {
-      setImageError("File must be less than 15MB.");
+      setImageError(t("avatar.errors.tooLarge"));
       return;
     }
 
@@ -89,7 +100,7 @@ export default function EditProfileForm({ user }: { user: any }) {
 
     const { success, result } = await getUploadURL();
     if (!success) {
-      setImageError("Failed to get upload URL.");
+      setImageError(t("avatar.errors.getUrlFail"));
       setIsUploading(false);
       return;
     }
@@ -104,7 +115,7 @@ export default function EditProfileForm({ user }: { user: any }) {
     });
 
     if (!uploadRes.ok) {
-      setImageError("Image upload failed.");
+      setImageError(t("avatar.errors.uploadFail"));
       setIsUploading(false);
       return;
     }
@@ -120,13 +131,30 @@ export default function EditProfileForm({ user }: { user: any }) {
     setUploadUrl(null);
   };
 
+  const handleClearLocation = () => {
+    startClearing(async () => {
+      await clearLocation();
+      setLocation("");
+      setLatLng(null);
+      setAddressDetails({
+        street: "",
+        city: "",
+        state: "",
+        postalCode: "",
+        countryCode: "",
+      });
+      setRadius(5);
+      window.location.reload();
+    });
+  };
+
   return (
     <form
       action={formAction}
       className="p-6 flex flex-col gap-6 max-w-md mx-auto bg-neutral-900 rounded-xl shadow-md"
     >
       <h1 className="text-2xl font-bold text-white text-center">
-        Edit Profile
+        {t("title")}
       </h1>
 
       <div className="flex flex-col items-center gap-2">
@@ -148,6 +176,7 @@ export default function EditProfileForm({ user }: { user: any }) {
               type="button"
               onClick={handleRemoveImage}
               className="absolute top-[-6px] right-[-6px] bg-neutral-500 text-white rounded-full size-5 text-xs flex items-center justify-center shadow cursor-pointer"
+              aria-label="Remove avatar"
             >
               <XMarkIcon className="size-3" />
             </button>
@@ -159,11 +188,16 @@ export default function EditProfileForm({ user }: { user: any }) {
           className="text-sm text-neutral-300 flex items-center gap-1 cursor-pointer"
         >
           {isUploading ? (
-            <div className="w-4 h-4 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+            <>
+              <div className="w-4 h-4 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+              <span>{t("avatar.uploading")}</span>
+            </>
           ) : (
-            <PhotoIcon className="w-4 h-4 text-orange-500" />
+            <>
+              <PhotoIcon className="w-4 h-4 text-orange-500" />
+              <span className="underline">{t("avatar.change")}</span>
+            </>
           )}
-          <span className="underline">Change Avatar</span>
         </label>
         <input
           type="file"
@@ -177,12 +211,12 @@ export default function EditProfileForm({ user }: { user: any }) {
 
       <div className="flex flex-col gap-1">
         <label htmlFor="userName" className="text-sm text-white font-medium">
-          Nickname
+          {t("labels.nickname")}
         </label>
         <FormInput
           id="userName"
           name="userName"
-          placeholder="Nickname"
+          placeholder={t("labels.nickname")}
           type="text"
           defaultValue={user.userName}
           required
@@ -191,8 +225,22 @@ export default function EditProfileForm({ user }: { user: any }) {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label className="text-sm text-white font-medium">Neighborhood</label>
+        <div className="flex items-center justify-between">
+          <label className="text-sm text-white font-medium">
+            {t("labels.neighborhood")}
+          </label>
+          <button
+            type="button"
+            onClick={handleClearLocation}
+            disabled={isClearing}
+            className="text-xs text-neutral-300 hover:text-white underline disabled:opacity-50"
+          >
+            {isClearing ? t("buttons.clearing") : t("buttons.clear")}
+          </button>
+        </div>
+
         <LocationAutocomplete
+          location={location}
           onSelect={({
             location: address,
             lat,
@@ -210,15 +258,18 @@ export default function EditProfileForm({ user }: { user: any }) {
           onChange={() => {
             if (locationError) setLocationError("");
           }}
-          location={user.location}
         />
         {locationError && (
-          <p className="text-red-500 text-sm">{locationError}</p>
+          <p className="text-red-500 text-sm">
+            {locationError || t("locationErrorFallback")}
+          </p>
         )}
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm text-white font-medium">Search Radius</label>
+        <label className="text-sm text-white font-medium">
+          {t("labels.searchRadius")}
+        </label>
         <div className="grid grid-cols-4 gap-2">
           {RADIUS_OPTIONS.map((option) => (
             <button
@@ -238,13 +289,13 @@ export default function EditProfileForm({ user }: { user: any }) {
       </div>
 
       <div className="flex flex-col gap-3 mt-5">
-        <FormButton text="Save Changes" />
+        <FormButton text={t("buttons.save")} />
         <button
           type="button"
           className="bg-neutral-700 cursor-pointer h-10 rounded-md text-center hover:bg-neutral-600"
           onClick={() => router.back()}
         >
-          Cancel
+          {t("buttons.cancel")}
         </button>
       </div>
     </form>

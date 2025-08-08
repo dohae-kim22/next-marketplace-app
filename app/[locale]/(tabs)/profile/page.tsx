@@ -10,6 +10,7 @@ import {
   ArrowRightStartOnRectangleIcon,
   PencilIcon,
 } from "@heroicons/react/24/outline";
+import { getTranslations } from "next-intl/server";
 
 export default async function ProfilePage({
   params,
@@ -18,6 +19,7 @@ export default async function ProfilePage({
 }) {
   const { locale } = await params;
   const user = await getUserWithContent();
+  const t = await getTranslations("profile");
   if (!user) return notFound();
 
   const reviews = await getReceivedReviews(user.id);
@@ -36,7 +38,9 @@ export default async function ProfilePage({
         <div>
           <h1 className="text-xl font-bold text-white">{user.userName}</h1>
           <p className="text-sm text-neutral-400">
-            Joined {formatToTimeAgo(user.created_at.toISOString(), locale)}
+            {t("joined", {
+              timeAgo: formatToTimeAgo(user.created_at.toISOString(), locale),
+            })}{" "}
           </p>
           <div className="flex gap-4 mt-3">
             <Link
@@ -44,7 +48,7 @@ export default async function ProfilePage({
               className="flex gap-1 text-sm text-neutral-300 hover:text-neutral-400 border rounded-md px-2 py-1 justify-center items-center"
             >
               <PencilIcon className="size-4" />
-              <span>Edit Profile</span>
+              <span>{t("editProfile")}</span>
             </Link>
 
             <form action={logOut}>
@@ -53,7 +57,7 @@ export default async function ProfilePage({
                rounded-md px-2 py-1 justify-center items-center"
               >
                 <ArrowRightStartOnRectangleIcon className="size-4" />
-                <span>Log out</span>
+                <span>{t("logOut")}</span>
               </button>
             </form>
           </div>
@@ -62,12 +66,10 @@ export default async function ProfilePage({
 
       <div>
         <h2 className="text-lg font-semibold text-white mb-2">
-          Received Reviews
+          {t("receivedReviews")}
         </h2>
         {reviews.length === 0 ? (
-          <p className="text-neutral-500">
-            You haven&apos;t received any reviews.
-          </p>
+          <p className="text-neutral-500">{t("noReviews")}</p>
         ) : (
           <div className="flex flex-col gap-4">
             {reviews.map((review) => (
@@ -96,7 +98,7 @@ export default async function ProfilePage({
                     {review.comment}
                   </p>
                   <p className="text-xs text-neutral-500 mt-1 line-clamp-1">
-                    Product: <strong>{review.product.title}</strong>
+                    {t("productLabel")} <strong>{review.product.title}</strong>
                   </p>
                 </div>
               </div>
@@ -106,9 +108,9 @@ export default async function ProfilePage({
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-white mb-2">On Sale</h2>
+        <h2 className="text-lg font-semibold text-white mb-2">{t("onSale")}</h2>
         {user.products.filter((p) => p.status === "ON_SALE").length === 0 ? (
-          <p className="text-neutral-500">You have no items on sale.</p>
+          <p className="text-neutral-500">{t("noOnSale")}</p>
         ) : (
           <div className="flex flex-col gap-3">
             {user.products
@@ -121,11 +123,11 @@ export default async function ProfilePage({
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-white mb-2">Sold Items</h2>
+        <h2 className="text-lg font-semibold text-white mb-2">
+          {t("soldItems")}
+        </h2>
         {user.products.filter((p) => p.status === "SOLD").length === 0 ? (
-          <p className="text-neutral-500">
-            You haven&apos;t sold anything yet.
-          </p>
+          <p className="text-neutral-500">{t("noSoldItems")}</p>
         ) : (
           <div className="flex flex-col gap-3">
             {user.products
@@ -138,11 +140,11 @@ export default async function ProfilePage({
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-white mb-2">My Posts</h2>
+        <h2 className="text-lg font-semibold text-white mb-2">
+          {t("myPosts")}
+        </h2>
         {user.posts.length === 0 ? (
-          <p className="text-neutral-500">
-            You haven&apos;t written any posts.
-          </p>
+          <p className="text-neutral-500">{t("noPosts")}</p>
         ) : (
           <div className="flex flex-col gap-3">
             {user.posts.map((post) => (
