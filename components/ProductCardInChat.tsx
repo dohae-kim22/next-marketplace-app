@@ -4,6 +4,7 @@ import { completeTradeAction } from "@/app/[locale]/(headers)/chats/actions";
 import { useTransition } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 interface ProductCardInChatProps {
   product: {
@@ -31,6 +32,8 @@ export default function ProductCardInChat({
   alreadyReviewed,
 }: ProductCardInChatProps) {
   const [isPending, startTransition] = useTransition();
+  const t = useTranslations("productCardInChat");
+
   const showButton =
     (isBuyer && !buyerCompleted) || (isSeller && !sellerCompleted);
   const tradeComplete = buyerCompleted && sellerCompleted;
@@ -41,25 +44,27 @@ export default function ProductCardInChat({
 
   return (
     <div className="border rounded-xl bg-neutral-900 p-4 flex items-center gap-4">
-      <Image
-        src={`${product.photo}/avatar`}
-        alt={product.title}
-        width={80}
-        height={80}
-        className="rounded-md object-cover"
-      />
+      <Link href={`/products/${product.id}`} className="shrink-0">
+        <Image
+          src={`${product.photo}/avatar`}
+          alt={product.title}
+          width={80}
+          height={80}
+          className="rounded-md object-cover"
+        />
+      </Link>
       <div className="flex-1">
         <h3 className="text-white font-semibold">{product.title}</h3>
         <p className="text-orange-400 font-bold text-sm">€ {product.price}</p>
         {tradeComplete ? (
           <>
-            <p className="text-green-400 text-sm mt-1">✅ Trade completed</p>
+            <p className="text-green-400 text-sm mt-1">{t("tradeCompleted")}</p>
             {!alreadyReviewed && (
               <Link
                 href={`/reviews/add?productId=${product.id}&chatRoomId=${chatRoomId}`}
                 className="block text-xs px-3 py-1 rounded-full bg-blue-500 text-white text-center hover:bg-blue-400"
               >
-                Write a Review
+                {t("writeReview")}
               </Link>
             )}
           </>
@@ -69,12 +74,10 @@ export default function ProductCardInChat({
             disabled={isPending}
             className="text-xs mt-2 px-3 py-1 rounded-full bg-orange-500 text-white disabled:opacity-50"
           >
-            {isBuyer ? "Mark as Purchased" : "Mark as Sold"}
+            {isBuyer ? t("markPurchased") : t("markSold")}
           </button>
         ) : (
-          <p className="text-neutral-400 text-xs mt-1">
-            Waiting for other to confirm...
-          </p>
+          <p className="text-neutral-400 text-xs mt-1">{t("waitingOther")}</p>
         )}
       </div>
     </div>

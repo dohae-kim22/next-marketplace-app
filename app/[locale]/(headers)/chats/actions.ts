@@ -85,6 +85,10 @@ export async function getMyChatRooms() {
   const rooms = await db.chatRoom.findMany({
     where: {
       OR: [{ buyerId: session.id }, { sellerId: session.id }],
+      NOT: [
+        { buyerId: session.id, buyerLeft: true },
+        { sellerId: session.id, sellerLeft: true },
+      ],
     },
     include: {
       buyer: { select: { id: true, userName: true, avatar: true } },
@@ -108,26 +112,17 @@ export async function getMyChatRooms() {
       _count: {
         select: {
           messages: {
-            where: {
-              read: false,
-              senderId: { not: session.id },
-            },
+            where: { read: false, senderId: { not: session.id } },
           },
         },
       },
     },
-    orderBy: {
-      updated_at: "desc",
-    },
+    orderBy: { updated_at: "desc" },
   });
 
   return rooms.map((room) => {
     const otherUser = room.buyer.id === session.id ? room.seller : room.buyer;
-
-    return {
-      ...room,
-      otherUser,
-    };
+    return { ...room, otherUser };
   });
 }
 
@@ -255,4 +250,52 @@ export async function getReviewStatus(chatRoomId: string, userId: number) {
     },
   });
   return !!review;
+}
+
+export async function leaveChatRoom(chatRoomId: string) {
+  const session = await getSession();
+  if (!session?.id) throw new Error("Unauthorized");
+
+  const room = await db.chatRoom.findUnique({
+    where: { id: chatRoomId },
+    select: {
+      buyerId: true,
+      sellerId: true,
+      buyerLeft: true,
+      sellerLeft: true,
+    },
+  });
+  if (!room) throw new Error("Chat room not found");
+
+  const isBuyer = room.buyerId === session.id;
+  const isSeller = room.sellerId === session.id;
+  if (!isBuyer && !isSeller) throw new Error("Not authorized");
+
+  if (isBuyer && !room.buyerLeft) {
+    await db.chatRoom.update({
+      where: { id: chatRoomId },
+      data: { buyerLeft: true },
+    });
+  }
+  if (isSeller && !room.sellerLeft) {
+    await db.chatRoom.update({
+      where: { id: chatRoomId },
+      data: { sellerLeft: true },
+    });
+  }
+
+  const updated = await db.chatRoom.findUnique({
+    where: { id: chatRoomId },
+    select: { buyerLeft: true, sellerLeft: true },
+  });
+
+  if (updated?.buyerLeft && updated?.sellerLeft) {
+    await db.message.deleteMany({ where: { chatRoomId } });
+    await db.review.deleteMany({ where: { chatRoomId } });
+    await db.chatRoom.delete({ where: { id: chatRoomId } });
+  }
+
+  revalidatePath("/chats");
+  const locale = await getLocale();
+  redirect({ href: "/chats", locale });
 }

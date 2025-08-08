@@ -8,7 +8,7 @@ import {
 import { formatToTimeAgo } from "@/lib/utils";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -31,6 +31,7 @@ export default function ChatMessagesList({
   const channel = useRef<RealtimeChannel>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const locale = useLocale();
+  const t = useTranslations("chatMessages");
 
   const scrollToBottom = () => {
     if (bottomRef.current) {
@@ -109,7 +110,7 @@ export default function ChatMessagesList({
 
   return (
     <div className="flex flex-col">
-      <div className="p-5 flex flex-col gap-3 min-h-screen justify-end pb-20">
+      <div className="p-5 flex flex-col gap-3 min-h-screen justify-end pb-23">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -157,7 +158,7 @@ export default function ChatMessagesList({
         ))}
         <div ref={bottomRef} />
       </div>
-      <div className="flex items-center justify-center fixed bottom-0 right-0 w-full p-5 bg-neutral-900">
+      <div className="flex items-center justify-center fixed bottom-0 right-0 w-full p-5 pb-9 bg-neutral-900">
         <form className="flex relative max-w-lg w-full" onSubmit={onSubmit}>
           <input
             required
@@ -166,7 +167,7 @@ export default function ChatMessagesList({
             className="bg-transparent rounded-full w-full h-10 focus:outline-none px-5 ring-2 focus:ring-4 transition ring-neutral-200 focus:ring-neutral-50 border-none placeholder:text-neutral-400"
             type="text"
             name="message"
-            placeholder="Write a message..."
+            placeholder={t("placeholder")}
           />
           <button className="absolute right-0">
             <ArrowUpCircleIcon className="size-10 text-orange-500 transition-colors hover:text-orange-300" />

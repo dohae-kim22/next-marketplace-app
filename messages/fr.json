@@ -158,8 +158,19 @@
     ]
   },
   "deleteStreamButton": {
-    "confirm": "Êtes-vous sûr de vouloir supprimer définitivement ce flux en direct ?",
-    "delete": "Supprimer",
-    "deleting": "Suppression..."
+    "confirm": "Êtes-vous sûr de vouloir supprimer définitivement ce flux en direct ?"
+  },
+  "chatRoomLeave": {
+    "confirm": "Voulez-vous quitter cette conversation ? Elle n'apparaîtra plus dans votre liste."
+  },
+  "productCardInChat": {
+    "tradeCompleted": "✅ Échange terminé",
+    "writeReview": "Écrire un avis",
+    "markPurchased": "Marquer comme acheté",
+    "markSold": "Marquer comme vendu",
+    "waitingOther": "En attente de la confirmation de l'autre personne…"
+  },
+  "chatMessages": {
+    "placeholder": "Écrivez un message..."
   }
 }
