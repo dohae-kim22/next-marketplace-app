@@ -1,19 +1,26 @@
 export default function Loading() {
   return (
-    <div className="p-5 md:p-0 animate-pulse flex flex-col gap-5 items-center">
-      <div className="bg-neutral-700 rounded-md w-full md:w-lg lg:w-xl h-8 mb-3" />
-      {[...Array(10)].map((_, index) => (
-        <div key={index} className="*:rounded-md flex items-start gap-5 ">
-          <div className="flex flex-col gap-3 *:rounded-md">
-            <div className="bg-neutral-700 h-5 w-72 md:w-md" />
-            <div className="bg-neutral-700 h-12 w-xs md:w-lg" />
-            <div className="flex gap-2 *:rounded-md">
-              <div className="bg-neutral-700 h-4 w-4" />
-              <div className="bg-neutral-700 h-4 w-4" />
+    <div className="container-lg p-5 mb-40 animate-pulse">
+      <div className="w-full h-9 rounded-md bg-neutral-800 mb-4" />
+
+      <div className="flex flex-col gap-5">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div
+            key={i}
+            className="flex gap-4 border-b border-neutral-800 pb-5 last:border-b-0"
+          >
+            <div className="flex-1 flex flex-col gap-3">
+              <div className="h-5 w-2/3 rounded-md bg-neutral-800" />
+              <div className="h-4 w-full rounded-md bg-neutral-800" />
+              <div className="h-4 w-5/6 rounded-md bg-neutral-800" />
+
+              <div className="h-4 w-40 rounded-md bg-neutral-800" />
             </div>
+
+            <div className="w-[70px] h-[70px] rounded-sm bg-neutral-800 shrink-0" />
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

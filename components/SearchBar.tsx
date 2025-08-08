@@ -27,7 +27,8 @@ export default function SearchBar() {
 
   const hideAddButton =
     pathname.startsWith(`/${locale}/profile`) ||
-    pathname.startsWith(`/${locale}/chats`);
+    pathname.startsWith(`/${locale}/chats`) ||
+    pathname.startsWith(`/${locale}/favorites`);
 
   let addHref: string | undefined;
   let addLabel: string | undefined;

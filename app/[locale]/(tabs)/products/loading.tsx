@@ -1,18 +1,20 @@
 export default function Loading() {
   return (
-    <div className="animate-pulse container-lg p-5 flex flex-col gap-3 mb-20">
-      <div className="bg-neutral-700 rounded-md w-full h-9 mb-3" />
-      <div className="flex flex-col gap-5 lg:grid lg:grid-cols-4 xl:grid-cols-5 lg:gap-8">
-        {[...Array(10)].map((_, index) => (
+    <div className="container-lg p-5 mb-20 animate-pulse">
+      <div className="w-full h-9 rounded-md bg-neutral-800 mb-4" />
+
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-4 xl:grid-cols-5 lg:gap-6">
+        {Array.from({ length: 10 }).map((_, i) => (
           <div
-            key={index}
-            className="flex gap-5 lg:flex-col lg:gap-3 border-b border-neutral-800 lg:border-0 pb-4 lg:pb-0"
+            key={i}
+            className="flex gap-4 border-b border-neutral-800 pb-4 lg:border-none lg:pb-0 lg:flex-col"
           >
-            <div className="size-28 lg:w-full lg:h-65 bg-neutral-700 rounded-md" />
-            <div className="flex flex-col gap-2 flex-1 *:rounded-md">
-              <div className="h-4 w-40 lg:w-3/4 bg-neutral-700" />
-              <div className="h-4 w-32 lg:w-2/3 bg-neutral-700" />
-              <div className="h-4 w-20 lg:w-1/3 bg-neutral-700" />
+            <div className="size-28 rounded-md bg-neutral-800 shrink-0 lg:w-full lg:aspect-square lg:size-auto" />
+
+            <div className="flex-1 flex flex-col gap-2">
+              <div className="h-5 w-3/4 rounded-md bg-neutral-800" />
+              <div className="h-4 w-2/3 rounded-md bg-neutral-800" />
+              <div className="h-4 w-1/3 rounded-md bg-neutral-800" />
             </div>
           </div>
         ))}
