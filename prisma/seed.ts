@@ -33,18 +33,20 @@ async function main() {
       state: "Île-de-France",
       postalCode: "75004",
       countryCode: "FR",
+      avatar: "/default-user.png",
     },
   });
 
   // Predefined image URLs to be randomly assigned to products
   const imagePool = [
     "https://imagedelivery.net/D1tmCeHaZw3ssCcAXbxakA/7ecab0e8-d514-4465-a3b8-8ecd8de6f100",
-    "https://imagedelivery.net/D1tmCeHaZw3ssCcAXbxakA/03cbc2aa-a0c8-48f9-20e1-a1cdb0593100",
     "https://imagedelivery.net/D1tmCeHaZw3ssCcAXbxakA/82309ec5-8b96-4ef1-5dc0-fa3220b3e200",
     "https://imagedelivery.net/D1tmCeHaZw3ssCcAXbxakA/13d8f9d4-e33d-4874-16b7-d2aec122ef00",
+    "https://imagedelivery.net/D1tmCeHaZw3ssCcAXbxakA/20244ba3-155a-4050-d90e-facf7638fb00",
+    "https://imagedelivery.net/D1tmCeHaZw3ssCcAXbxakA/aa0fe5d7-3a7d-4d60-6e2e-e800156f5a00",
   ];
 
-  const COUNT = 20;
+  const COUNT = 30;
 
   // Generate product data
   const productsData = Array.from({ length: COUNT }).map((_, i) => {
