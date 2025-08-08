@@ -2,9 +2,11 @@
 
 import { getSession } from "@/lib/session";
 import db from "@/lib/db";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/navigation";
+import { getLocale } from "next-intl/server";
 
 export async function createChatWithUser(userId: number) {
+  const locale = await getLocale();
   const session = await getSession();
   if (!session?.id || session.id === userId) return;
 
@@ -17,7 +19,10 @@ export async function createChatWithUser(userId: number) {
   });
 
   if (existingRoom) {
-    return redirect(`/chats/${existingRoom.id}`);
+    return redirect({
+      href: `/chats/${existingRoom.id}`,
+      locale,
+    });
   }
 
   const newRoom = await db.chatRoom.create({
@@ -27,5 +32,8 @@ export async function createChatWithUser(userId: number) {
     },
   });
 
-  return redirect(`/chats/${newRoom.id}`);
+  return redirect({
+    href: `/chats/${newRoom.id}`,
+    locale,
+  });
 }

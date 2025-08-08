@@ -1,9 +1,10 @@
 "use server";
 
+import { redirect } from "@/i18n/navigation";
 import db from "@/lib/db";
 import { getSession } from "@/lib/session";
+import { getLocale } from "next-intl/server";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function createReview(
   chatRoomId: string,
@@ -13,6 +14,7 @@ export async function createReview(
   comment: string
 ) {
   const session = await getSession();
+  const locale = await getLocale();
   if (!session) throw new Error("Not authenticated");
 
   const existing = await db.review.findUnique({
@@ -38,5 +40,8 @@ export async function createReview(
   });
 
   revalidatePath(`/chats/${chatRoomId}`);
-  redirect(`/chats/${chatRoomId}`);
+  redirect({
+    href: `/chats/${chatRoomId}`,
+    locale,
+  });
 }

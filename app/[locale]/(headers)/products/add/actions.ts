@@ -3,7 +3,8 @@
 import z from "zod";
 import { getSession } from "@/lib/session";
 import db from "@/lib/db";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 
 const productSchema = z.object({
   photos: z.array(z.string()).min(1, "At least one photo is required."),
@@ -63,6 +64,7 @@ export async function uploadProduct(_: any, formData: FormData) {
       values: data,
     };
   } else {
+    const locale = await getLocale();
     const session = await getSession();
     if (session.id) {
       const urls = result.data.photos;
@@ -99,7 +101,10 @@ export async function uploadProduct(_: any, formData: FormData) {
           id: true,
         },
       });
-      redirect(`/products/${product.id}`);
+      redirect({
+        href: `/products/${product.id}`,
+        locale,
+      });
     }
   }
 }

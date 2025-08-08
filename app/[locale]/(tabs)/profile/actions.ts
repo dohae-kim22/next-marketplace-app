@@ -1,13 +1,18 @@
 "use server";
 
+import { redirect } from "@/i18n/navigation";
 import db from "@/lib/db";
 import { getSession } from "@/lib/session";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 
 export async function logOut() {
+  const locale = await getLocale();
   const session = await getSession();
   session.destroy();
-  redirect("/");
+  redirect({
+    href: "/",
+    locale,
+  });
 }
 
 export async function getUserWithContent() {

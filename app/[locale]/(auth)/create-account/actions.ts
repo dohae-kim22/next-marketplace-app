@@ -1,14 +1,15 @@
 "use server";
 
+import { redirect } from "@/i18n/navigation";
 import {
   PASSWORD_MIN_LENGTH,
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
 } from "@/lib/constants";
 import db from "@/lib/db";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import bcrypt from "bcryptjs";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import z from "zod";
 
 const formSchema = z
@@ -79,7 +80,6 @@ const formSchema = z
     }
   });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createAccount(prevState: any, formData: FormData) {
   const data = {
     userName: formData.get("userName"),
@@ -89,6 +89,7 @@ export async function createAccount(prevState: any, formData: FormData) {
   };
 
   const result = await formSchema.safeParseAsync(data);
+  const locale = await getLocale();
 
   if (!result.success) {
     const flatten = z.flattenError(result.error);
@@ -114,6 +115,9 @@ export async function createAccount(prevState: any, formData: FormData) {
     const session = await getSession();
     session.id = user.id;
     await session.save();
-    redirect("/products");
+    redirect({
+      href: "/products",
+      locale,
+    });
   }
 }

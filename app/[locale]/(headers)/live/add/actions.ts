@@ -1,8 +1,9 @@
 "use server";
 
+import { redirect } from "@/i18n/navigation";
 import db from "@/lib/db";
-import {getSession} from "@/lib/session";
-import { redirect } from "next/navigation";
+import { getSession } from "@/lib/session";
+import { getLocale } from "next-intl/server";
 import { z } from "zod";
 
 const liveSchema = z.object({
@@ -16,7 +17,6 @@ const liveSchema = z.object({
     .optional(),
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function startLive(_: any, formData: FormData) {
   const data = {
     title: formData.get("title"),
@@ -50,8 +50,10 @@ export async function startLive(_: any, formData: FormData) {
   );
 
   const responseData = await response.json();
-  
+
   const session = await getSession();
+  const locale = await getLocale();
+
   const stream = await db.liveStream.create({
     data: {
       title: result.data.title,
@@ -65,5 +67,8 @@ export async function startLive(_: any, formData: FormData) {
       id: true,
     },
   });
-  redirect(`/live/${stream.id}`);
+  redirect({
+    href: `/live/${stream.id}`,
+    locale,
+  });
 }

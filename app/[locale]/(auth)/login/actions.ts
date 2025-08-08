@@ -1,14 +1,15 @@
 "use server";
 
+import { redirect } from "@/i18n/navigation";
 import {
   PASSWORD_MIN_LENGTH,
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
 } from "@/lib/constants";
 import db from "@/lib/db";
-import {getSession} from "@/lib/session";
+import { getSession } from "@/lib/session";
 import bcrypt from "bcryptjs";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import z from "zod";
 
 const checkEmailExist = async (email: string) => {
@@ -35,12 +36,12 @@ const loginSchema = z.object({
     .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function login(prevState: any, formData: FormData) {
   const data = {
     email: formData.get("email"),
     password: formData.get("password"),
   };
+  const locale = await getLocale();
 
   const result = await loginSchema.safeParseAsync(data);
   if (!result.success) {
@@ -67,7 +68,10 @@ export async function login(prevState: any, formData: FormData) {
       const session = await getSession();
       session.id = user!.id;
       await session.save();
-      redirect("/products");
+      redirect({
+        href: "/products",
+        locale,
+      });
     } else {
       return {
         fieldErrors: {

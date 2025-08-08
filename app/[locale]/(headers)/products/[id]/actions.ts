@@ -1,11 +1,13 @@
 "use server";
 
+import { redirect } from "@/i18n/navigation";
 import db from "@/lib/db";
-import {getSession} from "@/lib/session";
-import { redirect } from "next/navigation";
+import { getSession } from "@/lib/session";
+import { getLocale } from "next-intl/server";
 
 export async function deleteProduct(productId: number) {
   const session = await getSession();
+  const locale = await getLocale();
 
   const product = await db.product.findUnique({
     where: {
@@ -26,11 +28,15 @@ export async function deleteProduct(productId: number) {
     },
   });
 
-  redirect("/products");
+  redirect({
+    href: "/products",
+    locale,
+  });
 }
 
 export async function toggleSoldStatus(productId: number) {
   const session = await getSession();
+  const locale = await getLocale();
 
   const product = await db.product.findUnique({
     where: { id: productId },
@@ -48,7 +54,10 @@ export async function toggleSoldStatus(productId: number) {
     data: { status: newStatus },
   });
 
-  redirect(`/products/${productId}`);
+  redirect({
+    href: `/products/${productId}`,
+    locale,
+  });
 }
 
 export async function toggleLike(productId: number) {

@@ -145,7 +145,7 @@ export default function LocationAutocomplete({
           type="text"
           ref={inputRef}
           placeholder="Enter a location (e.g. Paris)"
-          className="w-full border rounded-md px-3 py-2 bg-transparent"
+          className="w-full border bg-transparent border-none rounded-md focus:outline-none transition h-10 ring-1 ring-neutral-200 focus:ring-2 focus:ring-orange-500 placeholder:text-neutral-400"
           defaultValue={location}
           onBlur={handleBlur}
           onChange={() => {
