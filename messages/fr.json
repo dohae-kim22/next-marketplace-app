@@ -112,5 +112,28 @@
     "meetupLocation": "Lieu de rendez-vous",
     "deleteConfirm": "Voulez-vous vraiment supprimer ceci ?",
     "delete": "Supprimer"
+  },
+  "postDetail": {
+    "views": "{count} vues",
+    "delete": "Supprimer",
+    "deleteConfirm": "Voulez-vous vraiment supprimer cet article ?",
+    "commentsTitle": "Commentaires",
+    "noComments": "Pas encore de commentaires.",
+    "writeComment": "Écrivez un commentaire...",
+    "reply": "Répondre",
+    "post": "Publier",
+    "deletedComment": "Ce commentaire a été supprimé."
+  },
+  "addPost": {
+    "pageTitle": "Créer une nouvelle annonce",
+    "imageOptional": "(Optionnel)",
+    "imageRemove": "Supprimer l'image",
+    "imageUploadFailed": "Échec du téléversement de l'image.",
+    "imageUploadTooLarge": "Le fichier doit être inférieur à 15 Mo.",
+    "imageUploadGetUrlFailed": "Impossible d'obtenir l'URL de téléversement.",
+    "titlePlaceholder": "Titre*",
+    "descriptionPlaceholder": "Écrivez quelque chose à partager avec vos voisins...",
+    "selectNeighborhood": "Sélectionnez votre quartier*",
+    "postButton": "Publier"
   }
 }

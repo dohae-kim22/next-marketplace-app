@@ -112,5 +112,28 @@
     "meetupLocation": "Meet-up Location",
     "deleteConfirm": "Are you sure you want to delete this?",
     "delete": "Delete"
+  },
+  "postDetail": {
+    "views": "{count} Views",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this post?",
+    "commentsTitle": "Comments",
+    "noComments": "No comments yet.",
+    "writeComment": "Write a comment...",
+    "reply": "Reply",
+    "post": "Post",
+    "deletedComment": "This comment has been deleted."
+  },
+  "addPost": {
+    "pageTitle": "Create New Post",
+    "imageOptional": "(Optional)",
+    "imageRemove": "Remove image",
+    "imageUploadFailed": "Image upload failed.",
+    "imageUploadTooLarge": "File must be less than 15MB.",
+    "imageUploadGetUrlFailed": "Failed to get upload URL.",
+    "titlePlaceholder": "Title*",
+    "descriptionPlaceholder": "Write something to share with your neighbors...",
+    "selectNeighborhood": "Select your neighborhood*",
+    "postButton": "Post"
   }
 }

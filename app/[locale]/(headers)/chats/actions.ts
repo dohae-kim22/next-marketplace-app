@@ -1,10 +1,11 @@
 "use server";
 
+import { redirect } from "@/i18n/navigation";
 import db from "@/lib/db";
 import { Prisma } from "@/lib/generated/prisma";
 import { getSession } from "@/lib/session";
+import { getLocale } from "next-intl/server";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function createOrGetChatRoom(formData: FormData) {
   const productId = Number(formData.get("productId"));
@@ -21,15 +22,24 @@ export async function createOrGetChatRoom(formData: FormData) {
     where: { buyerId: session.id, productId },
   });
 
+  const locale = await getLocale();
+
   if (existingRoom) {
-    redirect(`/chats/${existingRoom.id}`);
+    redirect({
+      href: `/chats/${existingRoom.id}`,
+      locale,
+    });
   }
 
   const room = await db.chatRoom.create({
     data: { productId, buyerId: session.id!, sellerId: product.userId },
   });
 
-  redirect(`/chats/${room.id}`);
+  redirect({
+    href: `/chats/${room.id}`,
+
+    locale,
+  });
 }
 
 export async function getMessages(chatRoomId: string) {

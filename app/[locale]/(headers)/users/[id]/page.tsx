@@ -1,11 +1,12 @@
 import db from "@/lib/db";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
 import ListProduct from "@/components/ListProduct";
 import { getSession } from "@/lib/session";
 import { ChatButton } from "@/components/ChatButton";
 import { getReceivedReviews } from "@/lib/reviews";
+import { redirect } from "@/i18n/navigation";
 
 interface UserProfileProps {
   params: Promise<{ id: string; locale: string }>;
@@ -20,7 +21,10 @@ export default async function UserProfile({ params }: UserProfileProps) {
   const session = await getSession();
 
   if (session?.id === numericId) {
-    return redirect("/profile");
+    return redirect({
+      href: "/profile",
+      locale,
+    });
   }
 
   const user = await db.user.findUnique({

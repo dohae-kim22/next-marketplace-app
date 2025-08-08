@@ -5,7 +5,7 @@ import Image from "next/image";
 import { createComment } from "@/app/[locale]/(headers)/posts/[id]/actions";
 import { formatToTimeAgo } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Comment {
   id: number;
@@ -38,6 +38,7 @@ export default function CommentSection({
   const [replyText, setReplyText] = useState("");
 
   const locale = useLocale();
+  const t = useTranslations("postDetail");
 
   const handleSubmit = async () => {
     if (text.trim().length === 0) return;
@@ -89,28 +90,53 @@ export default function CommentSection({
     setReplyTo(null);
   };
 
+  const handleDelete = (
+    commentId: number,
+    isReply = false,
+    parentId?: number
+  ) => {
+    setComments((prev) =>
+      prev.map((comment) => {
+        if (isReply && comment.id === parentId) {
+          return {
+            ...comment,
+            replies: comment.replies?.map((reply) =>
+              reply.id === commentId
+                ? { ...reply, content: t("deletedComment") }
+                : reply
+            ),
+          };
+        }
+        if (!isReply && comment.id === commentId) {
+          return { ...comment, content: t("deletedComment") };
+        }
+        return comment;
+      })
+    );
+  };
+
   return (
     <div className="w-full flex flex-col gap-4 mt-10">
-      <h3 className="font-semibold text-white">Comments</h3>
+      <h3 className="font-semibold text-white">{t("commentsTitle")}</h3>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
         <input
-          className="flex-1 rounded-md bg-neutral-800 text-white px-3 py-2 text-sm"
+          className="flex-1 bg-transparent border-none rounded-md focus:outline-none transition h-8 ring-1 ring-neutral-200 focus:ring-2 focus:ring-orange-500 placeholder:text-neutral-400"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Write a comment..."
+          placeholder={t("writeComment")}
         />
         <button
           onClick={handleSubmit}
-          className="bg-orange-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-orange-400"
+          className="bg-orange-500 text-white px-4 h-8 rounded-md text-sm font-medium hover:bg-orange-400"
         >
-          Post
+          {t("post")}
         </button>
       </div>
 
       <ul className="flex flex-col gap-5 text-sm text-neutral-300 border-t border-neutral-700 pt-4">
         {comments.length === 0 ? (
-          <li className="text-neutral-500 italic">No comments yet.</li>
+          <li className="text-neutral-500 italic">{t("noComments")}</li>
         ) : (
           comments.map((comment) => (
             <li key={comment.id}>
@@ -133,30 +159,49 @@ export default function CommentSection({
                       {formatToTimeAgo(comment.created_at.toString(), locale)}
                     </span>
                   </div>
-                  <p className="mt-1">{comment.content}</p>
 
-                  <button
-                    onClick={() =>
-                      setReplyTo(replyTo === comment.id ? null : comment.id)
-                    }
-                    className="text-xs text-orange-400 hover:underline mt-1"
+                  <p
+                    className={`mt-1 ${
+                      comment.content === t("deletedComment")
+                        ? "italic text-neutral-500"
+                        : ""
+                    }`}
                   >
-                    Reply
-                  </button>
+                    {comment.content}
+                  </p>
+
+                  <div className="flex gap-3 mt-1">
+                    <button
+                      onClick={() =>
+                        setReplyTo(replyTo === comment.id ? null : comment.id)
+                      }
+                      className="text-xs text-orange-400 hover:underline"
+                    >
+                      {t("reply")}
+                    </button>
+                    {comment.user.id === currentUserId && (
+                      <button
+                        onClick={() => handleDelete(comment.id)}
+                        className="text-xs text-red-400 hover:underline"
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </div>
 
                   {replyTo === comment.id && (
                     <div className="mt-2 flex gap-2">
                       <input
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
-                        className="flex-1 rounded-md bg-neutral-800 text-white px-3 py-1 text-sm"
+                        className="flex-1 bg-transparent border-none rounded-md focus:outline-none transition h-8 ring-1 ring-neutral-200 focus:ring-2 focus:ring-orange-500 placeholder:text-neutral-400"
                         placeholder={`Reply to ${comment.user.userName}...`}
                       />
                       <button
                         onClick={() => handleReplySubmit(comment.id)}
-                        className="text-sm px-3 py-1 bg-orange-500 hover:bg-orange-400 rounded-md text-white font-medium"
+                        className="text-sm px-3 h-8 bg-orange-500 hover:bg-orange-400 rounded-md text-white font-medium"
                       >
-                        Post
+                        {t("post")}
                       </button>
                     </div>
                   )}
@@ -175,16 +220,36 @@ export default function CommentSection({
                             />
                           </Link>
                           <div>
-                            <span className="font-semibold">
-                              {reply.user.userName}
-                            </span>
-                            <span className="ml-2 text-xs text-neutral-500">
-                              {formatToTimeAgo(
-                                reply.created_at.toString(),
-                                locale
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold">
+                                {reply.user.userName}
+                              </span>
+                              <span className="text-xs text-neutral-500">
+                                {formatToTimeAgo(
+                                  reply.created_at.toString(),
+                                  locale
+                                )}
+                              </span>
+                              {reply.user.id === currentUserId && (
+                                <button
+                                  onClick={() =>
+                                    handleDelete(reply.id, true, comment.id)
+                                  }
+                                  className="text-xs text-red-400 hover:underline"
+                                >
+                                  Delete
+                                </button>
                               )}
-                            </span>
-                            <p>{reply.content}</p>
+                            </div>
+                            <p
+                              className={
+                                reply.content === t("deletedComment")
+                                  ? "italic text-neutral-500"
+                                  : ""
+                              }
+                            >
+                              {reply.content}
+                            </p>
                           </div>
                         </li>
                       ))}

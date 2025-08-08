@@ -2,11 +2,12 @@
 
 import { PhotoIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { ChangeEvent, useActionState, useEffect, useState } from "react";
-import { getUploadURL, uploadProduct } from "./actions";
+import { getUploadURL, uploadPost } from "./actions";
 import FormInput from "@/components/FormInput";
 import FormTextarea from "@/components/FormTextArea";
 import FormButton from "@/components/FormButton";
 import LocationAutocomplete from "@/components/LocationAutocomplete";
+import { useTranslations } from "next-intl";
 
 interface LocationData {
   lat: number;
@@ -26,6 +27,8 @@ export default function AddPost() {
   const [isUploading, setIsUploading] = useState(false);
   const [position, setPosition] = useState<LocationData | null>(null);
 
+  const t = useTranslations("addPost");
+
   const handleRemoveImage = () => {
     setPreview(null);
     setUploadUrl(null);
@@ -41,14 +44,14 @@ export default function AddPost() {
     }
 
     if (file.size > 15 * 1024 * 1024) {
-      setImageError("File must be less than 15MB.");
+      setImageError(t("imageUploadTooLarge"));
       setIsUploading(false);
       return;
     }
 
     const { success, result } = await getUploadURL();
     if (!success) {
-      setImageError("Failed to get upload URL.");
+      setImageError(t("imageUploadGetUrlFailed"));
       setIsUploading(false);
       return;
     }
@@ -63,7 +66,7 @@ export default function AddPost() {
     });
 
     if (!uploadRes.ok) {
-      setImageError("Image upload failed.");
+      setImageError(t("imageUploadFailed"));
       setIsUploading(false);
       return;
     }
@@ -80,7 +83,7 @@ export default function AddPost() {
   const [state, dispatch] = useActionState(
     async (_: any, formData: FormData) => {
       formData.append("photo", uploadUrl ?? "");
-      return uploadProduct(_, formData);
+      return uploadPost(_, formData);
     },
     null
   );
@@ -94,9 +97,9 @@ export default function AddPost() {
   return (
     <form
       action={dispatch}
-      className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto"
+      className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto lg:pt-10"
     >
-      <h1 className="text-neutral-300 font-medium text-xl">Create New Post</h1>
+      <h1 className="text-neutral-300 font-medium text-xl">{t("pageTitle")}</h1>
       <div className="flex gap-3 flex-wrap justify-center">
         <div className="relative size-60">
           <label
@@ -113,7 +116,7 @@ export default function AddPost() {
                 ) : (
                   <PhotoIcon className="w-17" />
                 )}
-                <div className="text-sm">(Optional)</div>
+                <div className="text-sm">{t("imageOptional")}</div>
                 <p className="text-red-500 text-sm">
                   {state?.fieldErrors.photo}
                 </p>
@@ -126,7 +129,7 @@ export default function AddPost() {
               type="button"
               onClick={handleRemoveImage}
               className="absolute top-[-7px] right-[-7px] bg-neutral-500 text-white rounded-full size-6 text-xs flex items-center justify-center shadow cursor-pointer hover:bg-neutral-400"
-              aria-label="Remove image"
+              aria-label={t("imageRemove")}
             >
               <XMarkIcon className="size-4" />
             </button>
@@ -144,7 +147,7 @@ export default function AddPost() {
 
       <FormInput
         name="title"
-        placeholder="Title*"
+        placeholder={t("titlePlaceholder")}
         type="text"
         required
         errors={state?.fieldErrors.title}
@@ -153,13 +156,13 @@ export default function AddPost() {
 
       <FormTextarea
         name="description"
-        placeholder="Write something to share with your neighbors..."
+        placeholder={t("descriptionPlaceholder")}
         errors={state?.fieldErrors.description}
       />
 
       <div className="flex flex-col gap-2">
         <span className="text-neutral-500 text-sm">
-          Select your neighborhood*
+          {t("selectNeighborhood")}
         </span>
         <LocationAutocomplete
           onSelect={(value) => {
@@ -189,7 +192,7 @@ export default function AddPost() {
       />
       {uploadUrl && <input type="hidden" name="photo" value={uploadUrl} />}
 
-      <FormButton text="Post" />
+      <FormButton text={t("postButton")} />
     </form>
   );
 }

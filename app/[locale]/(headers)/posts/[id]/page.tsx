@@ -8,6 +8,8 @@ import { notFound } from "next/navigation";
 import PostLikeButton from "@/components/PostLikeButton";
 import CommentSection from "@/components/CommentSection";
 import { Link } from "@/i18n/navigation";
+import DeletePostButton from "@/components/DeletePostButton";
+import { getTranslations } from "next-intl/server";
 
 async function getPost(id: number) {
   try {
@@ -96,6 +98,9 @@ export default async function PostDetail({
   if (!post) return notFound();
 
   const currentUser = await getUser();
+  const isAuthor = currentUser?.id === (post as any).userId;
+
+  const t = await getTranslations("postDetail");
 
   const { likeCount, isLiked } = await getLikeStatus(
     numericId,
@@ -103,25 +108,30 @@ export default async function PostDetail({
   );
 
   return (
-    <div className="container-lg p-5 text-white md:p-20 md:pt-0 lg:p-50 lg:pt-0">
-      <Link
-        href={`/users/${post.userId}`}
-        className="flex items-center gap-2 mb-3"
-      >
-        <Image
-          width={30}
-          height={30}
-          className="size-9 rounded-full"
-          src={post.user.avatar!}
-          alt={post.user.userName}
-        />
-        <div className="flex flex-col justify-center text-neutral-300">
+    <div className="container-lg p-5 text-white md:p-20 md:pt-0 lg:p-50 lg:pt-15">
+      <div className="flex items-center gap-2 mb-3">
+        <Link href={`/users/${post.userId}`}>
+          <Image
+            width={30}
+            height={30}
+            className="size-9 rounded-full"
+            src={post.user.avatar!}
+            alt={post.user.userName}
+          />
+        </Link>
+
+        <div className="flex flex-col justify-center text-neutral-300 flex-1">
           <span className="text-sm font-semibold">{post.user.userName}</span>
           <div className="text-xs">
             <span>{formatToTimeAgo(post.created_at.toString(), locale)}</span>
           </div>
         </div>
-      </Link>
+        {isAuthor && (
+          <div className="">
+            <DeletePostButton postId={numericId} />
+          </div>
+        )}
+      </div>
 
       <div className="flex flex-col gap-2 md:gap-3 md:mb-5">
         <h2 className="text-lg font-semibold">{post.title}</h2>
@@ -152,7 +162,7 @@ export default async function PostDetail({
       <div className="flex gap-4 items-center justify-between mt-1">
         <div className="flex items-center gap-2 text-neutral-400 text-xs">
           <EyeIcon className="size-5" />
-          <span>{post.views} Views</span>
+          <span>{t("views", { count: post.views })}</span>
         </div>
 
         <PostLikeButton

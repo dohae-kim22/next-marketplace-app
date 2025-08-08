@@ -3,7 +3,8 @@
 import z from "zod";
 import { getSession } from "@/lib/session";
 import db from "@/lib/db";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/navigation";
+import { getLocale } from "next-intl/server";
 
 const productSchema = z.object({
   photo: z.string().optional(),
@@ -25,7 +26,7 @@ const productSchema = z.object({
   countryCode: z.string().optional(),
 });
 
-export async function uploadProduct(_: any, formData: FormData) {
+export async function uploadPost(_: any, formData: FormData) {
   const data = {
     photo: formData.get("photo"),
     title: formData.get("title"),
@@ -50,6 +51,8 @@ export async function uploadProduct(_: any, formData: FormData) {
     };
   } else {
     const session = await getSession();
+    const locale = await getLocale();
+
     if (session.id) {
       const post = await db.post.create({
         data: {
@@ -74,7 +77,10 @@ export async function uploadProduct(_: any, formData: FormData) {
           id: true,
         },
       });
-      redirect(`/posts/${post.id}`);
+      redirect({
+        href: `/posts/${post.id}`,
+        locale,
+      });
     }
   }
 }

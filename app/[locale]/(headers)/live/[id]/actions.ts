@@ -1,11 +1,13 @@
 "use server";
 
+import { redirect } from "@/i18n/navigation";
 import db from "@/lib/db";
 import { getSession } from "@/lib/session";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 
 export async function deleteStream(streamId: number) {
   const session = await getSession();
+  const locale = await getLocale();
 
   const stream = await db.liveStream.findUnique({
     where: {
@@ -26,5 +28,8 @@ export async function deleteStream(streamId: number) {
     },
   });
 
-  redirect("/live");
+  redirect({
+    href: "/live",
+    locale,
+  });
 }

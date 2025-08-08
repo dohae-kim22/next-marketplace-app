@@ -1,7 +1,8 @@
 import { getSession } from "@/lib/session";
 import db from "@/lib/db";
-import { redirect } from "next/navigation";
 import ReviewForm from "@/components/ReviewForm";
+import { redirect } from "@/i18n/navigation";
+import { getLocale } from "next-intl/server";
 
 interface NewReviewPageProps {
   searchParams: Promise<{
@@ -13,7 +14,14 @@ export default async function NewReviewPage({
   searchParams,
 }: NewReviewPageProps) {
   const { chatRoomId } = await searchParams;
-  if (!chatRoomId) redirect("/");
+  const locale = await getLocale();
+
+  if (!chatRoomId) {
+    redirect({
+      href: "/",
+      locale,
+    });
+  }
 
   const session = await getSession();
   const chatRoom = await db.chatRoom.findUnique({
@@ -25,7 +33,13 @@ export default async function NewReviewPage({
     },
   });
 
-  if (!chatRoom) redirect("/");
+  if (!chatRoom) {
+    redirect({
+      href: "/",
+      locale,
+    });
+    return null;
+  }
 
   const reviewerId = session.id;
   const reviewee =
