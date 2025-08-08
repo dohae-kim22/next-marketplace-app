@@ -30,6 +30,7 @@ export async function getMoreProducts(page: number) {
       countryCode: true,
     },
     orderBy: { created_at: "desc" },
+    distinct: ["id"],
     skip,
     take: PAGE_SIZE,
   });
@@ -82,6 +83,7 @@ export async function getMoreSearchedProducts(page: number, query: string) {
       type: true,
     },
     orderBy: { created_at: "desc" },
+    distinct: ["id"],
     skip,
     take: PAGE_SIZE,
   });

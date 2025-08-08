@@ -48,7 +48,10 @@ export default async function ProfilePage({
             </Link>
 
             <form action={logOut}>
-              <button className="text-sm text-red-500 hover:text-red-600 flex gap-1 border rounded-md px-2 py-1 justify-center items-center">
+              <button
+                className="text-sm text-red-500 hover:text-red-600 flex gap-1 border cursor-pointer
+               rounded-md px-2 py-1 justify-center items-center"
+              >
                 <ArrowRightStartOnRectangleIcon className="size-4" />
                 <span>Log out</span>
               </button>

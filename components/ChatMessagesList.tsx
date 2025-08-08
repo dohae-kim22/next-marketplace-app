@@ -5,6 +5,7 @@ import {
   markMessagesAsRead,
   saveMessage,
 } from "@/app/[locale]/(headers)/chats/actions";
+import { Link } from "@/i18n/navigation";
 import { formatToTimeAgo } from "@/lib/utils";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
@@ -114,18 +115,20 @@ export default function ChatMessagesList({
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex gap-2 items-start ${
+            className={`flex gap-3 items-start ${
               message.sender.id === userId ? "justify-end" : ""
             }`}
           >
             {message.sender.id === userId ? null : (
-              <Image
-                src={message.sender.avatar ?? "/default-user.png"}
-                alt={message.sender.userName}
-                width={50}
-                height={50}
-                className="size-8 rounded-full"
-              />
+              <Link href={`/users/${message.sender.id}`}>
+                <Image
+                  src={message.sender.avatar ?? "/default-user.png"}
+                  alt={message.sender.userName}
+                  width={50}
+                  height={50}
+                  className="size-8 rounded-full"
+                />
+              </Link>
             )}
             <div
               className={`flex flex-col gap-1${
@@ -169,7 +172,7 @@ export default function ChatMessagesList({
             name="message"
             placeholder={t("placeholder")}
           />
-          <button className="absolute right-0">
+          <button className="absolute right-0 cursor-pointer">
             <ArrowUpCircleIcon className="size-10 text-orange-500 transition-colors hover:text-orange-300" />
           </button>
         </form>

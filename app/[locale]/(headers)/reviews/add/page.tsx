@@ -46,10 +46,12 @@ export default async function NewReviewPage({
     reviewerId === chatRoom.buyerId ? chatRoom.seller : chatRoom.buyer;
 
   return (
-    <ReviewForm
-      chatRoomId={chatRoom.id}
-      productId={chatRoom.product!.id}
-      revieweeId={reviewee.id}
-    />
+    <div className="p-5 container-lg md:p-20 md:pt-10 lg:p-50 lg:pt-15">
+      <ReviewForm
+        chatRoomId={chatRoom.id}
+        productId={chatRoom.product!.id}
+        revieweeId={reviewee.id}
+      />
+    </div>
   );
 }

@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import {
   getUploadURL,
   updateProfile,
-} from "@/app/[locale]/profile/edit/actions";
+} from "@/app/[locale]/(headers)/profile/edit/actions";
 
 const RADIUS_OPTIONS = [5, 10, 30, 50];
 
@@ -225,7 +225,7 @@ export default function EditProfileForm({ user }: { user: any }) {
               key={option}
               type="button"
               onClick={() => setRadius(option)}
-              className={`py-2 rounded-md text-sm font-semibold border transition ${
+              className={`py-2 rounded-md text-sm cursor-pointer font-semibold border transition ${
                 radius === option
                   ? "bg-orange-500 text-white border-orange-500"
                   : "bg-neutral-800 text-neutral-300 border-neutral-600 hover:border-neutral-400"
@@ -241,7 +241,7 @@ export default function EditProfileForm({ user }: { user: any }) {
         <FormButton text="Save Changes" />
         <button
           type="button"
-          className="bg-neutral-700 h-10 rounded-md text-center hover:bg-neutral-600"
+          className="bg-neutral-700 cursor-pointer h-10 rounded-md text-center hover:bg-neutral-600"
           onClick={() => router.back()}
         >
           Cancel

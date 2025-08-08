@@ -57,22 +57,22 @@ export default function ProductCardInChat({
         <h3 className="text-white font-semibold">{product.title}</h3>
         <p className="text-orange-400 font-bold text-sm">€ {product.price}</p>
         {tradeComplete ? (
-          <>
+          <div className="flex gap-2 justify-between items-center">
             <p className="text-green-400 text-sm mt-1">{t("tradeCompleted")}</p>
             {!alreadyReviewed && (
               <Link
                 href={`/reviews/add?productId=${product.id}&chatRoomId=${chatRoomId}`}
-                className="block text-xs px-3 py-1 rounded-full bg-blue-500 text-white text-center hover:bg-blue-400"
+                className="block text-xs px-5 py-1 rounded-full bg-blue-500 text-white text-center hover:bg-blue-400"
               >
                 {t("writeReview")}
               </Link>
             )}
-          </>
+          </div>
         ) : showButton ? (
           <button
             onClick={handleClick}
             disabled={isPending}
-            className="text-xs mt-2 px-3 py-1 rounded-full bg-orange-500 text-white disabled:opacity-50"
+            className="text-xs mt-2 px-3 py-1 cursor-pointer rounded-full bg-orange-500 hover:bg-orange-400 text-white disabled:opacity-50"
           >
             {isBuyer ? t("markPurchased") : t("markSold")}
           </button>

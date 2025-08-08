@@ -44,6 +44,7 @@ async function getFirstPage(slug: string[]) {
       categorySubSub: true,
     },
     orderBy: { created_at: "desc" },
+    distinct: ["id"],
     take: PAGE_SIZE,
   });
 

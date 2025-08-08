@@ -21,6 +21,7 @@ import CategoryBreadcrumb from "@/components/CategoryBreadcrumb";
 import { findCategorySlugsByIds } from "@/lib/categoryUtils";
 import DeleteProductButton from "@/components/DeleteProductButton";
 import { getTranslations } from "next-intl/server";
+import ScrollToTop from "@/components/ScrollToTop";
 
 async function getProduct(id: number) {
   const session = await getSession();
@@ -92,6 +93,7 @@ export default async function ProductDetail({
 
   return (
     <div className="container-lg flex flex-col gap-3 p-5 md:p-20 md:py-0 md:pt-5 lg:py-15 lg:flex-row lg:gap-15">
+      <ScrollToTop />
       <div className="flex flex-col gap-3">
         <div className="relative overflow-hidden">
           <ProductImageSlider photos={product.photos} />

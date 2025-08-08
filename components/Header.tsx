@@ -64,13 +64,16 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
         <div className="flex items-center gap-3 lg:hidden">
           <>
             {!hideSearchAddButton && (
-              <Link href={searchHref ?? "#"} className="cursor-pointer">
-                <MagnifyingGlassIcon className="size-7 text-white" />
-              </Link>
+              <>
+                <Link href={searchHref ?? "#"} className="cursor-pointer">
+                  <MagnifyingGlassIcon className="size-7 text-white" />
+                </Link>
+                <Link href={addHref ?? "#"} className="cursor-pointer">
+                  <PlusCircleIcon className="size-7 text-white" />
+                </Link>
+              </>
             )}
-            <Link href={addHref ?? "#"} className="cursor-pointer">
-              <PlusCircleIcon className="size-7 text-white" />
-            </Link>
+
             <Link href="/favorites">
               <HeartIcon className="size-7 text-white" />
             </Link>

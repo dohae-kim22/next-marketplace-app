@@ -13,7 +13,7 @@ export default function FormButton({ text, onClick }: FormButtonProps) {
     <button
       disabled={pending}
       onClick={onClick}
-      className="primary-btn h-10 disabled:bg-neutral-500 disabled:cursor-not-allowed"
+      className="primary-btn cursor-pointer h-10 disabled:bg-neutral-500 disabled:cursor-not-allowed"
     >
       {pending ? "Loading..." : text}
     </button>

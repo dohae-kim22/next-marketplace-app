@@ -19,9 +19,9 @@ export default function LeaveChatRoomButton({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="bg-transparent px-2 py-1 rounded-md text-red-400 font-semibold hover:text-red-500 flex items-center"
+        className="bg-transparent px-2 py-1 cursor-pointer rounded-md text-red-400 font-semibold hover:text-red-500 flex items-center"
       >
-        <XCircleIcon className="h-6" />
+        <XCircleIcon className="size-7" />
       </button>
 
       <ConfirmModal
