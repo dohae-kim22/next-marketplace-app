@@ -181,5 +181,9 @@
   "favorites": {
     "title": "Vos favoris",
     "empty": "Vous n'avez pas encore aimé d'articles."
+  },
+  "loadMoreProducts": {
+    "loading": "Chargement...",
+    "loadMore": "Charger plus"
   }
 }

@@ -182,5 +182,9 @@
   "favorites": {
     "title": "Your Favorites",
     "empty": "You haven't liked any items yet."
+  },
+  "loadMoreProducts": {
+    "loading": "Loading...",
+    "loadMore": "Load more"
   }
 }
