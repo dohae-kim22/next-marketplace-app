@@ -135,5 +135,31 @@
     "descriptionPlaceholder": "Écrivez quelque chose à partager avec vos voisins...",
     "selectNeighborhood": "Sélectionnez votre quartier*",
     "postButton": "Publier"
+  },
+  "liveStream": {
+    "placeholder": "Rechercher un stream...",
+    "noResults": "Aucun stream trouvé.",
+    "host": "Hôte : {name}"
+  },
+  "addLive": {
+    "pageTitle": "Démarrez votre diffusion en direct",
+    "titlePlaceholder": "Entrez un titre pour votre diffusion en direct",
+    "descriptionPlaceholder": "Description (facultatif)",
+    "startButton": "Commencer la diffusion"
+  },
+  "liveDetail": {
+    "howToTitle": "Comment démarrer la diffusion :",
+    "howToSteps": [
+      "Ouvrez votre logiciel de streaming (OBS, Streamlabs, XSplit, etc.).",
+      "Allez dans Paramètres → Diffusion.",
+      "Sélectionnez \"Personnalisé\" ou \"RTMPS\" comme service.",
+      "Collez l'URL du flux et la clé du flux ci-dessus.",
+      "Démarrez la diffusion et votre live apparaîtra sur notre plateforme !"
+    ]
+  },
+  "deleteStreamButton": {
+    "confirm": "Êtes-vous sûr de vouloir supprimer définitivement ce flux en direct ?",
+    "delete": "Supprimer",
+    "deleting": "Suppression..."
   }
 }

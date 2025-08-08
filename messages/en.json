@@ -135,5 +135,31 @@
     "descriptionPlaceholder": "Write something to share with your neighbors...",
     "selectNeighborhood": "Select your neighborhood*",
     "postButton": "Post"
+  },
+  "liveStream": {
+    "placeholder": "Find a stream...",
+    "noResults": "No streams found.",
+    "host": "Host: {name}"
+  },
+  "addLive": {
+    "pageTitle": "Start Your Live Stream",
+    "titlePlaceholder": "Enter a title for your live stream",
+    "descriptionPlaceholder": "Description (optional)",
+    "startButton": "Start streaming"
+  },
+  "liveDetail": {
+    "howToTitle": "How to Start Streaming:",
+    "howToSteps": [
+      "Open your streaming software (OBS, Streamlabs, XSplit, etc.).",
+      "Go to Settings → Stream.",
+      "Select \"Custom\" or \"RTMPS\" as your service.",
+      "Paste the Stream URL and Stream Key above.",
+      "Start streaming and your live will appear on our platform!"
+    ]
+  },
+  "deleteStreamButton": {
+    "confirm": "Are you sure you want to permanently delete this live stream?",
+    "delete": "Delete",
+    "deleting": "Deleting..."
   }
 }

@@ -5,6 +5,7 @@ import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import DeleteStreamButton from "@/components/DeleteStreamButton";
+import { getTranslations } from "next-intl/server";
 
 async function getStream(id: number) {
   return db.liveStream.findUnique({
@@ -38,10 +39,11 @@ export default async function LiveDetail({
   const stream = await getStream(numericId);
   if (!stream) return notFound();
 
+  const t = await getTranslations("liveDetail");
   const isOwner = await getIsOwner(stream.userId);
 
   return (
-    <div className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto text-white">
+    <div className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto text-white lg:pt-15">
       <div className="relative aspect-video rounded-lg overflow-hidden border border-neutral-700">
         <iframe
           src={`https://${process.env.CLOUDFLARE_DOMAIN}/${stream.streamId}/iframe`}
@@ -99,23 +101,13 @@ export default async function LiveDetail({
           </div>
 
           <div className="text-neutral-300">
-            <h3 className="font-semibold mb-2 text-base">
-              How to Start Streaming:
-            </h3>
+            <h3 className="font-semibold mb-2 text-base">{t("howToTitle")}</h3>
             <ol className="list-decimal list-inside space-y-2 text-sm">
-              <li className="pl-4">
-                Open your streaming software (OBS, Streamlabs, XSplit, etc.).
-              </li>
-              <li className="pl-4">Go to Settings → Stream.</li>
-              <li className="pl-4">
-                Select &quot;Custom&quot; or &quot;RTMPS&quot; as your service.
-              </li>
-              <li className="pl-4">
-                Paste the Stream URL and Stream Key above.
-              </li>
-              <li className="pl-4">
-                Start streaming and your live will appear on our platform!
-              </li>
+              {t.raw("howToSteps").map((step: string, idx: number) => (
+                <li key={idx} className="pl-4">
+                  {step}
+                </li>
+              ))}
             </ol>
           </div>
         </>
