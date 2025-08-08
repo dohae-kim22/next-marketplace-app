@@ -161,5 +161,20 @@
     "confirm": "Are you sure you want to permanently delete this live stream?",
     "delete": "Delete",
     "deleting": "Deleting..."
+  },
+  "chatRoomLeave": {
+    "confirm": "Do you want to leave this chat? You won't see it in your list anymore.",
+    "leave": "Leave",
+    "leaving": "Leaving..."
+  },
+  "productCardInChat": {
+    "tradeCompleted": "✅ Trade completed",
+    "writeReview": "Write a Review",
+    "markPurchased": "Mark as Purchased",
+    "markSold": "Mark as Sold",
+    "waitingOther": "Waiting for the other to confirm..."
+  },
+  "chatMessages": {
+    "placeholder": "Write a message..."
   }
 }

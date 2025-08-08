@@ -26,6 +26,9 @@ export default async function ChatRoom({
 
   const isBuyer = room.buyer.id === session.id;
   const opponent = isBuyer ? room.seller.userName : room.buyer.userName;
+  const opponentId = isBuyer ? room.seller.id : room.buyer.id;
+  const isParticipant =
+    room.buyer.id === session.id || room.seller.id === session.id;
 
   const user = await getUserProfile();
   if (!user) {
@@ -34,8 +37,13 @@ export default async function ChatRoom({
 
   return (
     <div className="flex flex-col mx-auto md:max-w-lg relative">
-      <div className="flex flex-col gap-2 p-4 pt-0 w-full sticky top-[64px] md:top-[146px] z-10 bg-neutral-900">
-        <ChatroomHeader opponent={opponent} />
+      <div className="flex flex-col gap-2 p-4 pt-0 w-full sticky top-[64px] md:top-[70px] lg:top-[191px] z-10 bg-neutral-900">
+        <ChatroomHeader
+          opponent={opponent}
+          opponentId={opponentId}
+          chatRoomId={id}
+          showLeave={isParticipant}
+        />
         {room.productId && room.product && (
           <ProductCardInChat
             product={room.product}
