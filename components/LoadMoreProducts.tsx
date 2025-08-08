@@ -17,7 +17,7 @@ export default function LoadMoreProducts({
   const [items, setItems] = useState<Product[]>(initialItems);
   const [page, setPage] = useState(1);
   const [isPending, startTransition] = useTransition();
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(initialItems.length === PAGE_SIZE);
   const t = useTranslations("loadMoreProducts");
 
   const loadMore = () => {
