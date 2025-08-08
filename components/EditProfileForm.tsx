@@ -109,7 +109,7 @@ export default function EditProfileForm({ user }: { user: any }) {
       return;
     }
 
-    const cfUrl = `https://imagedelivery.net/D1tmCeHaZw3ssCcAXbxakA/${result.id}/avatar`;
+    const cfUrl = `${process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGE_DELIVERY_URL}/${result.id}/avatar`;
     setPreview(URL.createObjectURL(file));
     setUploadUrl(cfUrl);
     setIsUploading(false);

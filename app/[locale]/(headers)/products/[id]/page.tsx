@@ -172,7 +172,7 @@ export default async function ProductDetail({
         </div>
 
         <div className="flex flex-col gap-2 mb-25">
-          <h1 className="text-xl font-semibold">{product.title}</h1>
+          <h1 className="text-3xl font-semibold">{product.title}</h1>
           <CategoryBreadcrumb slug={slug} />
           <div className={`flex items-center ${isOwner ? "my-3" : "my-1"}`}>
             <span

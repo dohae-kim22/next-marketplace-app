@@ -73,7 +73,7 @@ export default function AddPost() {
 
     setPreview(URL.createObjectURL(file));
     setUploadUrl(
-      `https://imagedelivery.net/D1tmCeHaZw3ssCcAXbxakA/${result.id}`
+      `${process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGE_DELIVERY_URL}/${result.id}`
     );
 
     setImageError("");
