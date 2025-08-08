@@ -90,7 +90,7 @@ export default function AddProduct() {
       const next = [...prev];
       next[
         index
-      ] = `https://imagedelivery.net/D1tmCeHaZw3ssCcAXbxakA/${result.id}`;
+      ] = `${process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGE_DELIVERY_URL}/${result.id}`;
       return next;
     });
 

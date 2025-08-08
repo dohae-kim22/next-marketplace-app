@@ -102,7 +102,7 @@ export default function EditProductForm({ product }: { product: any }) {
       return;
     }
 
-    const url = `https://imagedelivery.net/D1tmCeHaZw3ssCcAXbxakA/${result.id}`;
+    const url = `${process.env.NEXT_PUBLIC_CLOUDFLARE_IMAGE_DELIVERY_URL}/${result.id}`;
     const previewUrl = URL.createObjectURL(file);
     setPreviews((prev) => {
       const copy = [...prev];
