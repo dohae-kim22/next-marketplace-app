@@ -12,10 +12,10 @@
 
 ## 📜 Table of Contents
 
-- [About the Project](#-about-the-project)
+- [About the Project](#about-the-project)
 - [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
 - [Installation & Setup](#-installation--setup)
 - [Technical Decisions & Highlights](#-technical-decisions--highlights)
 - [Future Improvements](#-future-improvements)
@@ -24,7 +24,8 @@
 
 ## About the Project
 
-This platform is designed to **reduce fraud in online transactions** by encouraging **face-to-face trades** with people nearby.  
+This platform is designed to **reduce fraud in online transactions** by encouraging **face-to-face trades** with people nearby.
+
 Currently, **address selection is limited to locations within France**, making the service localized and optimized for French communities.
 
 Users can:
@@ -116,6 +117,7 @@ The goal is to make **local commerce safer, more personal, and more community-or
 ## ⚙ Installation & Setup
 
 Follow these steps to run the project locally.
+
 Copy and paste the commands below into your terminal to set up and run the project.
 
 ### 1. Download the Project
@@ -135,7 +137,8 @@ npm install
 
 ### 3. Set Up Environment Variables
 
-Before running the project, you must create a `.env` file in the project root with the following variables.  
+Before running the project, you must create a `.env` file in the project root with the following variables.
+
 Use `.env.example` as a reference — it contains all required keys with placeholder values.
 
 #### 📍 Environment Variables Guide
@@ -206,6 +209,9 @@ Open this link in your browser to view the app
 
 - **Gamified Badge System** – Introduce badges and missions to encourage engagement and reward trustworthy behavior.  
   Examples: Complete 5 transactions with a 5-star rating to earn a "Top Seller" badge or post 10 verified listings to unlock a "Neighborhood Pro" badge.
+  <br>
 - **Expanded Location Filtering** – Support multiple countries and dynamic radius selection.
+  <br>
 - **User-Generated Content Translation (powered by OpenAI API)** – Automatically translate user posts, product uploads, and chat messages into the viewer’s preferred language.
+  <br>
 - **Keyword-Based Alerts** – Allow users to define keywords for items they are interested in. Notify them when a new listing matches their keywords.
