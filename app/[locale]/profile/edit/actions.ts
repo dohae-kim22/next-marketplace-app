@@ -3,6 +3,7 @@
 import { z } from "zod";
 import db from "@/lib/db";
 import { getSession } from "@/lib/session";
+import { revalidatePath } from "next/cache";
 
 const profileSchema = z.object({
   userName: z
@@ -84,6 +85,10 @@ export async function updateProfile(formData: FormData) {
       countryCode: countryCode || null,
     },
   });
+
+  revalidatePath("/[locale]/profile");
+  revalidatePath("/[locale]/(tabs)/products");
+  revalidatePath("/[locale]/(tabs)/posts");
 
   return { success: true };
 }
