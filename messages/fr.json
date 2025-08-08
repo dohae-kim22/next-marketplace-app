@@ -172,5 +172,9 @@
   },
   "chatMessages": {
     "placeholder": "Écrivez un message..."
+  },
+  "favorites": {
+    "title": "Vos favoris",
+    "empty": "Vous n'avez pas encore aimé d'articles."
   }
 }

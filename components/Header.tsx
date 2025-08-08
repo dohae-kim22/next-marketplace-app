@@ -71,7 +71,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
             <Link href={addHref ?? "#"} className="cursor-pointer">
               <PlusCircleIcon className="size-7 text-white" />
             </Link>
-            <Link href="#">
+            <Link href="/favorites">
               <HeartIcon className="size-7 text-white" />
             </Link>
             <LanguageSwitcher />
@@ -108,7 +108,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
 
         <div className="hidden lg:flex items-center gap-4">
           <Link
-            href="#"
+            href="/favorites"
             className="border-b-2 text-white hover:text-red-500 border-transparent hover:border-white py-1.5"
           >
             <HeartIcon className="size-7" />

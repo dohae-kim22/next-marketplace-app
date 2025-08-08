@@ -176,5 +176,9 @@
   },
   "chatMessages": {
     "placeholder": "Write a message..."
+  },
+  "favorites": {
+    "title": "Your Favorites",
+    "empty": "You haven't liked any items yet."
   }
 }
