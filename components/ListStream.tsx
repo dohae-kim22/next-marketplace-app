@@ -4,6 +4,7 @@ import { PlayCircleIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface ListStreamProps {
   id: number;
@@ -20,6 +21,8 @@ export default function ListStream(props: ListStreamProps) {
     `https://${process.env.NEXT_PUBLIC_CLOUDFLARE_DOMAIN}/${props.streamId}/thumbnails/thumbnail.jpg?height=200`
   );
 
+  const t = useTranslations("liveStream");
+
   return (
     <Link
       key={props.id}
@@ -28,7 +31,8 @@ export default function ListStream(props: ListStreamProps) {
     >
       <div className="relative w-32 shrink-0">
         <Image
-          src={imgSrc}
+          // src={imgSrc}
+          src="/fallback-thumbnail.jpg"
           alt={`${props.title} thumbnail`}
           width={640}
           height={360}
@@ -48,7 +52,7 @@ export default function ListStream(props: ListStreamProps) {
           </p>
         ) : null}
         <p className="text-sm text-neutral-400 mt-1 truncate">
-          Host: {props.user.userName}
+          {t("host", { name: props.user.userName })}
         </p>
       </div>
     </Link>
