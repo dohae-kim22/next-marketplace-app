@@ -41,7 +41,7 @@ export default function MobileNavigationBar() {
         <div className="flex justify-between items-center h-14 px-6 border-b border-neutral-700">
           <span className="text-neutral-200 font-bold text-lg">Menu</span>
           <button
-            className="text-neutral-200 hover:text-orange-400"
+            className="text-neutral-200 hover:text-orange-400 transition-colors"
             onClick={() => setMenuOpen(false)}
           >
             <XMarkIcon className="size-6" />

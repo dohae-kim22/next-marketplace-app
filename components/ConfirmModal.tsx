@@ -47,14 +47,14 @@ export default function ConfirmModal({
           <button
             onClick={onCancel}
             disabled={isLoading}
-            className="px-3 py-1 rounded bg-neutral-600 text-white hover:bg-neutral-500 disabled:opacity-50"
+            className="px-3 py-1 rounded bg-neutral-600 text-white hover:bg-neutral-500 transition-colors disabled:opacity-50"
           >
             {cancelText}
           </button>
           <button
             onClick={handleConfirm}
             disabled={isLoading}
-            className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-400 disabled:opacity-50 flex items-center gap-2"
+            className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-400 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             {isLoading && (
               <svg

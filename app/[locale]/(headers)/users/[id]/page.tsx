@@ -7,6 +7,7 @@ import { getSession } from "@/lib/session";
 import { ChatButton } from "@/components/ChatButton";
 import { getReceivedReviews } from "@/lib/reviews";
 import { redirect } from "@/i18n/navigation";
+import ScrollToTop from "@/components/ScrollToTop";
 
 interface UserProfileProps {
   params: Promise<{ id: string; locale: string }>;
@@ -59,6 +60,7 @@ export default async function UserProfile({ params }: UserProfileProps) {
 
   return (
     <div className="container-lg p-5 mb-30 flex flex-col gap-7 md:p-20 md:pt-0 md:mb-10 lg:p-50 lg:pt-10">
+      <ScrollToTop />
       <div className="flex items-center gap-4">
         <div className="size-16 rounded-full overflow-hidden bg-neutral-700">
           <Image

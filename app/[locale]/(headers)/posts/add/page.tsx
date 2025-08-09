@@ -128,7 +128,7 @@ export default function AddPost() {
             <button
               type="button"
               onClick={handleRemoveImage}
-              className="absolute top-[-7px] right-[-7px] bg-neutral-500 text-white rounded-full size-6 text-xs flex items-center justify-center shadow cursor-pointer hover:bg-neutral-400"
+              className="absolute top-[-7px] right-[-7px] bg-neutral-500 text-white rounded-full size-6 text-xs flex items-center justify-center shadow cursor-pointer hover:bg-neutral-400 transition-colors"
               aria-label={t("imageRemove")}
             >
               <XMarkIcon className="size-4" />

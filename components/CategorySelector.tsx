@@ -134,7 +134,7 @@ export default function CategorySelector({
           {path.length > 0 && (
             <div
               onClick={handleBack}
-              className="px-4 py-2 text-orange-500 cursor-pointer hover:bg-neutral-800 border-b"
+              className="px-4 py-2 text-orange-500 cursor-pointer hover:bg-neutral-800 border-b transition-colors"
             >
               {t("back")}
             </div>
@@ -145,7 +145,7 @@ export default function CategorySelector({
               <li
                 key={idx}
                 onClick={() => handleSelect(idx)}
-                className="px-4 py-2 hover:bg-neutral-800 cursor-pointer flex justify-between items-center"
+                className="px-4 py-2 hover:bg-neutral-800 transition-colors cursor-pointer flex justify-between items-center"
               >
                 <span>{cat.name[currentLocale]}</span>
                 {cat.sub && cat.sub.length > 0 && (

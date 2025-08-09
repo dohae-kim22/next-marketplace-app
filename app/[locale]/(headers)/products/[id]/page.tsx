@@ -142,7 +142,7 @@ export default async function ProductDetail({
           <div className="hidden mt-3 lg:flex flex-col gap-2">
             <Link
               href={`/products/${product.id}/edit`}
-              className="bg-transparent p-2.5 rounded-full text-white font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700 gap-2"
+              className="bg-transparent p-2.5 rounded-full text-white font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700 gap-2 transition-colors"
             >
               <PencilIcon className="h-6" />
               <span>{t("editListing")}</span>
@@ -189,7 +189,7 @@ export default async function ProductDetail({
               {isOwner ? (
                 <form action={toggleSoldStatus.bind(null, product.id)}>
                   <button
-                    className={`bg-transparent p-2.5 rounded-md text-white font-semibold flex gap-1 justify-center items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700`}
+                    className={`bg-transparent p-2.5 rounded-md text-white font-semibold flex gap-1 justify-center items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 transition-colors`}
                   >
                     <CheckCircleIcon className="h-6" />
                     <span>
@@ -204,7 +204,7 @@ export default async function ProductDetail({
                   <input type="hidden" name="productId" value={product.id} />
                   <button
                     disabled={product.status === "SOLD"}
-                    className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400 flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600"
+                    className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400 transition-colors flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600"
                   >
                     <PaperAirplaneIcon className="h-5" />
                     <span>{t("askSeller")}</span>
@@ -255,7 +255,7 @@ export default async function ProductDetail({
               />
               <Link
                 href={`/products/${product.id}/edit`}
-                className="bg-transparent p-2.5 rounded-full text-white font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-700"
+                className="bg-transparent p-2.5 rounded-full text-white font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 transition-colors border-neutral-700"
               >
                 <PencilIcon className="h-6" />
               </Link>
@@ -264,7 +264,7 @@ export default async function ProductDetail({
                 className="ml-auto"
               >
                 <button
-                  className={`bg-transparent p-2.5 rounded-md text-white font-semibold flex gap-1 justify-end items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700`}
+                  className={`bg-transparent p-2.5 rounded-md text-white font-semibold flex gap-1 justify-end items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 transition-colors`}
                 >
                   <CheckCircleIcon className="h-6" />
                   <span>
@@ -280,7 +280,7 @@ export default async function ProductDetail({
               <input type="hidden" name="productId" value={product.id} />
               <button
                 disabled={product.status === "SOLD"}
-                className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400 flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600"
+                className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400 transition-colors flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600"
               >
                 <PaperAirplaneIcon className="h-5" />
                 <span>Ask seller</span>

@@ -82,7 +82,7 @@ export default function NavigationBar() {
             type="button"
             aria-label="Scroll left"
             onClick={() => scrollByDir("left")}
-            className="relative z-10 rounded-full p-1.5 bg-neutral-900 hover:bg-neutral-700 focus:outline-none cursor-pointer"
+            className="relative z-10 rounded-full p-1.5 bg-neutral-900 hover:bg-neutral-700 focus:outline-none cursor-pointer transition-colors"
           >
             <ChevronLeftIcon className="size-7 text-neutral-200" />
           </button>
@@ -95,7 +95,7 @@ export default function NavigationBar() {
             type="button"
             aria-label="Scroll right"
             onClick={() => scrollByDir("right")}
-            className="relative z-10 rounded-full p-1.5 bg-neutral-900 hover:bg-neutral-700 focus:outline-none cursor-pointer"
+            className="relative z-10 rounded-full p-1.5 bg-neutral-900 hover:bg-neutral-700 transition-colors focus:outline-none cursor-pointer"
           >
             <ChevronRightIcon className="size-7 text-neutral-200" />
           </button>

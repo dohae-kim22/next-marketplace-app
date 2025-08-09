@@ -233,7 +233,7 @@ export default function EditProfileForm({ user }: { user: any }) {
             type="button"
             onClick={handleClearLocation}
             disabled={isClearing}
-            className="text-xs text-neutral-300 hover:text-white underline disabled:opacity-50"
+            className="text-xs text-neutral-300 hover:text-white transition-colors underline disabled:opacity-50"
           >
             {isClearing ? t("buttons.clearing") : t("buttons.clear")}
           </button>
@@ -279,7 +279,7 @@ export default function EditProfileForm({ user }: { user: any }) {
               className={`py-2 rounded-md text-sm cursor-pointer font-semibold border transition ${
                 radius === option
                   ? "bg-orange-500 text-white border-orange-500"
-                  : "bg-neutral-800 text-neutral-300 border-neutral-600 hover:border-neutral-400"
+                  : "bg-neutral-800 text-neutral-300 border-neutral-600 hover:border-neutral-400 transition-colors"
               }`}
             >
               {option}km
@@ -292,7 +292,7 @@ export default function EditProfileForm({ user }: { user: any }) {
         <FormButton text={t("buttons.save")} />
         <button
           type="button"
-          className="bg-neutral-700 cursor-pointer h-10 rounded-md text-center hover:bg-neutral-600"
+          className="bg-neutral-700 cursor-pointer h-10 rounded-md text-center hover:bg-neutral-600 transition-colors"
           onClick={() => router.back()}
         >
           {t("buttons.cancel")}

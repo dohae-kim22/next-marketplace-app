@@ -128,7 +128,7 @@ export default function CommentSection({
         />
         <button
           onClick={handleSubmit}
-          className="bg-orange-500 text-white px-4 h-8 rounded-md text-sm font-medium hover:bg-orange-400"
+          className="bg-orange-500 text-white px-4 h-8 rounded-md text-sm font-medium hover:bg-orange-400 transition-colors"
         >
           {t("post")}
         </button>
@@ -199,7 +199,7 @@ export default function CommentSection({
                       />
                       <button
                         onClick={() => handleReplySubmit(comment.id)}
-                        className="text-sm px-3 h-8 bg-orange-500 hover:bg-orange-400 rounded-md text-white font-medium"
+                        className="text-sm px-3 h-8 bg-orange-500 hover:bg-orange-400 transition-colors rounded-md text-white font-medium"
                       >
                         {t("post")}
                       </button>

@@ -45,7 +45,7 @@ export default async function ProfilePage({
           <div className="flex gap-4 mt-3">
             <Link
               href="/profile/edit"
-              className="flex gap-1 text-sm text-neutral-300 hover:text-neutral-400 border rounded-md px-2 py-1 justify-center items-center"
+              className="flex gap-1 text-sm text-neutral-300 hover:bg-neutral-300/10 transition-colors border rounded-md px-2 py-1 justify-center items-center"
             >
               <PencilIcon className="size-4" />
               <span>{t("editProfile")}</span>
@@ -53,7 +53,7 @@ export default async function ProfilePage({
 
             <form action={logOut}>
               <button
-                className="text-sm text-red-500 hover:text-red-600 flex gap-1 border cursor-pointer
+                className="text-sm text-red-500 hover:bg-red-500/10 transition-colors flex gap-1 border cursor-pointer
                rounded-md px-2 py-1 justify-center items-center"
               >
                 <ArrowRightStartOnRectangleIcon className="size-4" />

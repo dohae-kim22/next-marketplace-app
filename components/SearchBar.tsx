@@ -100,7 +100,7 @@ export default function SearchBar() {
                       setCategory(c);
                       setOpen(false);
                     }}
-                    className={`px-4 py-2 cursor-pointer hover:bg-neutral-700 ${
+                    className={`px-4 py-2 cursor-pointer hover:bg-neutral-700 transition-colors ${
                       category === c ? "text-orange-400" : "text-white"
                     }`}
                   >
@@ -122,7 +122,7 @@ export default function SearchBar() {
           />
           <button
             type="submit"
-            className="absolute right-52 cursor-pointer ml-2 px-1 py-1 bg-orange-500 text-white rounded-full hover:bg-orange-600"
+            className="absolute right-52 cursor-pointer ml-2 px-1 py-1 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-colors"
           >
             <ArrowRightIcon className="size-5" />
           </button>
@@ -132,7 +132,7 @@ export default function SearchBar() {
       {!hideAddButton && (
         <Link
           href={addHref ?? "#"}
-          className="hidden absolute right-5 cursor-pointer lg:flex bg-orange-500 text-white items-center justify-center gap-1 rounded-md p-2 hover:bg-orange-600 text-sm font-semibold"
+          className="hidden absolute right-5 cursor-pointer lg:flex bg-orange-500 text-white items-center justify-center gap-1 rounded-md p-2 hover:bg-orange-600 text-sm font-semibold transition-colors"
         >
           <PlusIcon className="size-4" />
           <span>{addLabel}</span>
