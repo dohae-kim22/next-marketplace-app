@@ -242,5 +242,10 @@
   "chatButton": {
     "chat": "Chat",
     "starting": "Starting chat..."
+  },
+  "listProduct": {
+    "sold": "SOLD",
+    "free": "Free Giveaway",
+    "wanted": "Wanted"
   }
 }

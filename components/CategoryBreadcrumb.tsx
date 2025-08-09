@@ -20,7 +20,7 @@ export default function CategoryBreadcrumb({ slug }: Props) {
     <h1 className="text-[15px] font-medium *:text-neutral-400 flex gap-1 items-center">
       <Link
         href="/products"
-        className="underline underline-offset-4 hover:text-orange-400 transition-colors"
+        className="hover:underline hover:underline-offset-4 hover:text-orange-400 transition"
       >
         Home
       </Link>
@@ -30,7 +30,7 @@ export default function CategoryBreadcrumb({ slug }: Props) {
           <span>›</span>
           <Link
             href={`/category/${main}`}
-            className="underline underline-offset-4 hover:text-orange-400 transition-colors"
+            className="hover:underline hover:underline-offset-4 hover:text-orange-400 transition"
           >
             {categoryMainObj.name[currentLocale]}
           </Link>
@@ -42,7 +42,7 @@ export default function CategoryBreadcrumb({ slug }: Props) {
           <span>›</span>
           <Link
             href={`/category/${main}/${sub}`}
-            className="underline underline-offset-4 hover:text-orange-400 transition-colors"
+            className="hover:underline hover:underline-offset-4 hover:text-orange-400 transition"
           >
             {categorySubObj.name[currentLocale]}
           </Link>
@@ -54,7 +54,7 @@ export default function CategoryBreadcrumb({ slug }: Props) {
           <span>›</span>
           <Link
             href={`/category/${main}/${sub}/${subsub}`}
-            className="underline underline-offset-4 hover:text-orange-400 transition-colors"
+            className="hover:underline hover:underline-offset-4 hover:text-orange-400 transition"
           >
             {categorySubSubObj.name[currentLocale]}
           </Link>
