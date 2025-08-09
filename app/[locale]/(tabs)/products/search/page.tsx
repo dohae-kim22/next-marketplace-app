@@ -36,6 +36,7 @@ export default async function ProductSearchPage({
       OR: [
         { title: { contains: query, mode: "insensitive" } },
         { description: { contains: query, mode: "insensitive" } },
+        { city: { contains: query, mode: "insensitive" } },
       ],
     },
     select: {
@@ -74,7 +75,11 @@ export default async function ProductSearchPage({
       {items.length === 0 ? (
         <p className="text-white">No products found.</p>
       ) : (
-        <LoadMoreSearchedProducts initialItems={items as any} query={query} />
+        <LoadMoreSearchedProducts
+          key={query}
+          initialItems={items as any}
+          query={query}
+        />
       )}
     </div>
   );

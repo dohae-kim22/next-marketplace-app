@@ -22,7 +22,7 @@ export default function DeleteProductButton({
   const t = useTranslations("productDetail");
   const [isOpen, setIsOpen] = useState(false);
 
-  const baseClass = `cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 flex justify-center items-center ${
+  const baseClass = `cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 transition-colors flex justify-center items-center ${
     isMobile
       ? "p-2.5 rounded-full text-red-500"
       : "w-full p-2.5 rounded-full text-red-500 gap-2"

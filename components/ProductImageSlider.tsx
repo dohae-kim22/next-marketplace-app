@@ -41,14 +41,14 @@ export default function ProductImageSlider({
         <>
           <button
             onClick={() => slider.current?.prev()}
-            className="absolute flex justify-center items-center left-1 md:-left-12 lg:left-1 top-1/2 -translate-y-1/2 bg-neutral-600 text-white p-1 rounded-full opacity-80 cursor-pointer hover:bg-neutral-500"
+            className="absolute flex justify-center items-center left-1 md:-left-12 lg:left-1 top-1/2 -translate-y-1/2 bg-neutral-600 text-white p-1 rounded-full opacity-80 cursor-pointer hover:bg-neutral-500 transition-colors"
           >
             <ChevronLeftIcon className="size-5 md:size-6" />
           </button>
 
           <button
             onClick={() => slider.current?.next()}
-            className="absolute flex justify-center items-center right-1 md:-right-12 lg:right-1 top-1/2 -translate-y-1/2 bg-neutral-600 text-white p-1 rounded-full opacity-80 cursor-pointer hover:bg-neutral-500"
+            className="absolute flex justify-center items-center right-1 md:-right-12 lg:right-1 top-1/2 -translate-y-1/2 bg-neutral-600 text-white p-1 rounded-full opacity-80 cursor-pointer hover:bg-neutral-500 transition-colors"
           >
             <ChevronRightIcon className="size-5 md:size-6" />
           </button>

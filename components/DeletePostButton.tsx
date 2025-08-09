@@ -15,7 +15,7 @@ export default function DeletePostButton({ postId }: { postId: number }) {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 flex justify-center items-center px-2 py-1 gap-2 rounded-full text-red-500"
+        className="cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 flex justify-center items-center px-2 py-1 gap-2 rounded-full text-red-500 transition-colors"
       >
         <TrashIcon className="h-4" />
         <span className="text-sm">{t("delete")}</span>

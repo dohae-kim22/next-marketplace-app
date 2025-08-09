@@ -333,7 +333,7 @@ export default function AddProduct() {
         <button
           type="button"
           onClick={() => router.back()}
-          className="h-10 text-white border border-orange-500 w-full text-center font-medium rounded-md hover:border-orange-400 transition-colors"
+          className="h-10 text-white border border-orange-500 w-full text-center font-medium rounded-md hover:bg-orange-500/10 transition-colors"
         >
           {t("form.cancel")}
         </button>

@@ -62,7 +62,7 @@ export default function ProductCardInChat({
             {!alreadyReviewed && (
               <Link
                 href={`/reviews/add?productId=${product.id}&chatRoomId=${chatRoomId}`}
-                className="block text-xs px-5 py-1 rounded-full bg-blue-500 text-white text-center hover:bg-blue-400"
+                className="block text-xs px-5 py-1 rounded-full bg-blue-500 text-white text-center hover:bg-blue-400 transition-colors"
               >
                 {t("writeReview")}
               </Link>
@@ -72,7 +72,7 @@ export default function ProductCardInChat({
           <button
             onClick={handleClick}
             disabled={isPending}
-            className="text-xs mt-2 px-3 py-1 cursor-pointer rounded-full bg-orange-500 hover:bg-orange-400 text-white disabled:opacity-50"
+            className="text-xs mt-2 px-3 py-1 cursor-pointer rounded-full bg-orange-500 hover:bg-orange-400 text-white disabled:opacity-50 transition-colors"
           >
             {isBuyer ? t("markPurchased") : t("markSold")}
           </button>

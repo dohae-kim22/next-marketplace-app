@@ -29,7 +29,7 @@ export default function LikeButton({
   return (
     <button
       onClick={onClick}
-      className={`flex items-center justify-center gap-1 rounded-md px-1 ${
+      className={`flex items-center justify-center gap-1 transition-colors rounded-md px-1 ${
         liked ? "text-red-500" : "text-neutral-400"
       } hover:bg-neutral-700`}
       disabled={pending}

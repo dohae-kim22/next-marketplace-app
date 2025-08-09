@@ -16,7 +16,7 @@ export default function ChatroomHeader({
   return (
     <div className="flex items-center justify-between border-b border-neutral-700 py-3">
       <Link href={"/chats"}>
-        <ChevronLeftIcon className="size-7 text-white hover:text-neutral-400" />
+        <ChevronLeftIcon className="size-7 text-white hover:text-neutral-400 transition-colors" />
       </Link>
       <Link
         href={`/users/${opponentId}`}

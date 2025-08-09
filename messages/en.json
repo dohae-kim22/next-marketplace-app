@@ -231,5 +231,16 @@
       "clearing": "Clearing..."
     },
     "locationErrorFallback": "Please select a valid location."
+  },
+  "userProfile": {
+    "reviews": "Reviews",
+    "noReviews": "No reviews yet.",
+    "productsBy": "Products by {name}",
+    "noProducts": "No products available.",
+    "joined": "Joined {timeAgo}"
+  },
+  "chatButton": {
+    "chat": "Chat",
+    "starting": "Starting chat..."
   }
 }

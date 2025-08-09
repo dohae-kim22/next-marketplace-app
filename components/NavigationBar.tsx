@@ -1,9 +1,10 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { mainCategories } from "@/constants/categories";
 import { usePathname } from "next/navigation";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 export default function NavigationBar() {
   const pathname = usePathname();
@@ -14,16 +15,43 @@ export default function NavigationBar() {
   const [activeSubCategory, setActiveSubCategory] = useState<number | null>(
     null
   );
-  const [hoverPosition, setHoverPosition] = useState<{
-    left: number;
-    top: number;
-  }>({
-    left: 0,
-    top: 0,
-  });
+  const [hoverPosition, setHoverPosition] = useState({ left: 0, top: 0 });
   const [submenuDirection, setSubmenuDirection] = useState<"right" | "left">(
     "right"
   );
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollButtons = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const { scrollLeft, clientWidth, scrollWidth } = el;
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
+  };
+
+  useEffect(() => {
+    updateScrollButtons();
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const onScroll = () => updateScrollButtons();
+    el.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", updateScrollButtons);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateScrollButtons);
+    };
+  }, []);
+
+  const scrollByDir = (dir: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const step = Math.max(240, Math.floor(el.clientWidth * 0.8));
+    el.scrollBy({ left: dir === "left" ? -step : step, behavior: "smooth" });
+  };
 
   const handleMainEnter = (
     idx: number,
@@ -40,24 +68,47 @@ export default function NavigationBar() {
     e: React.MouseEvent<HTMLAnchorElement>
   ) => {
     setActiveSubCategory(subIdx);
-
     const rect = e.currentTarget.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const remainingRightSpace = viewportWidth - rect.right;
-
-    if (remainingRightSpace < 180) {
-      setSubmenuDirection("left");
-    } else {
-      setSubmenuDirection("right");
-    }
+    const remainingRightSpace = window.innerWidth - rect.right;
+    setSubmenuDirection(remainingRightSpace < 180 ? "left" : "right");
   };
 
   return (
     <nav className="w-full bg-neutral-900 border-b border-neutral-700 shadow-sm relative hidden lg:block">
-      <div className="flex container mx-auto h-14 items-center overflow-x-auto hide-scrollbar">
+      {canScrollLeft && (
+        <div className="absolute left-0 top-0 h-14 w-10 z-20 flex items-center justify-center">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-neutral-900 to-transparent" />
+          <button
+            type="button"
+            aria-label="Scroll left"
+            onClick={() => scrollByDir("left")}
+            className="relative z-10 rounded-full p-1.5 bg-neutral-900 hover:bg-neutral-700 focus:outline-none cursor-pointer transition-colors"
+          >
+            <ChevronLeftIcon className="size-7 text-neutral-200" />
+          </button>
+        </div>
+      )}
+      {canScrollRight && (
+        <div className="absolute right-0 top-0 h-14 w-10 z-20 flex items-center justify-center">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-neutral-900 to-transparent" />
+          <button
+            type="button"
+            aria-label="Scroll right"
+            onClick={() => scrollByDir("right")}
+            className="relative z-10 rounded-full p-1.5 bg-neutral-900 hover:bg-neutral-700 transition-colors focus:outline-none cursor-pointer"
+          >
+            <ChevronRightIcon className="size-7 text-neutral-200" />
+          </button>
+        </div>
+      )}
+
+      <div
+        ref={scrollRef}
+        className="flex container mx-auto h-14 items-center overflow-x-auto hide-scrollbar gap-0"
+      >
         {mainCategories.map((category, idx) => (
           <div
-            key={idx}
+            key={category.slug}
             className="relative group"
             onMouseEnter={(e) => handleMainEnter(idx, e)}
             onMouseLeave={() => {
@@ -93,7 +144,7 @@ export default function NavigationBar() {
             <div className="w-38 bg-neutral-900 border border-neutral-700 shadow-lg animate-fadeIn">
               {mainCategories[activeCategory].sub!.map((subCat, subIdx) => (
                 <Link
-                  key={subIdx}
+                  key={subCat.slug}
                   href={`/category/${encodeURIComponent(
                     mainCategories[activeCategory].slug
                   )}/${encodeURIComponent(subCat.slug)}`}
@@ -114,17 +165,17 @@ export default function NavigationBar() {
             mainCategories[activeCategory].sub![activeSubCategory].sub && (
               <div
                 className={`w-48 bg-neutral-900 border border-neutral-700 shadow-lg transition-all duration-200 transform animate-fadeIn
-                  ${
-                    submenuDirection === "right"
-                      ? "ml-px -translate-x-1"
-                      : "mr-px -translate-x-85"
-                  }`}
+                ${
+                  submenuDirection === "right"
+                    ? "ml-px -translate-x-1"
+                    : "mr-px -translate-x-85"
+                }`}
               >
                 {mainCategories[activeCategory].sub![
                   activeSubCategory
-                ].sub!.map((subSubCat, subSubIdx) => (
+                ].sub!.map((subSubCat) => (
                   <Link
-                    key={subSubIdx}
+                    key={subSubCat.slug}
                     href={`/category/${encodeURIComponent(
                       mainCategories[activeCategory].slug
                     )}/${encodeURIComponent(

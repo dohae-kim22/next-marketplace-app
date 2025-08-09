@@ -14,7 +14,7 @@ export default function DeleteStreamButton({ streamId }: { streamId: number }) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-transparent px-2 py-1 rounded-md text-red-500 font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-600 gap-1"
+        className="bg-transparent px-2 py-1 rounded-md text-red-500 font-semibold hover:bg-neutral-700 flex justify-center items-center cursor-pointer border-2 border-neutral-600 transition-colors gap-1"
       >
         <TrashIcon className="h-4" />
         <span className="text-sm">{t("delete")}</span>

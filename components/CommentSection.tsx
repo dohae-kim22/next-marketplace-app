@@ -121,14 +121,14 @@ export default function CommentSection({
 
       <div className="flex gap-2 items-center">
         <input
-          className="flex-1 bg-transparent border-none rounded-md focus:outline-none transition h-8 ring-1 ring-neutral-200 focus:ring-2 focus:ring-orange-500 placeholder:text-neutral-400"
+          className="flex-1 bg-transparent border-none rounded-md focus:outline-none transition h-8 ring-1 ring-neutral-200 focus:ring-orange-500 placeholder:text-neutral-400"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={t("writeComment")}
         />
         <button
           onClick={handleSubmit}
-          className="bg-orange-500 text-white px-4 h-8 rounded-md text-sm font-medium hover:bg-orange-400"
+          className="bg-orange-500 text-white px-4 h-8 rounded-md text-sm font-medium hover:bg-orange-400 transition-colors"
         >
           {t("post")}
         </button>
@@ -194,12 +194,12 @@ export default function CommentSection({
                       <input
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
-                        className="flex-1 bg-transparent border-none rounded-md focus:outline-none transition h-8 ring-1 ring-neutral-200 focus:ring-2 focus:ring-orange-500 placeholder:text-neutral-400"
+                        className="flex-1 bg-transparent border-none rounded-md focus:outline-none transition h-8 ring-1 ring-neutral-200 focus:ring-orange-500 placeholder:text-neutral-400"
                         placeholder={`Reply to ${comment.user.userName}...`}
                       />
                       <button
                         onClick={() => handleReplySubmit(comment.id)}
-                        className="text-sm px-3 h-8 bg-orange-500 hover:bg-orange-400 rounded-md text-white font-medium"
+                        className="text-sm px-3 h-8 bg-orange-500 hover:bg-orange-400 transition-colors rounded-md text-white font-medium"
                       >
                         {t("post")}
                       </button>
