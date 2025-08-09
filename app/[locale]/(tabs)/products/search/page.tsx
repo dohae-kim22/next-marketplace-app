@@ -1,12 +1,9 @@
 import FormInput from "@/components/FormInput";
-import db from "@/lib/db";
 import LoadMoreSearchedProducts from "@/components/LoadMoreSearchedProducts";
-import { PAGE_SIZE } from "@/lib/utils";
+import { getFirstSearchPage } from "../actions";
 
 interface ProductSearchPageProps {
-  searchParams: Promise<{
-    q?: string;
-  }>;
+  searchParams: Promise<{ q?: string }>;
 }
 
 export default async function ProductSearchPage({
@@ -31,35 +28,7 @@ export default async function ProductSearchPage({
     );
   }
 
-  const items = await db.product.findMany({
-    where: {
-      OR: [
-        { title: { contains: query, mode: "insensitive" } },
-        { description: { contains: query, mode: "insensitive" } },
-        { city: { contains: query, mode: "insensitive" } },
-      ],
-    },
-    select: {
-      id: true,
-      title: true,
-      price: true,
-      photo: true,
-      created_at: true,
-      views: true,
-      productLikes: true,
-      location: true,
-      city: true,
-      street: true,
-      postalCode: true,
-      state: true,
-      countryCode: true,
-      status: true,
-      type: true,
-    },
-    orderBy: { created_at: "desc" },
-    distinct: ["id"],
-    take: PAGE_SIZE,
-  });
+  const items = await getFirstSearchPage(query);
 
   return (
     <div className="container-lg p-5 flex flex-col gap-3 mb-30">
