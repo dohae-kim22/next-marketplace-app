@@ -1,7 +1,7 @@
 "use client";
 
 import { Autocomplete, useLoadScript } from "@react-google-maps/api";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface LocationData {
   lat: number;
@@ -18,10 +18,12 @@ export default function LocationAutocomplete({
   onSelect,
   onChange,
   location,
+  locationError,
 }: {
   onSelect: (value: LocationData) => void;
   onChange?: () => void;
   location?: string;
+  locationError?: string;
 }) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
@@ -30,7 +32,11 @@ export default function LocationAutocomplete({
 
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(locationError);
+
+  useEffect(() => {
+    setError(locationError);
+  }, [locationError]);
 
   const parseAddressComponents = (
     components: google.maps.GeocoderAddressComponent[]

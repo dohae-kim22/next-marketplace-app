@@ -2,6 +2,7 @@ import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
 import { getMyChatRooms } from "@/app/[locale]/(headers)/chats/actions";
+import { getTranslations } from "next-intl/server";
 
 export default async function ChatList({
   params,
@@ -10,13 +11,14 @@ export default async function ChatList({
 }) {
   const { locale } = await params;
   const rooms = await getMyChatRooms();
+  const t = await getTranslations("chatList");
 
   return (
     <div className="p-5 flex flex-col mb-20 gap-4 mx-auto md:max-w-lg lg:mt-10">
-      <h1 className="text-xl font-semibold text-white mb-px">My Chats</h1>
+      <h1 className="text-xl font-semibold text-white mb-px">{t("myChats")}</h1>
 
       {rooms.length === 0 ? (
-        <p className="text-neutral-400">No chat rooms yet.</p>
+        <p className="text-neutral-400">{t("noChatRoomsYet")}.</p>
       ) : (
         <ul className="flex flex-col gap-3">
           {rooms.map((room) => (

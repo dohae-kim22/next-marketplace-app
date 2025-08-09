@@ -20,7 +20,10 @@ const productSchema = z.object({
     .number("Price is required.")
     .min(0, "Price must be at least 0.")
     .max(1_000_000, "Price must be less than 1,000,000."),
-  location: z.string("Location is required."),
+  location: z
+    .string("Location is required.")
+    .trim()
+    .min(1, "Location is required."),
   street: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),

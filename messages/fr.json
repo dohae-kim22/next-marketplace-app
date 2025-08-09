@@ -1,7 +1,4 @@
 {
-  "common": {
-    "myChats": "Mes discussions"
-  },
   "home": {
     "logoAlt": "logo du marché next",
     "title": "Next Market",
@@ -154,6 +151,7 @@
     "startButton": "Commencer la diffusion"
   },
   "liveDetail": {
+    "liveStreamEnded": "Le direct est terminé",
     "howToTitle": "Comment démarrer la diffusion :",
     "howToSteps": [
       "Ouvrez votre logiciel de streaming (OBS, Streamlabs, XSplit, etc.).",
@@ -254,5 +252,9 @@
     "sold": "VENDU",
     "free": "À donner",
     "wanted": "Recherché"
+  },
+  "chatList": {
+    "myChats": "Mes discussions",
+     "noChatRoomsYet": "Aucun salon de discussion pour le moment."
   }
 }

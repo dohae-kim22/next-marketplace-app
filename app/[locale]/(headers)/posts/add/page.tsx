@@ -105,9 +105,7 @@ export default function AddPost() {
           <label
             htmlFor="photo"
             className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
-            style={{
-              backgroundImage: `url(${preview})`,
-            }}
+            style={preview ? { backgroundImage: `url(${preview})` } : undefined}
           >
             {!preview && (
               <div className="flex flex-col justify-center items-center gap-1 text-neutral-400">
@@ -168,10 +166,8 @@ export default function AddPost() {
           onSelect={(value) => {
             setPosition(value);
           }}
+          locationError={state?.fieldErrors?.location?.[0]}
         />
-        {state?.fieldErrors?.location && (
-          <p className="text-red-500 text-sm">{state.fieldErrors.location}</p>
-        )}
       </div>
 
       <input type="hidden" name="location" value={position?.location ?? ""} />
