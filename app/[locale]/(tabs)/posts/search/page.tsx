@@ -20,6 +20,7 @@ export default async function PostSearchPage({
           OR: [
             { title: { contains: query, mode: "insensitive" } },
             { description: { contains: query, mode: "insensitive" } },
+            { city: { contains: query, mode: "insensitive" } },
           ],
         },
         orderBy: {
@@ -32,6 +33,7 @@ export default async function PostSearchPage({
           created_at: true,
           views: true,
           photo: true,
+          city: true,
           _count: {
             select: {
               comments: true,

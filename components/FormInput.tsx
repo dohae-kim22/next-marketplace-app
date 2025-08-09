@@ -25,7 +25,7 @@ export default function FormInput({
   return (
     <div className="flex flex-col gap-2">
       <input
-        className="bg-transparent border-none rounded-md focus:outline-none transition h-10 ring-1 ring-neutral-200 focus:ring-2 focus:ring-orange-500 placeholder:text-neutral-400"
+        className="bg-transparent border-none rounded-md focus:outline-none transition h-10 ring-1 ring-neutral-200 focus:ring-orange-500 placeholder:text-neutral-400"
         name={name}
         defaultValue={defaultValue}
         onChange={(e) => {

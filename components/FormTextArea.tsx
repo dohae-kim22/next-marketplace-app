@@ -34,7 +34,7 @@ export default function FormTextarea({
           setValue(e.target.value);
           setLocalErrors([]);
         }}
-        className="bg-transparent border-none rounded-md focus:outline-none transition h-30 md:h-60 ring-1 ring-neutral-200 focus:ring-2 focus:ring-orange-500 placeholder:text-neutral-400 resize-none p-2"
+        className="bg-transparent border-none rounded-md focus:outline-none transition h-30 md:h-60 ring-1 ring-neutral-200 focus:ring-orange-500 placeholder:text-neutral-400 resize-none p-2"
         {...rest}
       />
       <div className="flex justify-end text-xs text-neutral-500 px-1">

@@ -30,7 +30,6 @@ const profileSchema = z.object({
 });
 
 export async function updateProfile(formData: FormData) {
-  console.log("여기");
   const session = await getSession();
   if (!session?.id) throw new Error("Unauthorized");
 
@@ -48,11 +47,9 @@ export async function updateProfile(formData: FormData) {
     countryCode: formData.get("countryCode"),
   };
 
-  console.log("hello");
   const result = profileSchema.safeParse(rawData);
 
   if (!result.success) {
-    console.log("faile");
     return {
       fieldErrors: result.error.flatten().fieldErrors,
       values: rawData,
@@ -93,8 +90,6 @@ export async function updateProfile(formData: FormData) {
   revalidatePath("/[locale]/profile");
   revalidatePath("/[locale]/(tabs)/products");
   revalidatePath("/[locale]/(tabs)/posts");
-
-  console.log("save");
 
   return { success: true };
 }
