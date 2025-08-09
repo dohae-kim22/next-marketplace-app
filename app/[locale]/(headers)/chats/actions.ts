@@ -117,13 +117,21 @@ export async function getMyChatRooms() {
         },
       },
     },
-    orderBy: { updated_at: "desc" },
   });
 
-  return rooms.map((room) => {
+  const enriched = rooms.map((room) => {
     const otherUser = room.buyer.id === session.id ? room.seller : room.buyer;
-    return { ...room, otherUser };
+    const lastMessageAt =
+      room.messages.length > 0 ? room.messages[0].created_at : room.updated_at;
+    return { ...room, otherUser, lastMessageAt };
   });
+
+  enriched.sort(
+    (a, b) =>
+      new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime()
+  );
+
+  return enriched;
 }
 
 export async function markMessagesAsRead(chatRoomId: string) {
@@ -139,6 +147,9 @@ export async function markMessagesAsRead(chatRoomId: string) {
       read: true,
     },
   });
+
+  revalidatePath("/", "layout");
+  revalidatePath("/chats", "layout");
 }
 
 export async function completeTradeAction(chatRoomId: string) {

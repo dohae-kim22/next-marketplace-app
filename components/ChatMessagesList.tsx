@@ -5,7 +5,7 @@ import {
   markMessagesAsRead,
   saveMessage,
 } from "@/app/[locale]/(headers)/chats/actions";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { formatToTimeAgo } from "@/lib/utils";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
@@ -102,7 +102,9 @@ export default function ChatMessagesList({
   }, [chatRoomId]);
 
   useEffect(() => {
-    markMessagesAsRead(chatRoomId);
+    (async () => {
+      await markMessagesAsRead(chatRoomId);
+    })();
   }, [chatRoomId]);
 
   useEffect(() => {
