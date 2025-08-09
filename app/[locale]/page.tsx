@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen items-center justify-between mx-auto p-6 md:max-w-xl md:p-10">
+      <div className="flex flex-col min-h-screen items-center justify-between mx-auto p-6 md:max-w-xl md:p-15">
         <div className="absolute right-5">
           <LanguageSwitcher />
         </div>

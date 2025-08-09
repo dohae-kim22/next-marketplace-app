@@ -11,14 +11,20 @@ const profileSchema = z.object({
     .string()
     .min(2, "Username must be at least 2 characters.")
     .max(10, "Username must be at most 10 characters."),
-  avatar: z.url("Invalid avatar URL.").optional().or(z.literal("")),
-  location: z.string().min(1, "Location is required."),
+  avatar: z.string().optional().or(z.literal("")),
+  location: z.string().optional(),
   latitude: z
     .string()
-    .refine((val) => !isNaN(parseFloat(val)), { message: "Invalid latitude." }),
-  longitude: z.string().refine((val) => !isNaN(parseFloat(val)), {
-    message: "Invalid longitude.",
-  }),
+    .optional()
+    .refine((val) => !val || !isNaN(parseFloat(val)), {
+      message: "Invalid latitude.",
+    }),
+  longitude: z
+    .string()
+    .optional()
+    .refine((val) => !val || !isNaN(parseFloat(val)), {
+      message: "Invalid longitude.",
+    }),
   radius: z.string().refine((val) => [5, 10, 30, 50].includes(Number(val)), {
     message: "Invalid radius.",
   }),
@@ -76,8 +82,8 @@ export async function updateProfile(formData: FormData) {
       userName,
       avatar: avatar || null,
       location,
-      latitude: parseFloat(latitude),
-      longitude: parseFloat(longitude),
+      latitude: latitude ? parseFloat(latitude) : undefined,
+      longitude: longitude ? parseFloat(longitude) : undefined,
       radius: Number(radius),
       street: street || null,
       city: city || null,

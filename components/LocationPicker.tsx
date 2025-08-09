@@ -44,7 +44,7 @@ export default function LocationPicker({
 
   const [position, setPosition] = useState<LocationData | null>(null);
   const [center, setCenter] = useState(defaultCenter);
-  const [localErrors, setLocalErrors] = useState<string[]>([]);
+  const [localErrors, setLocalErrors] = useState<string[]>(errors);
 
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);

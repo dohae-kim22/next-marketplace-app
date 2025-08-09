@@ -129,9 +129,10 @@ export default function SearchBar() {
         </div>
       </form>
 
-      {!hideAddButton && (
+      {!hideAddButton && addHref && addLabel && (
         <Link
-          href={addHref ?? "#"}
+          href={addHref}
+          prefetch={false}
           className="hidden absolute right-5 cursor-pointer lg:flex bg-orange-500 text-white items-center justify-center gap-1 rounded-md p-2 hover:bg-orange-600 text-sm font-semibold transition-colors"
         >
           <PlusIcon className="size-4" />

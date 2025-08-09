@@ -7,6 +7,21 @@ import { notFound } from "next/navigation";
 import DeleteStreamButton from "@/components/DeleteStreamButton";
 import { getTranslations } from "next-intl/server";
 
+async function isLiveOnCloudflare(streamId: string) {
+  try {
+    const res = await fetch(
+      `https://${process.env.CLOUDFLARE_DOMAIN}/${streamId}/manifest/video.m3u8`,
+      {
+        method: "HEAD",
+        cache: "no-store",
+      }
+    );
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 async function getStream(id: number) {
   return db.liveStream.findUnique({
     where: { id },
@@ -42,14 +57,24 @@ export default async function LiveDetail({
   const t = await getTranslations("liveDetail");
   const isOwner = await getIsOwner(stream.userId);
 
+  const live = await isLiveOnCloudflare(stream.streamId);
+
   return (
     <div className="p-5 flex flex-col gap-5 md:p-15 md:pt-0 lg:max-w-4xl lg:mx-auto text-white lg:pt-15">
       <div className="relative aspect-video rounded-lg overflow-hidden border border-neutral-700">
-        <iframe
-          src={`https://${process.env.CLOUDFLARE_DOMAIN}/${stream.streamId}/iframe`}
-          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-          className="w-full h-full"
-        />
+        {live ? (
+          <iframe
+            src={`https://${process.env.CLOUDFLARE_DOMAIN}/${stream.streamId}/iframe`}
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+            className="w-full h-full"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-black">
+            <span className="text-white text-lg font-semibold">
+              {t("liveStreamEnded")}
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="flex items-center gap-3 border-b border-neutral-700 pb-4">

@@ -1,7 +1,4 @@
 {
-  "common": {
-    "myChats": "My Chats"
-  },
   "home": {
     "logoAlt": "next market logo",
     "title": "Next Market",
@@ -154,6 +151,7 @@
     "startButton": "Start streaming"
   },
   "liveDetail": {
+    "liveStreamEnded": "Live stream has ended",
     "howToTitle": "How to Start Streaming:",
     "howToSteps": [
       "Open your streaming software (OBS, Streamlabs, XSplit, etc.).",
@@ -255,5 +253,9 @@
     "sold": "SOLD",
     "free": "Free Giveaway",
     "wanted": "Wanted"
+  },
+  "chatList": {
+    "myChats": "My Chats",
+    "noChatRoomsYet": "No chat rooms yet."
   }
 }
