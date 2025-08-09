@@ -27,9 +27,9 @@
     }
   },
   "locationBanner": {
-    "showingAll": "📍 Affichage de tous les lieux",
-    "editLocation": "Modifier la localisation",
-    "setLocation": "Définir la localisation"
+    "showingAll": "📍 Tous les lieux",
+    "editLocation": "Changer lieu",
+    "setLocation": "Définir lieu"
   },
   "signUp": {
     "welcome": "Bienvenue !",
@@ -195,8 +195,8 @@
   },
   "profile": {
     "joined": "Inscrit {timeAgo}",
-    "editProfile": "Modifier le profil",
-    "logOut": "Se déconnecter",
+    "editProfile": "Modifier",
+    "logOut": "Déconnexion",
     "receivedReviews": "Avis reçus",
     "noReviews": "Vous n'avez reçu aucun avis.",
     "productLabel": "Produit :",
@@ -226,9 +226,20 @@
     "buttons": {
       "save": "Enregistrer",
       "cancel": "Annuler",
-       "clear": "Effacer",
+      "clear": "Effacer",
       "clearing": "Effacement..."
     },
     "locationErrorFallback": "Veuillez sélectionner un lieu valide."
+  },
+  "userProfile": {
+    "reviews": "Avis",
+    "noReviews": "Aucun avis.",
+    "productsBy": "Produits de {name}",
+    "noProducts": "Aucun produit.",
+    "joined": "Inscrit {timeAgo}"
+  },
+  "chatButton": {
+    "chat": "Discuter",
+    "starting": "Connexion..."
   }
 }
