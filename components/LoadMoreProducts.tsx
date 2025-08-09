@@ -37,19 +37,25 @@ export default function LoadMoreProducts({
 
   return (
     <>
-      <div className="flex flex-col gap-3 lg:hidden">
-        {items.map((p) => (
-          <ListProduct key={p.id} {...p} />
-        ))}
-      </div>
+      {items.length === 0 ? (
+        <p className="text-neutral-400">{t("noProducts")}</p>
+      ) : (
+        <>
+          <div className="flex flex-col gap-3 lg:hidden">
+            {items.map((p) => (
+              <ListProduct key={p.id} {...p} />
+            ))}
+          </div>
 
-      <div className="hidden lg:grid lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        {items.map((p) => (
-          <ListProductDesktop key={p.id} {...p} />
-        ))}
-      </div>
+          <div className="hidden lg:grid lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {items.map((p) => (
+              <ListProductDesktop key={p.id} {...p} />
+            ))}
+          </div>
+        </>
+      )}
 
-      {hasMore && (
+      {hasMore && items.length > 0 && (
         <div className="mt-4 flex justify-center">
           <button
             onClick={loadMore}

@@ -1,6 +1,7 @@
 import FormInput from "@/components/FormInput";
 import LoadMoreSearchedProducts from "@/components/LoadMoreSearchedProducts";
 import { getFirstSearchPage } from "../actions";
+import { getTranslations } from "next-intl/server";
 
 interface ProductSearchPageProps {
   searchParams: Promise<{ q?: string }>;
@@ -11,6 +12,7 @@ export default async function ProductSearchPage({
 }: ProductSearchPageProps) {
   const { q } = await searchParams;
   const query = q?.trim() ?? "";
+  const t = await getTranslations("loadMoreProducts");
 
   if (!query) {
     return (
@@ -20,10 +22,10 @@ export default async function ProductSearchPage({
             type="text"
             name="q"
             defaultValue=""
-            placeholder="Search products..."
+            placeholder={t("searchPlaceholder")}
           />
         </form>
-        <p className="text-white">Type something to search.</p>
+        <p className="text-white">{t("typeSomethingToSearch")}</p>
       </div>
     );
   }
@@ -37,12 +39,12 @@ export default async function ProductSearchPage({
           type="text"
           name="q"
           defaultValue={query}
-          placeholder="Search products..."
+          placeholder={t("searchPlaceholder")}
         />
       </form>
 
       {items.length === 0 ? (
-        <p className="text-white">No products found.</p>
+        <p className="text-neutral-400">{t("noProducts")}</p>
       ) : (
         <LoadMoreSearchedProducts
           key={query}

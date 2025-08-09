@@ -1,4 +1,7 @@
 {
+  "common": {
+    "myChats": "My Chats"
+  },
   "home": {
     "logoAlt": "next market logo",
     "title": "Next Market",
@@ -141,7 +144,8 @@
   "liveStream": {
     "placeholder": "Find a stream...",
     "noResults": "No streams found.",
-    "host": "Host: {name}"
+    "host": "Host: {name}",
+    "liveStreams": "Live Streams"
   },
   "addLive": {
     "pageTitle": "Start Your Live Stream",
@@ -185,7 +189,11 @@
   },
   "loadMoreProducts": {
     "loading": "Loading...",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "noProducts": "No products found.",
+    "noProductsInCategory": "No products found in this category.",
+    "typeSomethingToSearch": "Type something to search.",
+    "searchPlaceholder": "Search products..."
   },
   "tabBar": {
     "home": "Home",

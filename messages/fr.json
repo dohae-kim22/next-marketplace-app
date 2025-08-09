@@ -1,4 +1,7 @@
 {
+  "common": {
+    "myChats": "Mes discussions"
+  },
   "home": {
     "logoAlt": "logo du marché next",
     "title": "Next Market",
@@ -141,7 +144,8 @@
   "liveStream": {
     "placeholder": "Rechercher un stream...",
     "noResults": "Aucun stream trouvé.",
-    "host": "Hôte : {name}"
+    "host": "Hôte : {name}",
+    "liveStreams": "Diffusions en direct"
   },
   "addLive": {
     "pageTitle": "Démarrez votre diffusion en direct",
@@ -184,7 +188,11 @@
   },
   "loadMoreProducts": {
     "loading": "Chargement...",
-    "loadMore": "Charger plus"
+    "loadMore": "Charger plus",
+    "noProducts": "Aucun produit trouvé.",
+    "noProductsInCategory": "Aucun produit trouvé dans cette catégorie.",
+    "typeSomethingToSearch": "Tapez quelque chose à rechercher.",
+    "searchPlaceholder": "Rechercher des produits..."
   },
   "tabBar": {
     "home": "Accueil",

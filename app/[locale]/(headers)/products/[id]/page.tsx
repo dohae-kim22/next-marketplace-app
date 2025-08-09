@@ -92,7 +92,7 @@ export default async function ProductDetail({
   const isOwner = await getIsOwner(product.userId);
 
   return (
-    <div className="container-lg flex flex-col gap-3 p-5 md:p-20 md:py-0 md:pt-5 lg:p-6 lg:flex-row lg:gap-15">
+    <div className="container-lg flex flex-col gap-3 p-5 md:p-20 md:py-0 md:pt-5 lg:py-8 lg:px-5 lg:flex-row lg:gap-15">
       <ScrollToTop />
       <div className="flex flex-col gap-3">
         <CategoryBreadcrumb slug={slug} />

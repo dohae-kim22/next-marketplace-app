@@ -16,10 +16,40 @@ import MobileNavigationBar from "./MobileNavigationBar";
 import NavigationBar from "./NavigationBar";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslations } from "next-intl";
+import { useEffect, useState, useCallback } from "react";
 
 export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
+  const [liveUnread, setLiveUnread] = useState(unreadCount);
+
   const pathname = usePathname();
   const t = useTranslations("header");
+
+  const fetchUnread = useCallback(async () => {
+    try {
+      const res = await fetch("/api/unread-count", { cache: "no-store" });
+      if (!res.ok) return;
+      const { count } = (await res.json()) as { count: number };
+      setLiveUnread(count ?? 0);
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchUnread();
+  }, [pathname, fetchUnread]);
+
+  useEffect(() => {
+    let mounted = true;
+    const id = setInterval(() => {
+      if (!mounted) return;
+      fetchUnread();
+    }, 1000);
+    return () => {
+      mounted = false;
+      clearInterval(id);
+    };
+  }, [fetchUnread]);
 
   const hideSearchAddButton =
     pathname.startsWith("/profile") || pathname.startsWith("/chats");
@@ -99,9 +129,9 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
               >
                 <Icon className="size-5" />
                 <span className="whitespace-nowrap">{label}</span>
-                {href === "/chats" && unreadCount > 0 && (
+                {href === "/chats" && liveUnread > 0 && (
                   <span className="ml-1 bg-red-500 text-white text-[10px] font-bold rounded-full px-2 py-0.5">
-                    {unreadCount > 99 ? "99+" : unreadCount}
+                    {liveUnread > 99 ? "99+" : liveUnread}
                   </span>
                 )}
               </Link>

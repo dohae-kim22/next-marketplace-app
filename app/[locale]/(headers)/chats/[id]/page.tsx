@@ -37,7 +37,7 @@ export default async function ChatRoom({
 
   return (
     <div className="flex flex-col mx-auto md:max-w-lg relative">
-      <div className="flex flex-col gap-2 p-4 pt-0 w-full sticky top-[76px] md:top-[76px] lg:top-[191px] z-10 bg-neutral-900">
+      <div className="flex flex-col gap-2 p-4 pt-0 w-full sticky top-[76px] md:top-[76px] lg:top-[190px] z-10 bg-neutral-900">
         <ChatroomHeader
           opponent={opponent}
           opponentId={opponentId}
