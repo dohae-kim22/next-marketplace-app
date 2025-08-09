@@ -6,8 +6,9 @@ import ListProductDesktop from "@/components/ListProductDesktop";
 import { getMoreProducts } from "@/app/[locale]/(tabs)/products/actions";
 import { useTranslations } from "next-intl";
 import { PAGE_SIZE } from "@/lib/utils";
+import { ListProductProps } from "@/lib/types/product";
 
-type Product = Parameters<typeof ListProduct>[0];
+export type Product = ListProductProps;
 
 export default function LoadMoreProducts({
   initialItems,
@@ -23,10 +24,14 @@ export default function LoadMoreProducts({
   const loadMore = () => {
     if (!hasMore || isPending) return;
     startTransition(async () => {
-      const next = await getMoreProducts(page);
-      if (next.length < PAGE_SIZE) setHasMore(false);
-      setItems((prev) => [...prev, ...next]);
-      setPage((p) => p + 1);
+      try {
+        const next = await getMoreProducts(page);
+        if (next.length < PAGE_SIZE) setHasMore(false);
+        setItems((prev) => [...prev, ...next]);
+        setPage((p) => p + 1);
+      } catch (e) {
+        console.error(e);
+      }
     });
   };
 

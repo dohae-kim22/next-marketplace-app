@@ -9,7 +9,7 @@ import { formatShortAddress, formatToEuro, formatToTimeAgo } from "@/lib/utils";
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface ListProductProps {
   title: string;
@@ -44,6 +44,7 @@ export default function ListProduct({
   type,
 }: ListProductProps) {
   const locale = useLocale();
+  const t = useTranslations("listProduct");
 
   return (
     <Link
@@ -59,7 +60,7 @@ export default function ListProduct({
         />
         {status === "SOLD" && (
           <div className="absolute z-1 bottom-0 text-sm font-bold bg-neutral-600 px-1 py-0.5 opacity-80 text-neutral-300">
-            SOLD
+            {t("sold")}
           </div>
         )}
       </div>
@@ -84,11 +85,11 @@ export default function ListProduct({
             </div>
           ) : type === "FREE" ? (
             <span className="bg-teal-500 mr-auto opacity-90 px-2 rounded-md font-medium text-sm">
-              Free Giveaway
+              {t("free")}
             </span>
           ) : type === "WANTED" ? (
             <span className="bg-indigo-500 mr-auto opacity-90 px-2 rounded-md font-medium text-sm">
-              Wanted
+              {t("wanted")}
             </span>
           ) : null}
 

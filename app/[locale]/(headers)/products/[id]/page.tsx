@@ -92,9 +92,10 @@ export default async function ProductDetail({
   const isOwner = await getIsOwner(product.userId);
 
   return (
-    <div className="container-lg flex flex-col gap-3 p-5 md:p-20 md:py-0 md:pt-5 lg:py-15 lg:flex-row lg:gap-15">
+    <div className="container-lg flex flex-col gap-3 p-5 md:p-20 md:py-0 md:pt-5 lg:p-6 lg:flex-row lg:gap-15">
       <ScrollToTop />
       <div className="flex flex-col gap-3">
+        <CategoryBreadcrumb slug={slug} />
         <div className="relative overflow-hidden">
           <ProductImageSlider photos={product.photos} />
         </div>
@@ -175,8 +176,7 @@ export default async function ProductDetail({
 
         <div className="flex flex-col gap-2 mb-25">
           <h1 className="text-3xl font-semibold">{product.title}</h1>
-          <CategoryBreadcrumb slug={slug} />
-          <div className={`flex items-center ${isOwner ? "my-3" : "my-1"}`}>
+          <div className={`flex flex-col gap-3 ${isOwner ? "my-3" : "my-1"}`}>
             <span
               className={`font-semibold text-2xl flex-1 ${
                 !isOwner ? "hidden lg:block" : ""
@@ -189,7 +189,7 @@ export default async function ProductDetail({
               {isOwner ? (
                 <form action={toggleSoldStatus.bind(null, product.id)}>
                   <button
-                    className={`bg-transparent p-2.5 rounded-md text-white font-semibold flex gap-1 justify-center items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 transition-colors`}
+                    className={`bg-transparent px-2.5 py-2 rounded-md text-white font-semibold flex gap-1 justify-center items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 transition-colors`}
                   >
                     <CheckCircleIcon className="h-6" />
                     <span>
@@ -204,7 +204,7 @@ export default async function ProductDetail({
                   <input type="hidden" name="productId" value={product.id} />
                   <button
                     disabled={product.status === "SOLD"}
-                    className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400 transition-colors flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600"
+                    className="bg-orange-500 px-5 py-2 rounded-md text-white font-semibold hover:bg-orange-400 transition-colors flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600"
                   >
                     <PaperAirplaneIcon className="h-5" />
                     <span>{t("askSeller")}</span>
@@ -213,7 +213,7 @@ export default async function ProductDetail({
               )}
             </div>
           </div>
-          <p className="text-sm whitespace-pre-line lg:text-base">
+          <p className="text-sm mt-3 whitespace-pre-line lg:text-base">
             {product.description}
           </p>
           {product.location && (

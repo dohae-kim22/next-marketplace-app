@@ -58,8 +58,8 @@
       "category": "CATÉGORIE",
       "type": {
         "sale": "À vendre",
-        "free": "Don gratuit",
-        "wanted": "Recherche"
+        "free": "À donner",
+        "wanted": "Recherché"
       },
       "price": "PRIX",
       "description": "DESCRIPTION",
@@ -95,15 +95,15 @@
     },
     "type": {
       "sale": "À vendre",
-      "free": "Don gratuit",
-      "wanted": "Recherche"
+      "free": "À donner",
+      "wanted": "Recherché"
     },
     "save": "Enregistrer les modifications",
     "cancel": "Annuler"
   },
   "productDetail": {
-    "freeGiveaway": "Don Gratuit",
-    "wanted": "Recherche",
+    "freeGiveaway": "À donner",
+    "wanted": "Recherché",
     "soldOut": "Vendu",
     "editListing": "Modifier l'annonce",
     "markAsAvailable": "Marquer comme disponible",
@@ -241,5 +241,10 @@
   "chatButton": {
     "chat": "Discuter",
     "starting": "Connexion..."
+  },
+  "listProduct": {
+    "sold": "VENDU",
+    "free": "À donner",
+    "wanted": "Recherché"
   }
 }
