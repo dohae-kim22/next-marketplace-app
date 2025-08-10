@@ -102,9 +102,7 @@ export default function ChatMessagesList({
   }, [chatRoomId]);
 
   useEffect(() => {
-    (async () => {
-      await markMessagesAsRead(chatRoomId);
-    })();
+    markMessagesAsRead(chatRoomId);
   }, [chatRoomId]);
 
   useEffect(() => {

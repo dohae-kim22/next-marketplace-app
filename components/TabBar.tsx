@@ -11,41 +11,11 @@ import {
 import { Link } from "@/i18n/navigation";
 import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState, useCallback } from "react";
 
 export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
   const pathname = usePathname();
   const locale = useLocale();
   const t = useTranslations("tabBar");
-
-  const [liveUnread, setLiveUnread] = useState(unreadCount);
-
-  const fetchUnread = useCallback(async () => {
-    try {
-      const res = await fetch("/api/unread-count", { cache: "no-store" });
-      if (!res.ok) return;
-      const { count } = (await res.json()) as { count: number };
-      setLiveUnread(count ?? 0);
-    } catch (e) {
-      console.error(e);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchUnread();
-  }, [pathname, fetchUnread]);
-
-  useEffect(() => {
-    let mounted = true;
-    const id = setInterval(() => {
-      if (!mounted) return;
-      fetchUnread();
-    }, 1000);
-    return () => {
-      mounted = false;
-      clearInterval(id);
-    };
-  }, [fetchUnread]);
 
   return (
     <div className="fixed z-10 bottom-0 flex justify-between md:justify-around w-full mx-auto px-5 py-3 border-neutral-600 border-t bg-neutral-900 lg:hidden">
@@ -83,9 +53,9 @@ export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
       >
         <ChatBubbleOvalLeftEllipsisIcon className="size-7" />
         <span>{t("chats")}</span>
-        {liveUnread > 0 && (
+        {unreadCount > 0 && (
           <span className="flex justify-center items-center absolute -top-1 -right-2 bg-red-500 text-white text-[9px] font-bold rounded-full size-4">
-            {liveUnread > 99 ? "99" : liveUnread}
+            {unreadCount > 99 ? "99" : unreadCount}
           </span>
         )}
       </Link>
