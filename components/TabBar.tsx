@@ -17,72 +17,73 @@ export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
   const locale = useLocale();
   const t = useTranslations("tabBar");
 
+  const isActive = (href: string) =>
+    pathname.startsWith(`/${locale}${href}`)
+      ? "text-white"
+      : "text-neutral-500";
+
   return (
-    <div className="fixed z-10 bottom-0 flex justify-between md:justify-around w-full mx-auto px-5 py-3 border-neutral-600 border-t bg-neutral-900 lg:hidden">
-      <Link
-        href="/products"
-        className={`flex flex-col gap-px items-center ${
-          pathname.startsWith(`/${locale}/products`)
-            ? "text-white"
-            : "text-neutral-500"
-        }`}
-      >
-        <HomeIcon className="size-7" />
-        <span>{t("home")}</span>
-      </Link>
+    <>
+      <div
+        className="lg:hidden"
+        style={{ height: "calc(56px + env(safe-area-inset-bottom))" }}
+      />
 
-      <Link
-        href="/posts"
-        className={`flex flex-col gap-px items-center ${
-          pathname.startsWith(`/${locale}/posts`)
-            ? "text-white"
-            : "text-neutral-500"
-        }`}
+      <div
+        className="fixed inset-x-0 bottom-0 z-50 flex justify-between md:justify-around px-5 py-3 border-t border-neutral-600 bg-neutral-900/95 backdrop-blur lg:hidden transform-gpu"
+        style={{ paddingBottom: "max(0px, env(safe-area-inset-bottom))" }}
       >
-        <NewspaperIcon className="size-7" />
-        <span>{t("town")}</span>
-      </Link>
+        <Link
+          href="/products"
+          className={`flex flex-col gap-px items-center ${isActive(
+            "/products"
+          )}`}
+        >
+          <HomeIcon className="size-7" />
+          <span>{t("home")}</span>
+        </Link>
 
-      <Link
-        href="/chats"
-        className={`flex flex-col gap-px items-center relative ${
-          pathname.startsWith(`/${locale}/chats`)
-            ? "text-white"
-            : "text-neutral-500"
-        }`}
-      >
-        <ChatBubbleOvalLeftEllipsisIcon className="size-7" />
-        <span>{t("chats")}</span>
-        {unreadCount > 0 && (
-          <span className="flex justify-center items-center absolute -top-1 -right-2 bg-red-500 text-white text-[9px] font-bold rounded-full size-4">
-            {unreadCount > 99 ? "99" : unreadCount}
-          </span>
-        )}
-      </Link>
+        <Link
+          href="/posts"
+          className={`flex flex-col gap-px items-center ${isActive("/posts")}`}
+        >
+          <NewspaperIcon className="size-7" />
+          <span>{t("town")}</span>
+        </Link>
 
-      <Link
-        href="/live"
-        className={`flex flex-col gap-px items-center ${
-          pathname.startsWith(`/${locale}/live`)
-            ? "text-white"
-            : "text-neutral-500"
-        }`}
-      >
-        <VideoCameraIcon className="size-7" />
-        <span>{t("live")}</span>
-      </Link>
+        <Link
+          href="/chats"
+          className={`flex flex-col gap-px items-center relative ${isActive(
+            "/chats"
+          )}`}
+        >
+          <ChatBubbleOvalLeftEllipsisIcon className="size-7" />
+          <span>{t("chats")}</span>
+          {unreadCount > 0 && (
+            <span className="flex justify-center items-center absolute -top-1 -right-2 bg-red-500 text-white text-[9px] font-bold rounded-full size-4">
+              {unreadCount > 99 ? "99" : unreadCount}
+            </span>
+          )}
+        </Link>
 
-      <Link
-        href="/profile"
-        className={`flex flex-col gap-px items-center ${
-          pathname.startsWith(`/${locale}/profile`)
-            ? "text-white"
-            : "text-neutral-500"
-        }`}
-      >
-        <UserIcon className="size-7" />
-        <span className="text-inherit">{t("my")}</span>
-      </Link>
-    </div>
+        <Link
+          href="/live"
+          className={`flex flex-col gap-px items-center ${isActive("/live")}`}
+        >
+          <VideoCameraIcon className="size-7" />
+          <span>{t("live")}</span>
+        </Link>
+
+        <Link
+          href="/profile"
+          className={`flex flex-col gap-px items-center ${isActive(
+            "/profile"
+          )}`}
+        >
+          <UserIcon className="size-7" />
+          <span className="text-inherit">{t("my")}</span>
+        </Link>
+      </div>
+    </>
   );
 }

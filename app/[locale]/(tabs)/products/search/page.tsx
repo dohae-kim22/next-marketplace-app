@@ -16,7 +16,7 @@ export default async function ProductSearchPage({
 
   if (!query) {
     return (
-      <div className="container-lg p-5 flex flex-col gap-3 mb-30">
+      <div className="container-lg p-5 flex flex-col gap-3 mb-20">
         <form className="mb-4 lg:hidden">
           <FormInput
             type="text"
@@ -33,7 +33,7 @@ export default async function ProductSearchPage({
   const items = await getFirstSearchPage(query);
 
   return (
-    <div className="container-lg p-5 flex flex-col gap-3 mb-30">
+    <div className="container-lg p-5 flex flex-col gap-3 mb-20">
       <form className="mb-4 lg:hidden">
         <FormInput
           type="text"
