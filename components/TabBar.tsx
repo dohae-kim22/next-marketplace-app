@@ -7,7 +7,6 @@ import {
   UserIcon,
   VideoCameraIcon,
 } from "@heroicons/react/24/solid";
-
 import { Link } from "@/i18n/navigation";
 import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -17,21 +16,25 @@ export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
   const locale = useLocale();
   const t = useTranslations("tabBar");
 
-  const isActive = (href: string) =>
-    pathname.startsWith(`/${locale}${href}`)
+  const isActive = (path: string) =>
+    pathname.startsWith(`/${locale}${path}`)
       ? "text-white"
       : "text-neutral-500";
 
   return (
     <>
+      {/* 탭바 뒤로 컨텐츠가 숨지 않도록 여유 높이 확보 */}
       <div
         className="lg:hidden"
         style={{ height: "calc(56px + env(safe-area-inset-bottom))" }}
       />
 
       <div
-        className="fixed inset-x-0 bottom-0 z-50 flex justify-between md:justify-around px-5 py-3 border-t border-neutral-600 bg-neutral-900/95 backdrop-blur lg:hidden transform-gpu"
-        style={{ paddingBottom: "max(0px, env(safe-area-inset-bottom))" }}
+        className="fixed inset-x-0 bottom-0 z-50 flex justify-between md:justify-around px-5 border-t border-neutral-600 bg-neutral-900 lg:hidden transform-gpu"
+        style={{
+          paddingTop: "0.75rem",
+          paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))",
+        }}
       >
         <Link
           href="/products"
