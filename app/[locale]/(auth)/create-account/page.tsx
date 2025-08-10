@@ -37,6 +37,7 @@ export default function CreateAccount() {
             id="username"
             name="userName"
             type="text"
+            autoComplete="username"
             required
             defaultValue={state?.values.userName as string}
             errors={state?.fieldErrors?.userName}
@@ -53,6 +54,8 @@ export default function CreateAccount() {
             name="email"
             type="email"
             required
+            autoComplete="email"
+            inputMode="email"
             defaultValue={state?.values.email as string}
             errors={state?.fieldErrors?.email}
           />
@@ -66,19 +69,22 @@ export default function CreateAccount() {
             name="password"
             type="password"
             required
+            autoComplete="new-password"
             defaultValue={state?.values.password as string}
             errors={state?.fieldErrors?.password}
             minLength={PASSWORD_MIN_LENGTH}
           />
         </div>
         <div className="flex flex-col gap-2 text-neutral-400 font-semibold">
-          <label htmlFor="password" className="text-sm">
+          <label htmlFor="confirmPassword" className="text-sm">
             {t("confirmPassword")}
           </label>
           <FormInput
+            id="confirmPassword"
             name="confirmPassword"
             type="password"
             required
+            autoComplete="new-password"
             defaultValue={state?.values.confirmPassword as string}
             errors={state?.fieldErrors?.confirmPassword}
             minLength={PASSWORD_MIN_LENGTH}

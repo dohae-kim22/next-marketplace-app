@@ -1,11 +1,12 @@
-"use client";
-
-import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
-export default function Home() {
-  const t = useTranslations("home");
+export const revalidate = 60;
+
+export default async function Home() {
+  const t = await getTranslations("home");
 
   return (
     <>
@@ -14,7 +15,15 @@ export default function Home() {
           <LanguageSwitcher />
         </div>
         <div className="my-auto flex flex-col items-center gap-2 *:font-medium">
-          <img src="/logo.png" alt={t("logoAlt")} className="h-32" />
+          <Image
+            src="/logo.png"
+            alt={t("logoAlt")}
+            width={128}
+            height={128}
+            priority
+            sizes="128px"
+            className="object-contain"
+          />
           <h1 className="text-4xl text-neutral-10">{t("title")}</h1>
           <h2 className="text-sm text-neutral-400">{t("subtitle")}</h2>
         </div>

@@ -42,9 +42,11 @@ export default function ListProductDesktop({
   views,
   status,
   type,
-}: ListProductProps) {
+  index,
+}: ListProductProps & { index?: number }) {
   const locale = useLocale();
   const t = useTranslations("listProduct");
+  const isLcp = index === 0;
 
   return (
     <Link
@@ -57,6 +59,8 @@ export default function ListProductDesktop({
           src={`${photo}/public`}
           alt={title}
           className="object-cover"
+          priority={isLcp}
+          sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, 100vw"
         />
         {status === "SOLD" && (
           <div className="absolute bottom-0 left-0 text-base font-bold bg-neutral-600 px-2 py-1 opacity-80 text-neutral-300">

@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import { GlobeAltIcon } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 const supportedLocales = [
   { code: "en", label: "English" },
@@ -13,6 +14,7 @@ const supportedLocales = [
 export default function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations("languageSwitcher");
   const segments = pathname.split("/").filter(Boolean);
 
   const currentLocale = supportedLocales.some((l) => l.code === segments[0])
@@ -51,6 +53,8 @@ export default function LanguageSwitcher() {
   return (
     <div ref={dropdownRef} className="relative inline-block text-left">
       <button
+        aria-label={t("changeLanguage")}
+        title={t("changeLanguage")}
         onClick={() => setOpen((prev) => !prev)}
         className="flex items-center gap-1 text-white py-1.5 
              border-b-2 border-transparent hover:border-white
@@ -63,7 +67,11 @@ export default function LanguageSwitcher() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-1 w-32 bg-neutral-900 border border-neutral-700 rounded-xl shadow-xl overflow-hidden z-50 animate-fadeIn">
+        <div
+          className="absolute right-0 mt-1 w-32 bg-neutral-900 border border-neutral-700 rounded-xl shadow-xl overflow-hidden z-50 animate-fadeIn"
+          role="listbox"
+          aria-label={t("selectLanguage")}
+        >
           {supportedLocales.map(({ code, label }) => (
             <button
               key={code}

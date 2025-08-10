@@ -257,5 +257,9 @@
   "chatList": {
     "myChats": "My Chats",
     "noChatRoomsYet": "No chat rooms yet."
+  },
+  "languageSwitcher": {
+    "changeLanguage": "Change language",
+    "selectLanguage": "Select language"
   }
 }

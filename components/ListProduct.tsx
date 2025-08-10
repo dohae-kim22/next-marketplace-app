@@ -42,9 +42,12 @@ export default function ListProduct({
   views,
   status,
   type,
-}: ListProductProps) {
+  index,
+}: ListProductProps & { index?: number }) {
   const locale = useLocale();
   const t = useTranslations("listProduct");
+
+  const isLcp = index === 0;
 
   return (
     <Link
@@ -55,6 +58,8 @@ export default function ListProduct({
         <Image
           fill
           src={`${photo}/avatar`}
+          priority={isLcp}
+          sizes="(max-width: 1024px) 112px, 112px"
           alt={title}
           className="object-cover"
         />

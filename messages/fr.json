@@ -255,6 +255,10 @@
   },
   "chatList": {
     "myChats": "Mes discussions",
-     "noChatRoomsYet": "Aucun salon de discussion pour le moment."
+    "noChatRoomsYet": "Aucun salon de discussion pour le moment."
+  },
+  "languageSwitcher": {
+    "changeLanguage": "Changer de langue",
+    "selectLanguage": "Sélectionner la langue"
   }
 }

@@ -4,7 +4,6 @@ import { useState, useTransition } from "react";
 import ListProduct from "@/components/ListProduct";
 import ListProductDesktop from "@/components/ListProductDesktop";
 import { getMoreProducts } from "@/app/[locale]/(tabs)/products/actions";
-import { useTranslations } from "next-intl";
 import { PAGE_SIZE } from "@/lib/utils";
 import { ListProductProps } from "@/lib/types/product";
 
@@ -12,14 +11,15 @@ export type Product = ListProductProps;
 
 export default function LoadMoreProducts({
   initialItems,
+  labels,
 }: {
   initialItems: Product[];
+  labels: { loadMore: string; loading: string; noProducts: string };
 }) {
   const [items, setItems] = useState<Product[]>(initialItems);
   const [page, setPage] = useState(1);
   const [isPending, startTransition] = useTransition();
   const [hasMore, setHasMore] = useState(initialItems.length === PAGE_SIZE);
-  const t = useTranslations("loadMoreProducts");
 
   const loadMore = () => {
     if (!hasMore || isPending) return;
@@ -38,18 +38,18 @@ export default function LoadMoreProducts({
   return (
     <>
       {items.length === 0 ? (
-        <p className="text-neutral-400">{t("noProducts")}</p>
+        <p className="text-neutral-400">{labels.noProducts}</p>
       ) : (
         <>
           <div className="flex flex-col gap-3 lg:hidden">
-            {items.map((p) => (
-              <ListProduct key={p.id} {...p} />
+            {items.map((p, i) => (
+              <ListProduct key={p.id} {...p} index={i} />
             ))}
           </div>
 
           <div className="hidden lg:grid lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {items.map((p) => (
-              <ListProductDesktop key={p.id} {...p} />
+            {items.map((p, i) => (
+              <ListProductDesktop key={p.id} {...p} index={i} />
             ))}
           </div>
         </>
@@ -62,7 +62,7 @@ export default function LoadMoreProducts({
             disabled={isPending}
             className="px-4 py-2 cursor-pointer rounded-md border border-neutral-700 hover:bg-neutral-800 transition-colors"
           >
-            {isPending ? t("loading") : t("loadMore")}
+            {isPending ? labels.loading : labels.loadMore}
           </button>
         </div>
       )}
