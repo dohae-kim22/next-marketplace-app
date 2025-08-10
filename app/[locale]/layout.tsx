@@ -1,19 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Audiowide } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
 const audioWide = Audiowide({
   subsets: ["latin"],
   weight: ["400"],
@@ -27,6 +22,14 @@ export const metadata: Metadata = {
   },
   description:
     "A community marketplace app where users can buy and sell locally with ease.",
+  themeColor: "#171717",
+  other: { "color-scheme": "dark" },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default async function RootLayout({
@@ -42,7 +45,7 @@ export default async function RootLayout({
   let messages;
   try {
     messages = (await import(`../../messages/${locale}.json`)).default;
-  } catch (error) {
+  } catch {
     notFound();
   }
 
@@ -52,7 +55,9 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${audioWide.variable} antialiased bg-neutral-900 text-white`}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
+          <div className="min-h-[100svh] flex flex-col">
+            <main className="flex-1">{children}</main>
+          </div>
         </NextIntlClientProvider>
       </body>
     </html>
