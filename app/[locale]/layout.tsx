@@ -16,13 +16,9 @@ const audioWide = Audiowide({
 });
 
 export const metadata: Metadata = {
-  title: {
-    template: "%s | Next Marketplace",
-    default: "Next Marketplace",
-  },
+  title: { template: "%s | Next Marketplace", default: "Next Marketplace" },
   description:
     "A community marketplace app where users can buy and sell locally with ease.",
-  themeColor: "#171717",
   other: { "color-scheme": "dark" },
 };
 
@@ -30,6 +26,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#171717",
 };
 
 export default async function RootLayout({
