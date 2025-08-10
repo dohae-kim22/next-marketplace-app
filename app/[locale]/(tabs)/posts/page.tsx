@@ -3,6 +3,7 @@ import LocationBanner from "@/components/LocationBanner";
 import db from "@/lib/db";
 import { getUserWithLocation } from "@/lib/session";
 import { getDistanceFromLatLonInKm } from "@/lib/utils";
+import { getTranslations } from "next-intl/server";
 
 async function getAllPosts() {
   const posts = await db.post.findMany({
@@ -64,6 +65,7 @@ export const metadata = {
 
 export default async function Town() {
   const { posts, user } = await getFilteredPostsByLocation();
+  const t = await getTranslations("post");
 
   return (
     <div className="container-lg p-5 mb-40 lg:pt-0">
@@ -72,9 +74,11 @@ export default async function Town() {
         radius={user?.radius ?? undefined}
       />
 
-      {posts.map((post) => (
-        <ListPost key={post.id} {...post} />
-      ))}
+      {posts.length === 0 ? (
+        <div className="text-neutral-400">{t("noPosts")}</div>
+      ) : (
+        posts.map((post) => <ListPost key={post.id} {...post} />)
+      )}
     </div>
   );
 }
