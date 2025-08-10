@@ -142,7 +142,8 @@
     "placeholder": "Rechercher un stream...",
     "noResults": "Aucun stream trouvé.",
     "host": "Hôte : {name}",
-    "liveStreams": "Diffusions en direct"
+    "liveStreams": "Diffusions en direct",
+    "noLiveStreams": "Aucune diffusion en direct pour le moment."
   },
   "addLive": {
     "pageTitle": "Démarrez votre diffusion en direct",
@@ -260,5 +261,13 @@
   "languageSwitcher": {
     "changeLanguage": "Changer de langue",
     "selectLanguage": "Sélectionner la langue"
+  },
+  "post": {
+    "noPosts": "Aucune publication pour le moment."
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "desc": "La page que vous recherchez n’existe pas ou a été déplacée.",
+    "goHome": "Aller à l’accueil"
   }
 }

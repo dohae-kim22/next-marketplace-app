@@ -142,7 +142,8 @@
     "placeholder": "Find a stream...",
     "noResults": "No streams found.",
     "host": "Host: {name}",
-    "liveStreams": "Live Streams"
+    "liveStreams": "Live Streams",
+    "noLiveStreams": "No live streams available at the moment."
   },
   "addLive": {
     "pageTitle": "Start Your Live Stream",
@@ -261,5 +262,13 @@
   "languageSwitcher": {
     "changeLanguage": "Change language",
     "selectLanguage": "Select language"
+  },
+  "post": {
+    "noPosts": "There are no posts yet."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "desc": "The page you’re looking for doesn’t exist.",
+    "goHome": "Go to Home"
   }
 }
