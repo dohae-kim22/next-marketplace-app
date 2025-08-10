@@ -32,11 +32,15 @@ export default function Login() {
             {t("email")}
           </label>
           <FormInput
+            id="email"
             name="email"
             type="email"
+            autoComplete="email"
+            inputMode="email"
             required
             defaultValue={state?.values.email as string}
             errors={state?.fieldErrors?.email}
+            aria-invalid={Boolean(state?.fieldErrors?.email)}
           />
         </div>
         <div className="flex flex-col gap-2 text-neutral-400 font-semibold">
@@ -44,12 +48,15 @@ export default function Login() {
             {t("password")}
           </label>
           <FormInput
+            id="password"
             name="password"
             type="password"
+            autoComplete="current-password"
             required
             defaultValue={state?.values.password as string}
             errors={state?.fieldErrors?.password}
             minLength={PASSWORD_MIN_LENGTH}
+            aria-invalid={Boolean(state?.fieldErrors?.password)}
           />
         </div>
         <FormButton text={t("logIn")} />
