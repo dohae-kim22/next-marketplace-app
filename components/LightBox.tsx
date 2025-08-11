@@ -29,10 +29,11 @@ export default function LightBox({
   onPrev,
   onNext,
 }: Props) {
-  const backdropRef = useRef<HTMLDivElement>(null);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [isPinching, setIsPinching] = useState(false);
+
   const touchStart = useRef<{ x: number; y: number; t: number } | null>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
   const transformRef = useRef<ReactZoomPanPinchRef | null>(null);
 
   const safeIndex = useMemo(
@@ -88,7 +89,6 @@ export default function LightBox({
   const onTouchEnd = useCallback(
     (e: React.TouchEvent) => {
       if (!touchStart.current) return;
-
       if (isPinching) {
         touchStart.current = null;
         return;
@@ -100,10 +100,12 @@ export default function LightBox({
 
       const absX = Math.abs(dx);
       const absY = Math.abs(dy);
+
       const isHorizontal = absX > absY;
+      const smallVertical = absY < 40;
       const farEnough = absX > 50 || (absX > 30 && dt < 200);
 
-      if (isHorizontal && farEnough) {
+      if (isHorizontal && smallVertical && farEnough) {
         dx < 0 ? onNext() : onPrev();
       }
       touchStart.current = null;
@@ -151,7 +153,7 @@ export default function LightBox({
       )}
 
       <div
-        className="relative w-[92vw] h-[80vh] max-w-6xl bg-black/20 rounded-md overflow-hidden"
+        className="relative w-[92vw] h-[80vh] max-w-6xl bg-black/20 rounded-md overflow-hidden touch-none"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
@@ -168,7 +170,7 @@ export default function LightBox({
           doubleClick={{ mode: "zoomIn" }}
           wheel={{ step: 0.15 }}
           pinch={{ step: 5 }}
-          panning={{ velocityDisabled: true }}
+          panning={{ disabled: true }}
           limitToBounds
           centerOnInit
           onPinchingStart={() => setIsPinching(true)}
@@ -182,7 +184,7 @@ export default function LightBox({
               key={safeIndex}
               src={`${current.url}/public`}
               alt={`Photo ${safeIndex + 1}`}
-              className={`w-full h-full object-contain select-none transition-opacity duration-200 ${
+              className={`w-full h-full object-contain select-none pointer-events-none transition-opacity duration-200 ${
                 imgLoaded ? "opacity-100" : "opacity-0"
               }`}
               draggable={false}
