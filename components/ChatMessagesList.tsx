@@ -5,7 +5,7 @@ import {
   markMessagesAsRead,
   saveMessage,
 } from "@/app/[locale]/(headers)/chats/actions";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { formatToTimeAgo } from "@/lib/utils";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
@@ -20,6 +20,7 @@ interface ChatMessageListProps {
   userName: string;
   avatar: string;
 }
+
 export default function ChatMessagesList({
   initialMessages,
   userId,
@@ -35,32 +36,27 @@ export default function ChatMessagesList({
   const t = useTranslations("chatMessages");
 
   const scrollToBottom = () => {
-    if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = event;
-    setMessage(value);
+    setMessage(event.target.value);
   };
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!message.trim()) return;
+
+    const tempId = Date.now();
+
     setMessages((prevMsgs) => [
       ...prevMsgs,
       {
-        id: Date.now(),
+        id: tempId,
         content: message,
         created_at: new Date(),
         read: false,
-        sender: {
-          userName,
-          id: userId,
-          avatar,
-        },
+        sender: { userName, id: userId, avatar },
       },
     ]);
 
@@ -68,17 +64,14 @@ export default function ChatMessagesList({
       type: "broadcast",
       event: "message",
       payload: {
-        id: Date.now(),
+        id: tempId,
         content: message,
         created_at: new Date(),
         read: false,
-        sender: {
-          userName,
-          avatar,
-          id: userId,
-        },
+        sender: { userName, avatar, id: userId },
       },
     });
+
     await saveMessage(message, chatRoomId);
     setMessage("");
   };
@@ -110,8 +103,8 @@ export default function ChatMessagesList({
   }, [messages]);
 
   return (
-    <div className="flex flex-col">
-      <div className="p-5 flex flex-col gap-3 min-h-screen justify-end pb-23">
+    <div className="flex h-full flex-col overflow-hidden bg-neutral-900">
+      <div className="flex-1 overflow-y-auto hide-scrollbar min-h-0 px-5">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -121,17 +114,19 @@ export default function ChatMessagesList({
           >
             {message.sender.id === userId ? null : (
               <Link href={`/users/${message.sender.id}`}>
-                <Image
-                  src={message.sender.avatar ?? "/default-user.png"}
-                  alt={message.sender.userName}
-                  width={50}
-                  height={50}
-                  className="size-8 rounded-full"
-                />
+                <div className="relative size-8 rounded-full overflow-hidden">
+                  <Image
+                    src={message.sender.avatar ?? "/default-user.png"}
+                    alt={message.sender.userName}
+                    fill
+                    className="object-cover"
+                    sizes="32px"
+                  />
+                </div>
               </Link>
             )}
             <div
-              className={`flex flex-col gap-1${
+              className={`flex flex-col gap-1 mb-2 ${
                 message.sender.id === userId ? "items-end" : ""
               }`}
             >
@@ -161,7 +156,13 @@ export default function ChatMessagesList({
         ))}
         <div ref={bottomRef} />
       </div>
-      <div className="flex items-center justify-center fixed bottom-0 right-0 w-full p-5 pb-9 bg-neutral-900">
+
+      <div
+        className="shrink-0 flex items-center justify-center w-full bg-neutral-900 p-5"
+        style={{
+          paddingBottom: "calc(1.25rem + env(safe-area-inset-bottom))",
+        }}
+      >
         <form className="flex relative max-w-lg w-full" onSubmit={onSubmit}>
           <input
             required
@@ -172,7 +173,10 @@ export default function ChatMessagesList({
             name="message"
             placeholder={t("placeholder")}
           />
-          <button className="absolute right-0 cursor-pointer">
+          <button
+            className="absolute right-0 cursor-pointer"
+            aria-label="Send message"
+          >
             <ArrowUpCircleIcon className="size-10 text-orange-500 transition-colors hover:text-orange-300" />
           </button>
         </form>
