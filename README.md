@@ -183,7 +183,7 @@ cp .env.example .env
 2. Once the project is ready, click the **Connect** button at the top of the page.
 3. In the popup, find the **Direct Connection** section.
 4. **Copy the provided connection URL**.
-5. Replace the `password` part of the URL with **your own database password** (set when creating the project).
+5. Replace the `[YOUR-PASSWORD]` part of the URL with **your own database password** (set when creating the project). _Without the square brackets or it may cause errors!_
 6. Paste the final URL into your `.env` file as:
    ```bash
    PRISMA_DATABASE_URL="your_direct_connection_url_with_password"
