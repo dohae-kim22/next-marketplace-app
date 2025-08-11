@@ -156,6 +156,7 @@ export default async function ProductDetail({
           </div>
         ) : null}
       </div>
+
       <div className="flex flex-col gap-3 flex-1">
         <div className="flex gap-1 *:text-xs *:text-neutral-400 lg:*:text-sm">
           <span className="flex-1">
@@ -188,9 +189,7 @@ export default async function ProductDetail({
             <div className="hidden lg:block">
               {isOwner ? (
                 <form action={toggleSoldStatus.bind(null, product.id)}>
-                  <button
-                    className={`bg-transparent px-2.5 py-2 rounded-md text-white font-semibold flex gap-1 justify-center items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 transition-colors`}
-                  >
+                  <button className="bg-transparent px-2.5 py-2 rounded-md text-white font-semibold flex gap-1 justify-center items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 transition-colors">
                     <CheckCircleIcon className="h-6" />
                     <span>
                       {product.status === "SOLD"
@@ -213,9 +212,11 @@ export default async function ProductDetail({
               )}
             </div>
           </div>
+
           <p className="text-sm mt-3 whitespace-pre-line lg:text-base">
             {product.description}
           </p>
+
           {product.location && (
             <div className="mt-5 flex flex-col gap-2 md:mt-7">
               <h2 className="text-sm text-neutral-400 font-semibold">
@@ -237,7 +238,20 @@ export default async function ProductDetail({
           )}
         </div>
 
-        <div className="fixed lg:hidden w-full bottom-0 p-5 left-0 bg-neutral-800 flex gap-2 items-center">
+        <div
+          className="lg:hidden"
+          style={{ height: "calc(64px + env(safe-area-inset-bottom))" }}
+        />
+
+        <div
+          className="fixed inset-x-0 bottom-0 z-50 w-full left-0 bg-neutral-800 flex gap-2 items-center lg:hidden"
+          style={{
+            paddingLeft: "1.25rem",
+            paddingRight: "1.25rem",
+            paddingTop: "1.25rem",
+            paddingBottom: "calc(1.25rem + env(safe-area-inset-bottom))",
+          }}
+        >
           <span
             className={`font-semibold text-xl flex-1 ${
               isOwner ? "hidden" : ""
@@ -263,9 +277,7 @@ export default async function ProductDetail({
                 action={toggleSoldStatus.bind(null, product.id)}
                 className="ml-auto"
               >
-                <button
-                  className={`bg-transparent p-2.5 rounded-md text-white font-semibold flex gap-1 justify-end items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 transition-colors`}
-                >
+                <button className="bg-transparent p-2.5 rounded-md text-white font-semibold flex gap-1 justify-end items-center cursor-pointer border-2 border-neutral-700 hover:bg-neutral-700 transition-colors">
                   <CheckCircleIcon className="h-6" />
                   <span>
                     {product.status === "SOLD"

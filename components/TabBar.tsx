@@ -23,7 +23,6 @@ export default function TabBar({ unreadCount = 0 }: { unreadCount?: number }) {
 
   return (
     <>
-      {/* 탭바 뒤로 컨텐츠가 숨지 않도록 여유 높이 확보 */}
       <div
         className="lg:hidden"
         style={{ height: "calc(56px + env(safe-area-inset-bottom))" }}
