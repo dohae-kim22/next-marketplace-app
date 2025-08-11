@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import {
   XMarkIcon,
@@ -27,6 +27,9 @@ export default function LightBox({
 }: Props) {
   const backdropRef = useRef<HTMLDivElement>(null);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [isPanning, setIsPanning] = useState(false);
+  const [isPinching, setIsPinching] = useState(false);
+  const touchStart = useRef<{ x: number; y: number; t: number } | null>(null);
 
   const safeIndex = useMemo(
     () =>
@@ -68,12 +71,47 @@ export default function LightBox({
     });
   }, [safeIndex, photos]);
 
+  const onTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length !== 1) return;
+    touchStart.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+      t: Date.now(),
+    };
+  };
+
+  const onTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (!touchStart.current) return;
+
+      if (isPanning || isPinching) {
+        touchStart.current = null;
+        return;
+      }
+
+      const dx = (e.changedTouches[0]?.clientX ?? 0) - touchStart.current.x;
+      const dy = (e.changedTouches[0]?.clientY ?? 0) - touchStart.current.y;
+      const dt = Date.now() - touchStart.current.t;
+
+      const absX = Math.abs(dx);
+      const absY = Math.abs(dy);
+      const isHorizontal = absX > absY;
+      const farEnough = absX > 50 || (absX > 30 && dt < 200);
+
+      if (isHorizontal && farEnough) {
+        dx < 0 ? onNext() : onPrev();
+      }
+      touchStart.current = null;
+    },
+    [isPanning, isPinching, onNext, onPrev]
+  );
+
   if (!isOpen || !current) return null;
 
   return (
     <div
       ref={backdropRef}
-      className="fixed inset-0 z-100 bg-black/90 backdrop-blur-sm flex items-center justify-center"
+      className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center"
       onClick={(e) => {
         if (e.target === backdropRef.current) onClose();
       }}
@@ -83,7 +121,7 @@ export default function LightBox({
       <button
         onClick={onClose}
         aria-label="Close"
-        className="absolute cursor-pointer top-5 right-5 p-2 rounded-full bg-neutral-800/70 hover:bg-neutral-700 transition"
+        className="absolute z-10 cursor-pointer top-5 right-5 p-2 rounded-full bg-neutral-800/70 hover:bg-neutral-700 transition"
       >
         <XMarkIcon className="size-4 md:size-6 text-white" />
       </button>
@@ -93,36 +131,44 @@ export default function LightBox({
           <button
             onClick={onPrev}
             aria-label="Previous"
-            className="hidden absolute lg:flex z-5 cursor-pointer left-15 top-1/2 -translate-y-1/2 p-2 rounded-full bg-neutral-800/70 hover:bg-neutral-700 transition"
+            className="hidden lg:flex absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 p-2 rounded-full bg-neutral-800/70 hover:bg-neutral-700 transition cursor-pointer z-10"
           >
-            <ChevronLeftIcon className="size-4 md:size-7 text-white" />
+            <ChevronLeftIcon className="size-4 lg:size-6 text-white" />
           </button>
           <button
             onClick={onNext}
             aria-label="Next"
-            className="hidden absolute lg:flex z-5 cursor-pointer right-15 top-1/2 -translate-y-1/2 p-2 rounded-full bg-neutral-800/70 hover:bg-neutral-700 transition"
+            className="hidden lg:flex absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 p-2 rounded-full bg-neutral-800/70 hover:bg-neutral-700 transition cursor-pointer z-10"
           >
-            <ChevronRightIcon className="size-4 md:size-7 text-white" />
+            <ChevronRightIcon className="size-4 lg:size-6 text-white" />
           </button>
         </>
       )}
 
-      <div className="relative w-[92vw] h-[80vh] max-w-6xl bg-black/20 rounded-md overflow-hidden">
+      <div
+        className="relative w-[92vw] h-[80vh] max-w-6xl bg-black/20 rounded-md overflow-hidden"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
         {!imgLoaded && (
           <div className="absolute inset-0 grid place-items-center">
-            <div className="size-8 z-2 rounded-full border-4 border-white/40 border-t-orange-400 animate-spin" />
+            <div className="size-8 z-10 rounded-full border-4 border-white/40 border-t-orange-400 animate-spin" />
           </div>
         )}
 
         <TransformWrapper
           initialScale={1}
-          minScale={0.75}
+          minScale={1}
           doubleClick={{ mode: "zoomIn" }}
           wheel={{ step: 0.15 }}
           pinch={{ step: 5 }}
           panning={{ velocityDisabled: true }}
-          limitToBounds={true}
-          centerOnInit={true}
+          limitToBounds
+          centerOnInit
+          onPanningStart={() => setIsPanning(true)}
+          onPanningStop={() => setIsPanning(false)}
+          onPinchingStart={() => setIsPinching(true)}
+          onPinchingStop={() => setIsPinching(false)}
         >
           <TransformComponent
             wrapperStyle={{ width: "100%", height: "100%" }}
