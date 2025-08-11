@@ -66,13 +66,13 @@ export default async function UserProfile({ params }: UserProfileProps) {
     <div className="container-lg p-5 mb-30 flex flex-col gap-7 md:p-20 md:pt-0 md:mb-10 lg:p-50 lg:pt-10">
       <ScrollToTop />
       <div className="flex items-center gap-4">
-        <div className="size-16 rounded-full overflow-hidden bg-neutral-700">
+        <div className="relative size-18 shrink-0 rounded-full overflow-hidden bg-neutral-700">
           <Image
             src={user.avatar || "/default-avatar.png"}
             alt={user.userName}
-            width={70}
-            height={70}
-            className="w-full h-full object-cover aspect-square"
+            fill
+            sizes="72px"
+            className="object-cover"
           />
         </div>
         <div className="flex justify-between items-center w-full">
