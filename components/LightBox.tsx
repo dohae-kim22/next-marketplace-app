@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import {
+  TransformWrapper,
+  TransformComponent,
+  ReactZoomPanPinchRef,
+} from "react-zoom-pan-pinch";
 import {
   XMarkIcon,
   ChevronLeftIcon,
@@ -27,9 +31,9 @@ export default function LightBox({
 }: Props) {
   const backdropRef = useRef<HTMLDivElement>(null);
   const [imgLoaded, setImgLoaded] = useState(false);
-  const [isPanning, setIsPanning] = useState(false);
   const [isPinching, setIsPinching] = useState(false);
   const touchStart = useRef<{ x: number; y: number; t: number } | null>(null);
+  const transformRef = useRef<ReactZoomPanPinchRef | null>(null);
 
   const safeIndex = useMemo(
     () =>
@@ -58,6 +62,7 @@ export default function LightBox({
 
   useEffect(() => {
     setImgLoaded(false);
+    transformRef.current?.resetTransform();
   }, [safeIndex]);
 
   useEffect(() => {
@@ -84,7 +89,7 @@ export default function LightBox({
     (e: React.TouchEvent) => {
       if (!touchStart.current) return;
 
-      if (isPanning || isPinching) {
+      if (isPinching) {
         touchStart.current = null;
         return;
       }
@@ -103,7 +108,7 @@ export default function LightBox({
       }
       touchStart.current = null;
     },
-    [isPanning, isPinching, onNext, onPrev]
+    [isPinching, onNext, onPrev]
   );
 
   if (!isOpen || !current) return null;
@@ -157,6 +162,7 @@ export default function LightBox({
         )}
 
         <TransformWrapper
+          ref={transformRef}
           initialScale={1}
           minScale={1}
           doubleClick={{ mode: "zoomIn" }}
@@ -165,8 +171,6 @@ export default function LightBox({
           panning={{ velocityDisabled: true }}
           limitToBounds
           centerOnInit
-          onPanningStart={() => setIsPanning(true)}
-          onPanningStop={() => setIsPanning(false)}
           onPinchingStart={() => setIsPinching(true)}
           onPinchingStop={() => setIsPinching(false)}
         >
