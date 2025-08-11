@@ -45,13 +45,15 @@ export default function ProductCardInChat({
   return (
     <div className="border rounded-xl bg-neutral-900 p-4 flex items-center gap-4">
       <Link href={`/products/${product.id}`} className="shrink-0">
-        <Image
-          src={`${product.photo}/avatar`}
-          alt={product.title}
-          width={80}
-          height={80}
-          className="rounded-md object-cover"
-        />
+        <div className="relative size-20 aspect-square overflow-hidden rounded-md">
+          <Image
+            src={`${product.photo}/avatar`}
+            alt={product.title}
+            fill
+            sizes="80px"
+            className="object-cover"
+          />
+        </div>
       </Link>
       <div className="flex-1">
         <h3 className="text-white font-semibold">{product.title}</h3>
