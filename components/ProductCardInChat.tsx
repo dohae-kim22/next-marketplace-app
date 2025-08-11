@@ -74,7 +74,7 @@ export default function ProductCardInChat({
           <button
             onClick={handleClick}
             disabled={isPending}
-            className="text-xs mt-2 px-3 py-1 cursor-pointer rounded-full bg-orange-500 hover:bg-orange-400 text-white disabled:opacity-50 transition-colors"
+            className="text-xs mt-2 px-3 py-1 cursor-pointer rounded-full bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-50 transition-colors"
           >
             {isBuyer ? t("markPurchased") : t("markSold")}
           </button>

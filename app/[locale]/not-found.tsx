@@ -14,7 +14,7 @@ export default async function NotFound() {
       <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
         <Link
           href="/products"
-          className="inline-flex items-center gap-2 rounded-md bg-orange-500 px-4 py-2 font-semibold text-white hover:bg-orange-400 transition-colors"
+          className="inline-flex items-center gap-2 rounded-md bg-orange-500 px-4 py-2 font-semibold text-white hover:bg-orange-600 transition-colors"
         >
           <HomeIcon className="size-5" />
           {t("goHome")}
