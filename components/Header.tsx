@@ -16,14 +16,26 @@ import MobileNavigationBar from "./MobileNavigationBar";
 import NavigationBar from "./NavigationBar";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslations } from "next-intl";
+import { useEffect, useRef } from "react";
 
 export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   const pathname = usePathname();
   const t = useTranslations("header");
+  const ref = useRef<HTMLDivElement>(null);
 
-  
-
-
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const setVar = () =>
+      document.documentElement.style.setProperty(
+        "--header-h",
+        `${el.offsetHeight}px`
+      );
+    setVar();
+    const ro = new (window as any).ResizeObserver(setVar);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const hideSearchAddButton =
     pathname.startsWith("/profile") || pathname.startsWith("/chats");
@@ -54,7 +66,10 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   }
 
   return (
-    <div className="flex flex-col sticky top-0 z-50 bg-neutral-900 container-lg">
+    <div
+      ref={ref}
+      className="flex flex-col sticky top-0 z-50 bg-neutral-900 container-lg"
+    >
       <div className="flex justify-end py-4 gap-2 md:justify-between">
         <Link
           href={"/products"}

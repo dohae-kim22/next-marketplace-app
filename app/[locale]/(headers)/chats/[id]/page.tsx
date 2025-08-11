@@ -36,28 +36,33 @@ export default async function ChatRoom({
   }
 
   return (
-    <div className="flex flex-col mx-auto md:max-w-lg relative">
-      <div className="flex flex-col gap-2 p-4 pt-0 w-full sticky top-[76px] md:top-[76px] lg:top-[190px] z-10 bg-neutral-900">
-        <ChatroomHeader
-          opponent={opponent}
-          opponentId={opponentId}
-          chatRoomId={id}
-          showLeave={isParticipant}
-        />
-        {room.productId && room.product && (
-          <ProductCardInChat
-            product={room.product}
-            isBuyer={isBuyer}
-            isSeller={!isBuyer}
-            buyerCompleted={room.buyerCompleted}
-            sellerCompleted={room.sellerCompleted}
+    <div
+      className="mx-auto md:max-w-lg flex flex-col relative overflow-hidden"
+      style={{ height: "calc(100dvh - var(--header-h, 0px))" }}
+    >
+      <div className="sticky top-0 z-10 bg-neutral-900 p-4 pt-0">
+        <div className="flex flex-col gap-2 w-full">
+          <ChatroomHeader
+            opponent={opponent}
+            opponentId={opponentId}
             chatRoomId={id}
-            alreadyReviewed={alreadyReviewed}
+            showLeave={isParticipant}
           />
-        )}
+          {room.productId && room.product && (
+            <ProductCardInChat
+              product={room.product}
+              isBuyer={isBuyer}
+              isSeller={!isBuyer}
+              buyerCompleted={room.buyerCompleted}
+              sellerCompleted={room.sellerCompleted}
+              chatRoomId={id}
+              alreadyReviewed={alreadyReviewed}
+            />
+          )}
+        </div>
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 min-h-0">
         <ChatMessagesList
           chatRoomId={id}
           userId={session.id!}
