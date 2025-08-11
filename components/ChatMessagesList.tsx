@@ -72,8 +72,8 @@ export default function ChatMessagesList({
       },
     });
 
-    await saveMessage(message, chatRoomId);
     setMessage("");
+    await saveMessage(message, chatRoomId);
   };
 
   useEffect(() => {
