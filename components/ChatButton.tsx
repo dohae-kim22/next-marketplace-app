@@ -19,7 +19,7 @@ export function ChatButton({ userId }: { userId: number }) {
     <button
       onClick={handleChat}
       disabled={isPending}
-      className="flex h-9 items-center justify-center gap-1 bg-orange-500 hover:bg-orange-400 transition-colors text-white px-3 py-1 rounded-md text-sm font-medium disabled:opacity-50"
+      className="flex h-9 items-center justify-center gap-1 bg-orange-500 hover:bg-orange-600 transition-colors text-white px-3 py-1 rounded-md text-sm font-medium disabled:opacity-50 cursor-pointer"
     >
       <PaperAirplaneIcon className="size-5" />
       <span>{isPending ? t("starting") : t("chat")}</span>

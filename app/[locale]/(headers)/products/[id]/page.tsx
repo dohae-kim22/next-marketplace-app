@@ -203,7 +203,7 @@ export default async function ProductDetail({
                   <input type="hidden" name="productId" value={product.id} />
                   <button
                     disabled={product.status === "SOLD"}
-                    className="bg-orange-500 px-5 py-2 rounded-md text-white font-semibold hover:bg-orange-400 transition-colors flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600"
+                    className="bg-orange-500 px-5 py-2 rounded-md text-white font-semibold hover:bg-orange-600 transition-colors flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600 cursor-pointer"
                   >
                     <PaperAirplaneIcon className="h-5" />
                     <span>{t("askSeller")}</span>
@@ -292,7 +292,7 @@ export default async function ProductDetail({
               <input type="hidden" name="productId" value={product.id} />
               <button
                 disabled={product.status === "SOLD"}
-                className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-400 transition-colors flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600"
+                className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-600 transition-colors flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600"
               >
                 <PaperAirplaneIcon className="h-5" />
                 <span>Ask seller</span>
