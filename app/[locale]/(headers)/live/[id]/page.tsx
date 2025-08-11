@@ -10,7 +10,7 @@ import { getTranslations } from "next-intl/server";
 async function isLiveOnCloudflare(streamId: string) {
   try {
     const res = await fetch(
-      `https://${process.env.CLOUDFLARE_DOMAIN}/${streamId}/manifest/video.m3u8`,
+      `https://${process.env.NEXT_PUBLIC_CLOUDFLARE_DOMAIN}/${streamId}/manifest/video.m3u8`,
       {
         method: "HEAD",
         cache: "no-store",
@@ -64,7 +64,7 @@ export default async function LiveDetail({
       <div className="relative aspect-video rounded-lg overflow-hidden border border-neutral-700">
         {live ? (
           <iframe
-            src={`https://${process.env.CLOUDFLARE_DOMAIN}/${stream.streamId}/iframe`}
+            src={`https://${process.env.NEXT_PUBLIC_CLOUDFLARE_DOMAIN}/${stream.streamId}/iframe`}
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
             className="w-full h-full"
           />

@@ -42,7 +42,7 @@ export default function ListStream(props: ListStreamProps) {
         <PlayCircleIcon className="absolute size-8 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-orange-500 opacity-80" />
       </div>
 
-      <div className="flex flex-col justify-between flex-1 min-w-0 h-[72px] justify-between">
+      <div className="flex flex-col flex-1 min-w-0 h-[72px] justify-between">
         <h2 className="text-white text-base font-semibold truncate">
           {props.title}
         </h2>
