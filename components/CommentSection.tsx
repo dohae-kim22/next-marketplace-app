@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { createComment } from "@/app/[locale]/(headers)/posts/[id]/actions";
+import {
+  createComment,
+  deleteComment,
+} from "@/app/[locale]/(headers)/posts/[id]/actions";
 import { formatToTimeAgo } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -90,7 +93,7 @@ export default function CommentSection({
     setReplyTo(null);
   };
 
-  const handleDelete = (
+  const handleDelete = async (
     commentId: number,
     isReply = false,
     parentId?: number
@@ -113,6 +116,12 @@ export default function CommentSection({
         return comment;
       })
     );
+
+    try {
+      await deleteComment(commentId, postId);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -142,13 +151,15 @@ export default function CommentSection({
             <li key={comment.id}>
               <div className="flex gap-3 items-start">
                 <Link href={`/users/${comment.user.id}`}>
-                  <Image
-                    src={comment.user.avatar || "/default-avatar.png"}
-                    width={32}
-                    height={32}
-                    className="rounded-full object-cover"
-                    alt={comment.user.userName}
-                  />
+                  <div className="relative size-9 rounded-full overflow-hidden">
+                    <Image
+                      src={comment.user.avatar || "/default-avatar.png"}
+                      alt={comment.user.userName}
+                      fill
+                      className="object-cover"
+                      sizes="36px"
+                    />
+                  </div>
                 </Link>
                 <div className="flex-1">
                   <div className="flex justify-between items-center">
@@ -211,13 +222,15 @@ export default function CommentSection({
                       {comment.replies.map((reply) => (
                         <li key={reply.id} className="flex gap-2 items-start">
                           <Link href={`/users/${reply.user.id}`}>
-                            <Image
-                              src={reply.user.avatar || "/default-avatar.png"}
-                              width={28}
-                              height={28}
-                              className="rounded-full object-cover"
-                              alt={reply.user.userName}
-                            />
+                            <div className="relative size-8 rounded-full overflow-hidden">
+                              <Image
+                                src={reply.user.avatar || "/default-avatar.png"}
+                                alt={reply.user.userName}
+                                fill
+                                className="object-cover"
+                                sizes="32px"
+                              />
+                            </div>
                           </Link>
                           <div>
                             <div className="flex items-center gap-2">
