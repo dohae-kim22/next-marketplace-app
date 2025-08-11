@@ -158,14 +158,14 @@ export default function EditProfileForm({ user }: { user: any }) {
       </h1>
 
       <div className="flex flex-col items-center gap-2">
-        <div className="relative size-24 rounded-full overflow-hidden bg-neutral-700">
+        <div className="relative size-24 shrink-0 rounded-full overflow-hidden bg-neutral-700">
           {preview ? (
             <Image
               src={preview}
               alt="Avatar Preview"
-              width={96}
-              height={96}
-              className="w-full h-full object-cover"
+              fill
+              sizes="96px"
+              className="object-cover"
             />
           ) : (
             <UserIcon className="w-full h-full text-neutral-400 p-4" />
@@ -175,7 +175,7 @@ export default function EditProfileForm({ user }: { user: any }) {
             <button
               type="button"
               onClick={handleRemoveImage}
-              className="absolute top-[-6px] right-[-6px] bg-neutral-500 text-white rounded-full size-5 text-xs flex items-center justify-center shadow cursor-pointer"
+              className="absolute -top-1 -right-1 bg-neutral-500 text-white rounded-full size-5 text-xs flex items-center justify-center shadow cursor-pointer"
               aria-label="Remove avatar"
             >
               <XMarkIcon className="size-3" />

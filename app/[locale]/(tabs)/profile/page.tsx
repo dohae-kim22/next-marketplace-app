@@ -28,13 +28,15 @@ export default async function ProfilePage({
   return (
     <div className="container-lg p-5 mb-30 flex flex-col gap-7 md:p-20 md:pt-0 md:mb-10 lg:p-50 lg:pt-10">
       <div className="flex items-center gap-4">
-        <Image
-          src={user.avatar || "/default-avatar.png"}
-          width={70}
-          height={70}
-          className="rounded-full aspect-square object-cover"
-          alt={user.userName}
-        />
+        <div className="relative size-18 shrink-0 rounded-full overflow-hidden">
+          <Image
+            src={user.avatar || "/default-avatar.png"}
+            alt={user.userName}
+            fill
+            sizes="72px"
+            className="object-cover"
+          />
+        </div>
 
         <div>
           <h1 className="text-xl font-bold text-white">{user.userName}</h1>
