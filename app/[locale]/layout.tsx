@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Audiowide } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
+import { MapsProvider } from "@/providers/MapsProvider";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -52,9 +53,11 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${audioWide.variable} antialiased bg-neutral-900 text-white`}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <div className="min-h-[100svh] flex flex-col">
-            <main className="flex-1">{children}</main>
-          </div>
+          <MapsProvider>
+            <div className="min-h-[100svh] flex flex-col">
+              <main className="flex-1">{children}</main>
+            </div>
+          </MapsProvider>
         </NextIntlClientProvider>
       </body>
     </html>

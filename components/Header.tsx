@@ -54,7 +54,7 @@ export default function Header({ unreadCount = 0 }: { unreadCount?: number }) {
   let addHref: string | undefined;
   let searchHref: string | undefined;
 
-  if (pathname.startsWith("/products") || pathname.startsWith("category")) {
+  if (pathname.startsWith("/products") || pathname.startsWith("/category")) {
     addHref = "/products/add";
     searchHref = "/products/search";
   } else if (pathname.startsWith("/posts")) {
