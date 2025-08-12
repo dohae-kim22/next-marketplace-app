@@ -6,6 +6,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import DeleteStreamButton from "@/components/DeleteStreamButton";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 
 async function isLiveOnCloudflare(streamId: string) {
   try {
@@ -77,28 +78,33 @@ export default async function LiveDetail({
         )}
       </div>
 
-      <div className="flex items-center gap-3 border-b border-neutral-700 pb-4">
-        {stream.user.avatar ? (
-          <Image
-            src={stream.user.avatar}
-            alt={stream.user.userName}
-            width={40}
-            height={40}
-            className="rounded-full object-cover size-10"
-          />
-        ) : (
-          <div className="size-10 flex items-center justify-center bg-neutral-700 rounded-full">
-            <UserIcon className="size-6 text-white" />
-          </div>
-        )}
-        <span className="font-semibold text-base flex-1">
-          {stream.user.userName}
-        </span>
+      <div className="flex items-center border-b border-neutral-700 pb-4">
+        <Link
+          href={`/users/${stream.userId}`}
+          className="flex items-center gap-2 flex-1"
+        >
+          {stream.user.avatar ? (
+            <Image
+              src={stream.user.avatar}
+              alt={stream.user.userName}
+              width={40}
+              height={40}
+              className="rounded-full object-cover size-10"
+            />
+          ) : (
+            <div className="size-10 flex items-center justify-center bg-neutral-700 rounded-full">
+              <UserIcon className="size-6 text-white" />
+            </div>
+          )}
+          <span className="font-semibold text-base text-white">
+            {stream.user.userName}
+          </span>
+        </Link>
 
         {isOwner && <DeleteStreamButton streamId={numericId} />}
       </div>
 
-      <h1 className="text-2xl font-bold">{stream.title}</h1>
+      <h1 className="text-xl md:text-2xl font-bold">{stream.title}</h1>
       {stream.description ? <p>{stream.description}</p> : null}
 
       {isOwner && (
@@ -126,7 +132,9 @@ export default async function LiveDetail({
           </div>
 
           <div className="text-neutral-300">
-            <h3 className="font-semibold mb-2 text-base">{t("howToTitle")}</h3>
+            <h3 className="font-semibold mb-2 text-base text-orange-400/90">
+              {t("howToTitle")}
+            </h3>
             <ol className="list-decimal list-inside space-y-2 text-sm">
               {t.raw("howToSteps").map((step: string, idx: number) => (
                 <li key={idx} className="pl-4">
