@@ -1,6 +1,7 @@
 "use client";
 
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { useGoogleMaps } from "@/providers/MapsProvider";
+import { GoogleMap, Marker } from "@react-google-maps/api";
 
 const containerStyle = {
   width: "100%",
@@ -14,9 +15,7 @@ export default function LocationMap({
   lat: number;
   lng: number;
 }) {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-  });
+  const { isLoaded } = useGoogleMaps();
 
   if (!isLoaded) return <p>Loading map...</p>;
 

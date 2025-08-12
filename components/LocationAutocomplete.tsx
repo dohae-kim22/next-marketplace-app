@@ -1,6 +1,7 @@
 "use client";
 
-import { Autocomplete, useLoadScript } from "@react-google-maps/api";
+import { useGoogleMaps } from "@/providers/MapsProvider";
+import { Autocomplete } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
 
 interface LocationData {
@@ -25,10 +26,7 @@ export default function LocationAutocomplete({
   location?: string;
   locationError?: string;
 }) {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    libraries: ["places"],
-  });
+  const { isLoaded } = useGoogleMaps();
 
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);

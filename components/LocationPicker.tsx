@@ -1,8 +1,8 @@
+import { useGoogleMaps } from "@/providers/MapsProvider";
 import {
   GoogleMap,
   Marker,
   Autocomplete,
-  useLoadScript,
 } from "@react-google-maps/api";
 import { useTranslations } from "next-intl";
 import { useRef, useState, useEffect } from "react";
@@ -37,10 +37,7 @@ export default function LocationPicker({
   onChange,
   defaultValue,
 }: LocationPickerProps) {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    libraries: ["places"],
-  });
+  const { isLoaded } = useGoogleMaps();
 
   const [position, setPosition] = useState<LocationData | null>(null);
   const [center, setCenter] = useState(defaultCenter);
