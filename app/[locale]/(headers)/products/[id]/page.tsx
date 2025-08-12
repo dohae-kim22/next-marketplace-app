@@ -176,13 +176,13 @@ export default async function ProductDetail({
         </div>
 
         <div className="flex flex-col gap-2 mb-25">
-          <h1 className="text-3xl font-semibold">{product.title}</h1>
-          <div className={`flex flex-col gap-3 ${isOwner ? "my-3" : "my-1"}`}>
-            <span
-              className={`font-semibold text-2xl flex-1 ${
-                !isOwner ? "hidden lg:block" : ""
-              }`}
-            >
+          <h1 className="text-xl font-bold lg:text-3xl lg:font-semibold">
+            {product.title}
+          </h1>
+          <div
+            className={`flex flex-col gap-3 ${isOwner ? "" : "hidden lg:flex"}`}
+          >
+            <span className={`font-semibold text-2xl flex-1`}>
               €{formatToEuro(product.price)}
             </span>
 
@@ -213,13 +213,18 @@ export default async function ProductDetail({
             </div>
           </div>
 
-          <p className="text-sm mt-3 whitespace-pre-line lg:text-base">
-            {product.description}
-          </p>
+          <div className="flex flex-col gap-2 mt-4 md:mt-6">
+            <h2 className="text-sm text-orange-400/90 font-semibold">
+              {t("description")}
+            </h2>
+            <p className="text-sm whitespace-pre-line lg:text-base">
+              {product.description}
+            </p>
+          </div>
 
           {product.location && (
-            <div className="mt-5 flex flex-col gap-2 md:mt-7">
-              <h2 className="text-sm text-neutral-400 font-semibold">
+            <div className="mt-4 flex flex-col gap-2 md:mt-6">
+              <h2 className="text-sm text-orange-400/90 font-semibold">
                 {t("meetupLocation")}
               </h2>
               <div className="flex items-center justify-between">
@@ -295,7 +300,7 @@ export default async function ProductDetail({
                 className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-orange-600 transition-colors flex gap-1 justify-center items-center disabled:bg-neutral-600 disabled:cursor-not-allowed disabled:hover:bg-neutral-600"
               >
                 <PaperAirplaneIcon className="h-5" />
-                <span>Ask seller</span>
+                <span>{t("askSeller")}</span>
               </button>
             </form>
           )}
