@@ -53,7 +53,7 @@ export default function ListProductDesktop({
       href={`/products/${id}`}
       className="flex flex-col bg-neutral-800 rounded-xl overflow-hidden border border-neutral-700 hover:scale-105 transition-transform"
     >
-      <div className="relative w-full aspect-square bg-neutral-700">
+      <div className="relative w-full aspect-square bg-neutral-50">
         <Image
           fill
           src={`${photo}/public`}
@@ -69,7 +69,7 @@ export default function ListProductDesktop({
         )}
       </div>
       <div className="flex flex-col gap-1 p-3 text-white">
-        <span className="text-lg font-semibold line-clamp-1">{title}</span>
+        <span className="text-base font-semibold line-clamp-1">{title}</span>
         <span className="text-xs text-neutral-400">
           {formatShortAddress({
             city: city ?? "",

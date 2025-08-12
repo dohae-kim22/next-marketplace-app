@@ -54,7 +54,7 @@ export default function ListProduct({
       href={`/products/${id}`}
       className="flex gap-5 border-b-1 border-neutral-700 pb-3 last:border-0"
     >
-      <div className="relative size-28 overflow-hidden bg-neutral-700 shrink-0 rounded-sm">
+      <div className="relative size-28 overflow-hidden bg-neutral-50 shrink-0 rounded-sm">
         <Image
           fill
           src={`${photo}/avatar`}

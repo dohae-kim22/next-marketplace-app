@@ -49,7 +49,7 @@ export default function ProductImageSlider({
     <div className="relative md:size-[500px] mx-auto">
       <div
         ref={sliderRef}
-        className="keen-slider aspect-square overflow-hidden rounded-md"
+        className="keen-slider aspect-square overflow-hidden rounded-md bg-neutral-50"
       >
         {photos.map((photo, i) => (
           <button
