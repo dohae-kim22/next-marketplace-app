@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { formatShortAddress } from "@/lib/utils";
 
 interface LocationBannerProps {
   location?: string;
@@ -18,7 +19,9 @@ export default function LocationBanner({
   return (
     <div className="flex justify-between items-center bg-neutral-800 text-sm text-white px-4 py-2 rounded-md my-3 lg:mt-10">
       <span>
-        {hasLocation ? `📍 ${location} • ${radius}km` : t("showingAll")}
+        {hasLocation
+          ? `📍 ${formatShortAddress({ location })} • ${radius}km`
+          : t("showingAll")}
       </span>
 
       <Link

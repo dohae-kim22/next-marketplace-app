@@ -78,7 +78,8 @@
     "label": "Choose a meeting spot on the map",
     "searchPlaceholder": "Search address...",
     "onlyFrance": "Only locations in France are allowed.",
-    "loading": "Loading map..."
+    "pleaseSelectLocation": "Please select a location from the list.",
+    "loading": "Loading..."
   },
   "editForm": {
     "title": "Edit Your Listing",

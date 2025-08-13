@@ -78,7 +78,8 @@
     "label": "Choisissez un lieu de rencontre sur la carte",
     "searchPlaceholder": "Rechercher une adresse...",
     "onlyFrance": "Seules les adresses en France sont autorisées.",
-    "loading": "Chargement de la carte..."
+    "pleaseSelectLocation": "Veuillez sélectionner un lieu dans la liste.",
+    "loading": "Chargement..."
   },
   "editForm": {
     "title": "Modifier votre annonce",
