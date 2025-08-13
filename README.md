@@ -45,6 +45,8 @@ The goal is to make **local commerce safer, more personal, and more community-or
 
   ![Location Filtering Demo](./screenshots/location-filter.gif)
   <br>
+  <br>
+
 
 - **Item likes** – Save favorite items to your personal list
 - **Safe transactions** – A deal is only marked as complete when **both buyer and seller confirm**
@@ -52,11 +54,15 @@ The goal is to make **local commerce safer, more personal, and more community-or
 
   ![Transaction Demo](./screenshots/transaction.gif)
   <br>
+  <br>
+
 
 - **Responsive design** – Works seamlessly on mobile and desktop
 
   ![Safe Transactions](./screenshots/responsive-design.png)  
   <br>
+  <br>
+
 
 ### - Real-time Communication
 
