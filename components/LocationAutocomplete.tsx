@@ -2,6 +2,7 @@
 
 import { useGoogleMaps } from "@/providers/MapsProvider";
 import { Autocomplete } from "@react-google-maps/api";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 interface LocationData {
@@ -27,9 +28,11 @@ export default function LocationAutocomplete({
   locationError?: string;
 }) {
   const { isLoaded } = useGoogleMaps();
+  const t = useTranslations("locationPicker");
 
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const isConfirmedRef = useRef(false);
   const [error, setError] = useState(locationError);
 
   useEffect(() => {
@@ -57,7 +60,6 @@ export default function LocationAutocomplete({
     });
 
     if (streetNumber || route) street = `${streetNumber} ${route}`.trim();
-
     return { street, city, state, postalCode, countryCode };
   };
 
@@ -75,20 +77,18 @@ export default function LocationAutocomplete({
       const postalComponent = res.results[0].address_components.find((c) =>
         c.types.includes("postal_code")
       );
-      return {
-        ...parsed,
-        postalCode: postalComponent?.long_name || "",
-      };
+      return { ...parsed, postalCode: postalComponent?.long_name || "" };
     }
-
     return parsed;
   };
 
   const onPlaceChanged = async () => {
     if (!autocompleteRef.current) return;
+
     const place = autocompleteRef.current.getPlace();
     if (!place.geometry || !place.geometry.location) {
-      setError("Please select a location from the list.");
+      setError(t("pleaseSelectLocation"));
+      isConfirmedRef.current = false;
       return;
     }
 
@@ -100,9 +100,10 @@ export default function LocationAutocomplete({
       parseAddressComponents(place.address_components || []);
 
     if (countryCode !== "FR") {
-      setError("Only locations in France are allowed.");
+      setError(t("onlyFrance"));
       onSelect({ lat: NaN, lng: NaN });
       if (inputRef.current) inputRef.current.value = "";
+      isConfirmedRef.current = false;
       return;
     }
 
@@ -121,39 +122,43 @@ export default function LocationAutocomplete({
 
     setError("");
     onSelect(parsed);
+    isConfirmedRef.current = true;
   };
 
-  const handleBlur = async () => {
+  const handleBlur = () => {
     const value = inputRef.current?.value;
     if (!value) {
       onSelect({ lat: 0, lng: 0 });
+      isConfirmedRef.current = false;
       return;
     }
-    if (!autocompleteRef.current?.getPlace()?.geometry) {
-      setError("Please select a location from the list.");
-    }
+
+    setTimeout(() => {
+      if (!isConfirmedRef.current) {
+        setError(t("pleaseSelectLocation"));
+      }
+    }, 150);
   };
 
-  if (!isLoaded) return <p>Loading...</p>;
+  if (!isLoaded) return <p>{t("loading")}</p>;
 
   return (
     <div className="flex flex-col gap-1 w-full">
       <Autocomplete
         onLoad={(ref) => (autocompleteRef.current = ref)}
         onPlaceChanged={onPlaceChanged}
-        options={{
-          componentRestrictions: { country: "fr" },
-        }}
+        options={{ componentRestrictions: { country: "fr" } }}
       >
         <input
           type="text"
           ref={inputRef}
           placeholder="Enter a location (e.g. Paris)"
-          className="w-full border bg-transparent border-none rounded-md focus:outline-none transition h-10 ring-1 ring-neutral-200 focus:ring-orange-500 placeholder:text-neutral-400"
+          className="w-full bg-transparent border-none rounded-md focus:outline-none transition h-10 ring-1 ring-neutral-200 focus:ring-orange-500 placeholder:text-neutral-400"
           defaultValue={location}
           onBlur={handleBlur}
           onChange={() => {
             if (error) setError("");
+            isConfirmedRef.current = false;
             onChange?.();
           }}
         />
