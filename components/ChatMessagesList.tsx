@@ -5,7 +5,7 @@ import {
   markMessagesAsRead,
   saveMessage,
 } from "@/app/[locale]/(headers)/chats/actions";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { formatToTimeAgo } from "@/lib/utils";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
@@ -34,6 +34,7 @@ export default function ChatMessagesList({
   const bottomRef = useRef<HTMLDivElement>(null);
   const locale = useLocale();
   const t = useTranslations("chatMessages");
+  const router = useRouter();
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -110,12 +111,16 @@ export default function ChatMessagesList({
         }
       })
 
+      .on("broadcast", { event: "trade" }, () => {
+        setTimeout(() => router.refresh(), 150);
+      })
+
       .subscribe();
 
     return () => {
       channel.current?.unsubscribe();
     };
-  }, [chatRoomId, userId]);
+  }, [chatRoomId, userId, router]);
 
   useEffect(() => {
     (async () => {
@@ -157,7 +162,7 @@ export default function ChatMessagesList({
             )}
             <div
               className={`flex flex-col gap-1 mb-2 ${
-                message.sender.id === userId ? "items-end" : ""
+                message.sender.id === userId ? "items-end" : "items-start"
               }`}
             >
               <span

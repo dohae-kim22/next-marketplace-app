@@ -178,7 +178,13 @@
     "writeReview": "Avis",
     "markPurchased": "Confirmer achat",
     "markSold": "Confirmer vente",
-    "waitingOther": "En attente de confirmation…"
+    "waitingOther": "En attente de confirmation…",
+    "modal": {
+      "title": "Confirmer",
+      "message": "Voulez-vous vraiment confirmer?",
+      "confirm": "Oui",
+      "cancel": "Annuler"
+    }
   },
   "chatMessages": {
     "placeholder": "Écrivez un message..."

@@ -1,11 +1,13 @@
 "use client";
 
 import { completeTradeAction } from "@/app/[locale]/(headers)/chats/actions";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { PencilIcon } from "@heroicons/react/24/outline";
+import ConfirmModal from "@/components/ConfirmModal";
+import { createClient } from "@supabase/supabase-js";
 
 interface ProductCardInChatProps {
   product: {
@@ -33,6 +35,8 @@ export default function ProductCardInChat({
   alreadyReviewed,
 }: ProductCardInChatProps) {
   const [isPending, startTransition] = useTransition();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   const t = useTranslations("productCardInChat");
 
   const showButton =
@@ -40,7 +44,27 @@ export default function ProductCardInChat({
   const tradeComplete = buyerCompleted && sellerCompleted;
 
   const handleClick = () => {
-    startTransition(() => completeTradeAction(chatRoomId));
+    setConfirmOpen(true);
+  };
+
+  const confirmTrade = async () => {
+    startTransition(() => {
+      completeTradeAction(chatRoomId).then(async () => {
+        const client = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_API_KEY!
+        );
+        const ch = client.channel(`room-${chatRoomId}`);
+        ch.subscribe();
+        ch.send({
+          type: "broadcast",
+          event: "trade",
+          payload: { roomId: chatRoomId },
+        });
+        ch.unsubscribe();
+      });
+    });
+    setConfirmOpen(false);
   };
 
   return (
@@ -86,6 +110,16 @@ export default function ProductCardInChat({
           <p className="text-neutral-400 text-xs mt-1">{t("waitingOther")}</p>
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={confirmOpen}
+        title={t("modal.title")}
+        message={t("modal.message")}
+        confirmText={t("modal.confirm")}
+        cancelText={t("modal.cancel")}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={confirmTrade}
+      />
     </div>
   );
 }

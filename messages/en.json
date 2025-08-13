@@ -179,7 +179,13 @@
     "writeReview": "Review",
     "markPurchased": "Confirm Buy",
     "markSold": "Confirm Sale",
-    "waitingOther": "Waiting for the other to confirm..."
+    "waitingOther": "Waiting for the other to confirm...",
+    "modal": {
+      "title": "Confirm",
+      "message": "Are you sure you want to confirm?",
+      "confirm": "Yes",
+      "cancel": "Cancel"
+    }
   },
   "chatMessages": {
     "placeholder": "Write a message..."
