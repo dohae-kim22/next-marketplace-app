@@ -14,7 +14,7 @@
 - [Features](#-features)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
-- [Installation & Setup](#-installation--setup)
+- [Installation & Setup](#installation--setup)
 - [Technical Decisions & Highlights](#-technical-decisions--highlights)
 - [Future Improvements](#-future-improvements)
 
@@ -136,7 +136,7 @@ The goal is to make **local commerce safer, more personal, and more community-or
 
 ---
 
-## ⚙️ Installation & Setup
+## Installation & Setup
 
 Follow these steps to run the project locally.
 
