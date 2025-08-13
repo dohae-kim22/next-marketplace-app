@@ -42,25 +42,14 @@ The goal is to make **local commerce safer, more personal, and more community-or
 ### - Marketplace
 
 - **Location-based filtering (France only)** – Browse items within a custom radius from your selected French address
-  ![](./screenshots/transparent.png)  
-   ![Location Filtering Demo](./screenshots/location-filter.gif)
-  ![](./screenshots/transparent.png)
-  ![](./screenshots/transparent.png)
+  ![Location Filtering Demo](./screenshots/location-filter.gif)
 - **Item likes** – Save favorite items to your personal list
-  ![](./screenshots/transparent.png)  
-   ![Favorites](./screenshots/favorites.png)
-  ![](./screenshots/transparent.png)
-  ![](./screenshots/transparent.png)
+  ![Favorites](./screenshots/favorites.png)
 - **Safe transactions** – A deal is only marked as complete when **both buyer and seller confirm**
 - **Post-trade reviews** – Both parties can leave feedback after confirming the deal
-  ![](./screenshots/transparent.png)  
-   ![Safe Transactions](./screenshots/safe-transaction.png)
-  ![](./screenshots/transparent.png)
-  ![](./screenshots/transparent.png)
+  ![Safe Transactions](./screenshots/safe-transaction.png)
 - **Responsive design** – Works seamlessly on mobile and desktop
-  ![](./screenshots/transparent.png)  
-   ![Safe Transactions](./screenshots/responsive-design.png)
-  ![](./screenshots/transparent.png)
+  ![Safe Transactions](./screenshots/responsive-design.png)
 
 ### - Real-time Communication
 
@@ -241,10 +230,7 @@ Open this link in your browser to view the app
 ## 🚀 Future Improvements
 
 - **User-Generated Content Translation (powered by OpenAI API)** – Automatically translate user posts, product uploads, and chat messages into the viewer’s preferred language.
-  ![](./screenshots/transparent.png)
 - **Gamified Badge System** – Introduce badges and missions to encourage engagement and reward trustworthy behavior.  
   Examples: Complete 5 transactions with a 5-star rating to earn a "Top Seller" badge or post 10 verified listings to unlock a "Neighborhood Pro" badge.
-  ![](./screenshots/transparent.png)
 - **Expanded Location Filtering** – Support multiple countries and dynamic radius selection.
-  ![](./screenshots/transparent.png)
 - **Keyword-Based Alerts** – Allow users to define keywords for items they are interested in. Notify them when a new listing matches their keywords.
