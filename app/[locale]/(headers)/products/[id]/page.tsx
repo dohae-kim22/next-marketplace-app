@@ -249,7 +249,7 @@ export default async function ProductDetail({
         />
 
         <div
-          className="fixed inset-x-0 bottom-0 z-50 w-full left-0 bg-neutral-800 flex gap-2 items-center lg:hidden"
+          className="fixed inset-x-0 bottom-0 z-40 w-full left-0 bg-neutral-800 flex gap-2 items-center lg:hidden"
           style={{
             paddingLeft: "1.25rem",
             paddingRight: "1.25rem",

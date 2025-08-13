@@ -5,6 +5,7 @@ import { useTransition } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { PencilIcon } from "@heroicons/react/24/outline";
 
 interface ProductCardInChatProps {
   product: {
@@ -56,7 +57,9 @@ export default function ProductCardInChat({
         </div>
       </Link>
       <div className="flex-1">
-        <h3 className="text-white font-semibold">{product.title}</h3>
+        <h3 className="text-white font-semibold line-clamp-1">
+          {product.title}
+        </h3>
         <p className="text-orange-400 font-bold text-sm">€ {product.price}</p>
         {tradeComplete ? (
           <div className="flex gap-2 justify-between items-center">
@@ -64,9 +67,10 @@ export default function ProductCardInChat({
             {!alreadyReviewed && (
               <Link
                 href={`/reviews/add?productId=${product.id}&chatRoomId=${chatRoomId}`}
-                className="block text-xs px-5 py-1 rounded-full bg-blue-500 text-white text-center hover:bg-blue-400 transition-colors"
+                className="flex gap-1 text-xs px-5 py-1 rounded-full bg-blue-500 text-white text-center hover:bg-blue-400 transition-colors"
               >
-                {t("writeReview")}
+                <PencilIcon className="size-4" />
+                <span>{t("writeReview")}</span>
               </Link>
             )}
           </div>

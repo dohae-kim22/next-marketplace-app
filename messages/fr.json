@@ -174,11 +174,11 @@
     "confirm": "Voulez-vous quitter cette conversation ? Elle n'apparaîtra plus dans votre liste."
   },
   "productCardInChat": {
-    "tradeCompleted": "✅ Échange terminé",
-    "writeReview": "Écrire un avis",
-    "markPurchased": "Marquer comme acheté",
-    "markSold": "Marquer comme vendu",
-    "waitingOther": "En attente de la confirmation de l'autre personne…"
+    "tradeCompleted": "✅ Terminé",
+    "writeReview": "Avis",
+    "markPurchased": "Confirmer achat",
+    "markSold": "Confirmer vente",
+    "waitingOther": "En attente de confirmation…"
   },
   "chatMessages": {
     "placeholder": "Écrivez un message..."

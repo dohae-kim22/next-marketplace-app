@@ -175,10 +175,10 @@
     "leaving": "Leaving..."
   },
   "productCardInChat": {
-    "tradeCompleted": "✅ Trade completed",
-    "writeReview": "Write a Review",
-    "markPurchased": "Mark as Purchased",
-    "markSold": "Mark as Sold",
+    "tradeCompleted": "✅ Completed",
+    "writeReview": "Review",
+    "markPurchased": "Confirm Buy",
+    "markSold": "Confirm Sale",
     "waitingOther": "Waiting for the other to confirm..."
   },
   "chatMessages": {

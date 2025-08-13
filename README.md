@@ -48,13 +48,7 @@ The goal is to make **local commerce safer, more personal, and more community-or
  <br>
 
   
-- **Item likes** – Save favorite items to your personal list
-
-  
-  ![Favorites](./screenshots/favorites.png)
- <br>
-
-  
+- **Item likes** – Save favorite items to your personal list 
 - **Safe transactions** – A deal is only marked as complete when **both buyer and seller confirm**
 - **Post-trade reviews** – Both parties can leave feedback after confirming the deal
 

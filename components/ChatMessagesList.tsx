@@ -83,20 +83,50 @@ export default function ChatMessagesList({
     );
 
     channel.current = client.channel(`room-${chatRoomId}`);
+
     channel.current
       .on("broadcast", { event: "message" }, (payload) => {
-        setMessages((prevMsgs) => [...prevMsgs, payload.payload]);
+        const newMsg = payload.payload;
+
+        setMessages((prev) => [...prev, newMsg]);
+
+        if (newMsg?.sender?.id !== userId) {
+          markMessagesAsRead(chatRoomId).finally(() => {
+            channel.current?.send({
+              type: "broadcast",
+              event: "read",
+              payload: { readerId: userId },
+            });
+          });
+        }
       })
+
+      .on("broadcast", { event: "read" }, (payload) => {
+        const { readerId } = payload.payload ?? {};
+        if (readerId && readerId !== userId) {
+          setMessages((prev) =>
+            prev.map((m) => (m.sender.id === userId ? { ...m, read: true } : m))
+          );
+        }
+      })
+
       .subscribe();
 
     return () => {
       channel.current?.unsubscribe();
     };
-  }, [chatRoomId]);
+  }, [chatRoomId, userId]);
 
   useEffect(() => {
-    markMessagesAsRead(chatRoomId);
-  }, [chatRoomId]);
+    (async () => {
+      await markMessagesAsRead(chatRoomId);
+      channel.current?.send({
+        type: "broadcast",
+        event: "read",
+        payload: { readerId: userId },
+      });
+    })();
+  }, [chatRoomId, userId]);
 
   useEffect(() => {
     scrollToBottom();
@@ -133,7 +163,7 @@ export default function ChatMessagesList({
               <span
                 className={`relative ${
                   message.sender.id === userId
-                    ? "bg-neutral-500"
+                    ? "bg-neutral-500 ml-15"
                     : "bg-orange-500"
                 } p-2.5 rounded-md`}
               >
