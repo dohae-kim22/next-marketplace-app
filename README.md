@@ -1,8 +1,6 @@
-# Next Marketplace
+## ![Main Banner](./screenshots/banner.png)
 
-## ![Main Preview](./screenshots/main-preview.png)
-
-> A **location-based community marketplace** where users can buy & sell locally, chat in real-time, stream live events, and contribute to a safer, more connected neighborhood economy.
+> **Location-based community marketplace** where users can buy & sell locally, chat in real-time, stream live events, and contribute to a safer, more connected neighborhood economy.
 
 ## Live Demo
 
@@ -16,7 +14,7 @@
 - [Features](#-features)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
-- [Installation & Setup](#-installation--setup)
+- [Installation & Setup](#installation--setup)
 - [Technical Decisions & Highlights](#-technical-decisions--highlights)
 - [Future Improvements](#-future-improvements)
 
@@ -44,10 +42,27 @@ The goal is to make **local commerce safer, more personal, and more community-or
 ### - Marketplace
 
 - **Location-based filtering (France only)** – Browse items within a custom radius from your selected French address
-- **Item likes** – Save favorite items to your personal list
+
+  
+  ![Location Filtering Demo](./screenshots/location-filter.gif)
+ <br>
+
+  
+- **Item likes** – Save favorite items to your personal list 
 - **Safe transactions** – A deal is only marked as complete when **both buyer and seller confirm**
 - **Post-trade reviews** – Both parties can leave feedback after confirming the deal
+
+  
+  ![Safe Transactions](./screenshots/safe-transaction.png)
+ <br>
+
+  
 - **Responsive design** – Works seamlessly on mobile and desktop
+
+  
+  ![Safe Transactions](./screenshots/responsive-design.png)  
+ <br>
+ 
 
 ### - Real-time Communication
 
@@ -69,6 +84,7 @@ The goal is to make **local commerce safer, more personal, and more community-or
 ### - Authentication
 
 - **Google & GitHub OAuth** – Simple, secure sign-up & login process
+ <br>
 
 ---
 
@@ -114,7 +130,7 @@ The goal is to make **local commerce safer, more personal, and more community-or
 
 ---
 
-## ⚙ Installation & Setup
+## Installation & Setup
 
 Follow these steps to run the project locally.
 
@@ -165,14 +181,14 @@ cp .env.example .env
 
 #### 📍 Environment Variables Guide
 
-| Variable(s)                                                                                                                                                | Required?  | Purpose / Usage                                                                            | How to Obtain                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PRISMA_DATABASE_URL` / `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_PUBLIC_API_KEY`                                                                 | ✅ Yes     | **Database connection** & **Realtime chat**                                                | 1. Sign up at [Supabase](https://supabase.com/) and create a **Free Plan** project.<br>2. Once the project is ready, click **Connect** at the top.<br>3. In **Direct Connection**, copy the connection string and replace `password` with your actual DB password → `PRISMA_DATABASE_URL`.<br>4. Go to **Project Settings → Data API**.<br>5. Copy **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`.<br>6. Go to **API Keys**, copy the **anon public** key → `NEXT_PUBLIC_SUPABASE_PUBLIC_API_KEY`.                                                                                                                                                                    |
-| `COOKIE_PASSWORD`                                                                                                                                          | ✅ Yes     | **Encrypts session cookies** for secure authentication.                                    | Generate a secure random string (32+ characters) via [GeneratePassword.org](https://generatepassword.org).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`                                                                                                                | ⚠ Optional | Enables **GitHub OAuth login**.                                                            | Go to [GitHub Developer Settings](https://github.com/settings/developers) → **OAuth Apps** → **Register a new application**.<br>**Homepage URL:** `http://localhost:3000/login`<br>**Authorization callback URL:** `http://localhost:3000/api/github/complete`<br>Copy the **Client ID** → `GITHUB_CLIENT_ID`.<br>Click **Generate new client secret**, copy it → `GITHUB_CLIENT_SECRET`.                                                                                                                                                                                                                                                                           |
-| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` / `GOOGLE_REDIRECT_URI`                                                                                        | ⚠ Optional | Enables **Google OAuth login**.                                                            | Go to [Google Cloud Console](https://console.cloud.google.com/).<br>1. Create a new project if needed.<br>2. **APIs & Services → OAuth consent screen** → Configure (External).<br>3. **APIs & Services → Credentials** → **Create Credentials → OAuth Client ID**.<br>4. **Application type:** Web application<br>5. **Authorized JavaScript origins:** `http://localhost:3000`<br>6. **Authorized redirect URIs:** `http://localhost:3000/api/google/complete`<br>7. Copy **Client ID** → `GOOGLE_CLIENT_ID`. <br>8. Copy **Client Secret** → `GOOGLE_CLIENT_SECRET`.<br>9. Set `GOOGLE_REDIRECT_URI` to `http://localhost:3000/api/google/complete`.             |
-| `CLOUDFLARE_API_KEY` / `CLOUDFLARE_ACCOUNT_ID` / `CLOUDFLARE_ACCOUNT_HASH` / `NEXT_PUBLIC_CLOUDFLARE_IMAGE_DELIVERY_URL` / `NEXT_PUBLIC_CLOUDFLARE_DOMAIN` | ✅ Yes     | **Image & video uploads, live streaming**.                                                 | **Note:** Costs ~$5/month. If you don't want to pay, use the deployed version [here](https://next-marketplace-app-drab.vercel.app/).<br>1. Sign up at [Cloudflare](https://www.cloudflare.com/).<br>2. Go to **Images** → Copy:<br> - **Account ID** → `CLOUDFLARE_ACCOUNT_ID`<br> - **Account Hash** → `CLOUDFLARE_ACCOUNT_HASH`<br> - **Image Delivery URL** (remove `/<image_id>/<variant_name>`) →`NEXT_PUBLIC_CLOUDFLARE_IMAGE_DELIVERY_URL`<br>3. **Use API** → **Create Token** with _Read/Write to Cloudflare Stream and Images_ → Copy API Token → `CLOUDFLARE_API_KEY`.<br>4. **Stream** → Copy **Customer Subdomain** → `NEXT_PUBLIC_CLOUDFLARE_DOMAIN`. |
-| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`                                                                                                                          | ✅ Yes     | **Location-based features** – pick trade location, filter listings by distance, view maps. | Go to [Google Cloud Console](https://console.cloud.google.com/).<br>1. **APIs & Services → Library** → Enable:<br>• Maps JavaScript API<br>• Geocoding API<br>• Places API<br>• Places API (New)<br>2. **APIs & Services → Credentials** → **Create API Key**.<br>3. Copy the key → `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`.                                                                                                                                                                                                                                                                                                                                              |
+| Variable(s)                                                                                                                                                | Required?   | Purpose / Usage                                                                            | How to Obtain                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PRISMA_DATABASE_URL` / `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_PUBLIC_API_KEY`                                                                 | ✅ Yes      | **Database connection** & **Realtime chat**                                                | 1. Sign up at [Supabase](https://supabase.com/) and create a **Free Plan** project.<br>2. Once the project is ready, click **Connect** at the top.<br>3. In **Direct Connection**, copy the connection string and replace `password` with your actual DB password → `PRISMA_DATABASE_URL`.<br>4. Go to **Project Settings → Data API**.<br>5. Copy **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`.<br>6. Go to **API Keys**, copy the **anon public** key → `NEXT_PUBLIC_SUPABASE_PUBLIC_API_KEY`.                                                                                                                                                                    |
+| `COOKIE_PASSWORD`                                                                                                                                          | ✅ Yes      | **Encrypts session cookies** for secure authentication.                                    | Generate a secure random string (32+ characters) via [GeneratePassword.org](https://generatepassword.org).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`                                                                                                                | ⚠️ Optional | Enables **GitHub OAuth login**.                                                            | Go to [GitHub Developer Settings](https://github.com/settings/developers) → **OAuth Apps** → **Register a new application**.<br>**Homepage URL:** `http://localhost:3000/login`<br>**Authorization callback URL:** `http://localhost:3000/api/github/complete`<br>Copy the **Client ID** → `GITHUB_CLIENT_ID`.<br>Click **Generate new client secret**, copy it → `GITHUB_CLIENT_SECRET`.                                                                                                                                                                                                                                                                           |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` / `GOOGLE_REDIRECT_URI`                                                                                        | ⚠️ Optional | Enables **Google OAuth login**.                                                            | Go to [Google Cloud Console](https://console.cloud.google.com/).<br>1. Create a new project if needed.<br>2. **APIs & Services → OAuth consent screen** → Configure (External).<br>3. **APIs & Services → Credentials** → **Create Credentials → OAuth Client ID**.<br>4. **Application type:** Web application<br>5. **Authorized JavaScript origins:** `http://localhost:3000`<br>6. **Authorized redirect URIs:** `http://localhost:3000/api/google/complete`<br>7. Copy **Client ID** → `GOOGLE_CLIENT_ID`. <br>8. Copy **Client Secret** → `GOOGLE_CLIENT_SECRET`.<br>9. Set `GOOGLE_REDIRECT_URI` to `http://localhost:3000/api/google/complete`.             |
+| `CLOUDFLARE_API_KEY` / `CLOUDFLARE_ACCOUNT_ID` / `CLOUDFLARE_ACCOUNT_HASH` / `NEXT_PUBLIC_CLOUDFLARE_IMAGE_DELIVERY_URL` / `NEXT_PUBLIC_CLOUDFLARE_DOMAIN` | ✅ Yes      | **Image & video uploads, live streaming**.                                                 | **Note:** Costs ~$5/month. If you don't want to pay, use the deployed version [here](https://next-marketplace-app-drab.vercel.app/).<br>1. Sign up at [Cloudflare](https://www.cloudflare.com/).<br>2. Go to **Images** → Copy:<br> - **Account ID** → `CLOUDFLARE_ACCOUNT_ID`<br> - **Account Hash** → `CLOUDFLARE_ACCOUNT_HASH`<br> - **Image Delivery URL** (remove `/<image_id>/<variant_name>`) →`NEXT_PUBLIC_CLOUDFLARE_IMAGE_DELIVERY_URL`<br>3. **Use API** → **Create Token** with _Read/Write to Cloudflare Stream and Images_ → Copy API Token → `CLOUDFLARE_API_KEY`.<br>4. **Stream** → Copy **Customer Subdomain** → `NEXT_PUBLIC_CLOUDFLARE_DOMAIN`. |
+| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`                                                                                                                          | ✅ Yes      | **Location-based features** – pick trade location, filter listings by distance, view maps. | Go to [Google Cloud Console](https://console.cloud.google.com/).<br>1. **APIs & Services → Library** → Enable:<br>• Maps JavaScript API<br>• Geocoding API<br>• Places API<br>• Places API (New)<br>2. **APIs & Services → Credentials** → **Create API Key**.<br>3. Copy the key → `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`.                                                                                                                                                                                                                                                                                                                                              |
 
 #### \* How to get `PRISMA_DATABASE_URL` from Supabase
 
@@ -229,9 +245,12 @@ Open this link in your browser to view the app
 
 - **User-Generated Content Translation (powered by OpenAI API)** – Automatically translate user posts, product uploads, and chat messages into the viewer’s preferred language.
   <br>
-- **Gamified Badge System** – Introduce badges and missions to encourage engagement and reward trustworthy behavior.  
+  
+- **Gamified Badge System** – Introduce badges and missions to encourage engagement and reward trustworthy behavior.
   Examples: Complete 5 transactions with a 5-star rating to earn a "Top Seller" badge or post 10 verified listings to unlock a "Neighborhood Pro" badge.
   <br>
+  
 - **Expanded Location Filtering** – Support multiple countries and dynamic radius selection.
   <br>
+  
 - **Keyword-Based Alerts** – Allow users to define keywords for items they are interested in. Notify them when a new listing matches their keywords.

@@ -1,10 +1,13 @@
 "use client";
 
 import { completeTradeAction } from "@/app/[locale]/(headers)/chats/actions";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { PencilIcon } from "@heroicons/react/24/outline";
+import ConfirmModal from "@/components/ConfirmModal";
+import { createClient } from "@supabase/supabase-js";
 
 interface ProductCardInChatProps {
   product: {
@@ -32,6 +35,8 @@ export default function ProductCardInChat({
   alreadyReviewed,
 }: ProductCardInChatProps) {
   const [isPending, startTransition] = useTransition();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   const t = useTranslations("productCardInChat");
 
   const showButton =
@@ -39,7 +44,27 @@ export default function ProductCardInChat({
   const tradeComplete = buyerCompleted && sellerCompleted;
 
   const handleClick = () => {
-    startTransition(() => completeTradeAction(chatRoomId));
+    setConfirmOpen(true);
+  };
+
+  const confirmTrade = async () => {
+    startTransition(() => {
+      completeTradeAction(chatRoomId).then(async () => {
+        const client = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_API_KEY!
+        );
+        const ch = client.channel(`room-${chatRoomId}`);
+        ch.subscribe();
+        ch.send({
+          type: "broadcast",
+          event: "trade",
+          payload: { roomId: chatRoomId },
+        });
+        ch.unsubscribe();
+      });
+    });
+    setConfirmOpen(false);
   };
 
   return (
@@ -56,7 +81,9 @@ export default function ProductCardInChat({
         </div>
       </Link>
       <div className="flex-1">
-        <h3 className="text-white font-semibold">{product.title}</h3>
+        <h3 className="text-white font-semibold line-clamp-1">
+          {product.title}
+        </h3>
         <p className="text-orange-400 font-bold text-sm">€ {product.price}</p>
         {tradeComplete ? (
           <div className="flex gap-2 justify-between items-center">
@@ -64,9 +91,10 @@ export default function ProductCardInChat({
             {!alreadyReviewed && (
               <Link
                 href={`/reviews/add?productId=${product.id}&chatRoomId=${chatRoomId}`}
-                className="block text-xs px-5 py-1 rounded-full bg-blue-500 text-white text-center hover:bg-blue-400 transition-colors"
+                className="flex gap-1 text-xs px-5 py-1 rounded-full bg-blue-500 text-white text-center hover:bg-blue-400 transition-colors"
               >
-                {t("writeReview")}
+                <PencilIcon className="size-4" />
+                <span>{t("writeReview")}</span>
               </Link>
             )}
           </div>
@@ -82,6 +110,16 @@ export default function ProductCardInChat({
           <p className="text-neutral-400 text-xs mt-1">{t("waitingOther")}</p>
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={confirmOpen}
+        title={t("modal.title")}
+        message={t("modal.message")}
+        confirmText={t("modal.confirm")}
+        cancelText={t("modal.cancel")}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={confirmTrade}
+      />
     </div>
   );
 }

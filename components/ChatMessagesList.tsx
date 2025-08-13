@@ -5,7 +5,7 @@ import {
   markMessagesAsRead,
   saveMessage,
 } from "@/app/[locale]/(headers)/chats/actions";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { formatToTimeAgo } from "@/lib/utils";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { RealtimeChannel, createClient } from "@supabase/supabase-js";
@@ -34,6 +34,7 @@ export default function ChatMessagesList({
   const bottomRef = useRef<HTMLDivElement>(null);
   const locale = useLocale();
   const t = useTranslations("chatMessages");
+  const router = useRouter();
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -83,20 +84,54 @@ export default function ChatMessagesList({
     );
 
     channel.current = client.channel(`room-${chatRoomId}`);
+
     channel.current
       .on("broadcast", { event: "message" }, (payload) => {
-        setMessages((prevMsgs) => [...prevMsgs, payload.payload]);
+        const newMsg = payload.payload;
+
+        setMessages((prev) => [...prev, newMsg]);
+
+        if (newMsg?.sender?.id !== userId) {
+          markMessagesAsRead(chatRoomId).finally(() => {
+            channel.current?.send({
+              type: "broadcast",
+              event: "read",
+              payload: { readerId: userId },
+            });
+          });
+        }
       })
+
+      .on("broadcast", { event: "read" }, (payload) => {
+        const { readerId } = payload.payload ?? {};
+        if (readerId && readerId !== userId) {
+          setMessages((prev) =>
+            prev.map((m) => (m.sender.id === userId ? { ...m, read: true } : m))
+          );
+        }
+      })
+
+      .on("broadcast", { event: "trade" }, () => {
+        setTimeout(() => router.refresh(), 150);
+      })
+
       .subscribe();
 
     return () => {
       channel.current?.unsubscribe();
     };
-  }, [chatRoomId]);
+  }, [chatRoomId, userId, router]);
 
   useEffect(() => {
-    markMessagesAsRead(chatRoomId);
-  }, [chatRoomId]);
+    (async () => {
+      await markMessagesAsRead(chatRoomId);
+      channel.current?.send({
+        type: "broadcast",
+        event: "read",
+        payload: { readerId: userId },
+      });
+    })();
+  }, [chatRoomId, userId]);
 
   useEffect(() => {
     scrollToBottom();
@@ -127,13 +162,13 @@ export default function ChatMessagesList({
             )}
             <div
               className={`flex flex-col gap-1 mb-2 ${
-                message.sender.id === userId ? "items-end" : ""
+                message.sender.id === userId ? "items-end" : "items-start"
               }`}
             >
               <span
                 className={`relative ${
                   message.sender.id === userId
-                    ? "bg-neutral-500"
+                    ? "bg-neutral-500 ml-15"
                     : "bg-orange-500"
                 } p-2.5 rounded-md`}
               >
