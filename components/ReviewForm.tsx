@@ -1,6 +1,8 @@
 "use client";
 
 import { createReview } from "@/app/[locale]/(headers)/reviews/add/actions";
+import { useTranslations } from "next-intl";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { useState, useTransition } from "react";
 
 interface Props {
@@ -19,15 +21,23 @@ export default function ReviewForm({
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
+  const t = useTranslations("reviewForm");
+
   const handleSubmit = () => {
     setError(null);
     startTransition(() => {
       createReview(chatRoomId, productId, revieweeId, rating, comment).catch(
-        (err: unknown) => {
+        (err: any) => {
+          if (
+            isRedirectError?.(err) ||
+            err?.message === "NEXT_REDIRECT" ||
+            err?.digest?.startsWith?.("NEXT_REDIRECT")
+          ) {
+            throw err;
+          }
+
           const message =
-            err instanceof Error
-              ? err.message
-              : "Failed to submit the review. Please try again.";
+            err instanceof Error ? err.message : t("error.generic");
           setError(message);
         }
       );
@@ -36,7 +46,7 @@ export default function ReviewForm({
 
   return (
     <div className="p-5 border rounded-xl flex flex-col gap-3">
-      <h2 className="text-lg font-semibold">Leave a review</h2>
+      <h2 className="text-lg font-semibold">{t("title")}</h2>
       {error && (
         <div
           role="alert"
@@ -59,7 +69,7 @@ export default function ReviewForm({
         ))}
       </div>
       <textarea
-        placeholder="Write your review..."
+        placeholder={t("placeholder")}
         className="p-2 rounded border bg-neutral-900 text-white"
         rows={3}
         value={comment}
@@ -70,7 +80,7 @@ export default function ReviewForm({
         onClick={handleSubmit}
         className="primary-btn disabled:opacity-50"
       >
-        {isPending ? "Submitting..." : "Submit Review"}
+        {isPending ? t("submitting") : t("submit")}
       </button>
     </div>
   );

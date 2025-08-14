@@ -277,5 +277,14 @@
     "title": "Page introuvable",
     "desc": "La page que vous recherchez n’existe pas ou a été déplacée.",
     "goHome": "Aller à l’accueil"
+  },
+  "reviewForm": {
+    "title": "Laisser un avis",
+    "placeholder": "Écrivez votre avis...",
+    "submit": "Envoyer l'avis",
+    "submitting": "Envoi...",
+    "error": {
+      "generic": "Échec de l’envoi de l’avis. Veuillez réessayer."
+    }
   }
 }

@@ -278,5 +278,14 @@
     "title": "Page not found",
     "desc": "The page you’re looking for doesn’t exist.",
     "goHome": "Go to Home"
+  },
+  "reviewForm": {
+    "title": "Leave a review",
+    "placeholder": "Write your review...",
+    "submit": "Submit Review",
+    "submitting": "Submitting...",
+    "error": {
+      "generic": "Failed to submit the review. Please try again."
+    }
   }
 }
