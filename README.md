@@ -139,10 +139,11 @@ Copy and paste the commands below into your terminal to set up and run the proje
 ### 0. Install Prerequisites
 
 Before starting, make sure these are installed on your computer:
- - **Node.js** (version 20 or higher) → [Download here](https://nodejs.org/en/download/) 
- - **Git** → [Download here](https://git-scm.com/downloads) 
- 
- To check if they are installed, run in your terminal:
+
+- **Node.js** (version 20 or higher) → [Download here](https://nodejs.org/en/download/)
+- **Git** → [Download here](https://git-scm.com/downloads)
+
+To check if they are installed, run in your terminal:
 
 ```bash
 node -v
@@ -196,7 +197,7 @@ cp .env.example .env
 
 | Variable(s)                                                                                                                                                | Required?   | Purpose / Usage                                                                            | How to Obtain                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PRISMA_DATABASE_URL` / `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_PUBLIC_API_KEY`                                                                 | ✅ Yes      | **Database connection** & **Realtime chat**                                                | 1. Sign up at [Supabase](https://supabase.com/) and create a **Free Plan** project.<br>2. Once the project is ready, click **Connect** at the top.<br>3. In **Direct Connection**, copy the connection string and replace `password` with your actual DB password → `PRISMA_DATABASE_URL`.<br>4. Go to **Project Settings → Data API**.<br>5. Copy **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`.<br>6. Go to **API Keys**, copy the **anon public** key → `NEXT_PUBLIC_SUPABASE_PUBLIC_API_KEY`.                                                                                                                                                                    |
+| `PRISMA_DATABASE_URL` / `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_PUBLIC_API_KEY`                                                                 | ✅ Yes      | **Database connection** & **Realtime chat**                                                | 1. Sign up at [Supabase](https://supabase.com/) and create a **Free Plan** project.<br>2. Once the project is ready, click **Connect** at the top.<br>3. In **Direct Connection**, copy the connection string and replace `password` with your actual DB password → `PRISMA_DATABASE_URL`.<br>See [here](#-how-to-get-prisma_database_url-from-supabase) for detailed steps.<br>4. Go to **Project Settings → Data API**.<br>5. Copy **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`.<br>6. Go to **API Keys**, copy the **anon public** key → `NEXT_PUBLIC_SUPABASE_PUBLIC_API_KEY`.                                                                                     |
 | `COOKIE_PASSWORD`                                                                                                                                          | ✅ Yes      | **Encrypts session cookies** for secure authentication.                                    | Generate a secure random string (32+ characters) via [GeneratePassword.org](https://generatepassword.org).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`                                                                                                                | ⚠️ Optional | Enables **GitHub OAuth login**.                                                            | Go to [GitHub Developer Settings](https://github.com/settings/developers) → **OAuth Apps** → **Register a new application**.<br>**Homepage URL:** `http://localhost:3000/login`<br>**Authorization callback URL:** `http://localhost:3000/api/github/complete`<br>Copy the **Client ID** → `GITHUB_CLIENT_ID`.<br>Click **Generate new client secret**, copy it → `GITHUB_CLIENT_SECRET`.                                                                                                                                                                                                                                                                           |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` / `GOOGLE_REDIRECT_URI`                                                                                        | ⚠️ Optional | Enables **Google OAuth login**.                                                            | Go to [Google Cloud Console](https://console.cloud.google.com/).<br>1. Create a new project if needed.<br>2. **APIs & Services → OAuth consent screen** → Configure (External).<br>3. **APIs & Services → Credentials** → **Create Credentials → OAuth Client ID**.<br>4. **Application type:** Web application<br>5. **Authorized JavaScript origins:** `http://localhost:3000`<br>6. **Authorized redirect URIs:** `http://localhost:3000/api/google/complete`<br>7. Copy **Client ID** → `GOOGLE_CLIENT_ID`. <br>8. Copy **Client Secret** → `GOOGLE_CLIENT_SECRET`.<br>9. Set `GOOGLE_REDIRECT_URI` to `http://localhost:3000/api/google/complete`.             |
@@ -209,11 +210,12 @@ cp .env.example .env
 
 0. **Sign up for Supabase** at [https://supabase.com](https://supabase.com) and choose the **Free Plan**.
 1. **Create a New Project** from your dashboard.
-2. Once the project is ready, click the **Connect** button at the top of the page.
-3. In the popup, find the **Direct Connection** section.
-4. **Copy the provided connection URL**.
-5. Replace the `[YOUR-PASSWORD]` part of the URL with **your own database password** (set when creating the project). _Without the square brackets or it may cause errors!_
-6. Paste the final URL into your `.env` file as:
+2. Security Options → “What connections do you plan to use?” → select **Only Connection String**.
+3. Once the project is ready, click the **Connect** button at the top of the page.
+4. In the popup, find the **Direct Connection** section.
+5. **Copy the provided connection URL**.
+6. Replace the `[YOUR-PASSWORD]` part of the URL with **your own database password** (set when creating the project). _Without the square brackets or it may cause errors!_
+7. Paste the final URL into your `.env` file as:
    ```bash
    PRISMA_DATABASE_URL="your_direct_connection_url_with_password"
    ```
@@ -265,5 +267,5 @@ Open this link in your browser to view the app
 
 - **Expanded Location Filtering** – Support multiple countries and dynamic radius selection.
   <br>
-  
+
 - **Keyword-Based Alerts** – Allow users to define keywords for items they are interested in. Notify them when a new listing matches their keywords.
