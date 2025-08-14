@@ -136,6 +136,19 @@ Follow these steps to run the project locally.
 
 Copy and paste the commands below into your terminal to set up and run the project.
 
+### 0. Install Prerequisites
+
+Before starting, make sure these are installed on your computer:
+ - **Node.js** (version 20 or higher) → [Download here](https://nodejs.org/en/download/) 
+ - **Git** → [Download here](https://git-scm.com/downloads) 
+ 
+ To check if they are installed, run in your terminal:
+
+```bash
+node -v
+git --version
+```
+
 ### 1. Download the Project
 
 ```bash
@@ -245,9 +258,12 @@ Open this link in your browser to view the app
 
 - **User-Generated Content Translation (powered by OpenAI API)** – Automatically translate user posts, product uploads, and chat messages into the viewer’s preferred language.
   <br>
+
 - **Gamified Badge System** – Introduce badges and missions to encourage engagement and reward trustworthy behavior.
   Examples: Complete 5 transactions with a 5-star rating to earn a "Top Seller" badge or post 10 verified listings to unlock a "Neighborhood Pro" badge.
   <br>
+
 - **Expanded Location Filtering** – Support multiple countries and dynamic radius selection.
   <br>
+  
 - **Keyword-Based Alerts** – Allow users to define keywords for items they are interested in. Notify them when a new listing matches their keywords.
